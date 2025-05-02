@@ -3,10 +3,6 @@ public class Usuario extends Persona {
 
   @Override
   public void subirHecho() {
-    rol.subirHecho(this);
-  }
-
-  public void setRol(Rol rol) {
-    this.rol = rol;
+    this.rol = rol.subirHecho();
   }
 }
