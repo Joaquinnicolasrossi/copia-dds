@@ -1,6 +1,6 @@
 public class Administrador extends Persona{
-  public void crearFuente() {
-
+  public Fuente crearFuente(String nombre, String csv) {
+    return new Fuente(nombre, csv);
   }
   public void crearColeccion() {
 
