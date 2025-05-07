@@ -18,6 +18,18 @@ public class Hecho {
     this.fecha = fecha;
   }
 
+  public String getCategoria() {
+    return categoria;
+  }
+
+  public LocalDate getFecha() {
+    return fecha;
+  }
+
+  public String getUbicacion() {
+    return "";
+  }
+
   public void eliminarse() {
     eliminado = true;
   }
