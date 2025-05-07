@@ -11,4 +11,7 @@ public class GestorSolicitudes {
     solicitud.aceptarse();
     solicitudes.remove(solicitud);
   }
+  public void nuevaSolicitud(Solicitud solicitud) {
+    solicitudes.add(solicitud);
+  }
 }
