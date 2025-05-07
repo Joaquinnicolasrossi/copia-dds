@@ -6,11 +6,11 @@ public class Administrador extends Persona {
 
   }
 
-  public void aceptarSolicitud() {
-
+  public void aceptarSolicitud(Solicitud solicitud, GestorSolicitudes gestor) {
+    gestor.aceptarSolicitud(solicitud);
   }
 
-  public void rechazarSolicitud() {
-
+  public void rechazarSolicitud(Solicitud solicitud, GestorSolicitudes gestor) {
+    gestor.eliminarSolicitud(solicitud);
   }
 }
