@@ -15,7 +15,7 @@ public class Visualizador implements Rol {
 
   // Entiendo que deberia ir una lista, pero lo dejamos asi ahora
   // public List<Hecho> verHechosFiltrados(Coleccion coleccion){
-  public void verHechosFiltrados(Coleccion coleccion) {
-      coleccion.mostrarHechos();
+  public void verHechosFiltrados(Coleccion coleccion, Filtro filtro) {
+      coleccion.mostrarHechosFiltrados(filtro);
   }
 }

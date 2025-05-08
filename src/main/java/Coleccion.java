@@ -26,4 +26,9 @@ public class Coleccion {
     hechos.forEach(System.out::println);
     return hechos;
   }
+  public List<Hecho> mostrarHechosFiltrados(Filtro filtro) {
+    List<Hecho> hechos = fuente.extraerHechos().stream().filter(hecho -> filtro.cumpleFiltro(hecho));
+    hechos.forEach(System.out::println);
+    return hechos;
+  }
 }
