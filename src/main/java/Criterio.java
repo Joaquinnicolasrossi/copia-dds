@@ -21,9 +21,11 @@ public class Criterio {
   private boolean cumpleCategoria(Hecho hecho) {
     return categoria.isEmpty() || hecho.getCategoria().equals(categoria);
   }
+
   private boolean cumpleLugar(Hecho hecho) {
     return ubicacion.isEmpty() || hecho.getUbicacion().equals(ubicacion);
   }
+
   private boolean cumpleFecha(Hecho hecho) {
     return (fechaDesde == null || hecho.getFecha().isAfter(fechaDesde))
         && (fechaHasta == null || hecho.getFecha().isBefore(fechaHasta));

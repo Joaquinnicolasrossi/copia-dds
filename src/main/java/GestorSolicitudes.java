@@ -7,10 +7,12 @@ public class GestorSolicitudes {
   public void eliminarSolicitud(Solicitud solicitud) {
     solicitudes.remove(solicitud);
   }
+
   public void aceptarSolicitud(Solicitud solicitud) {
     solicitud.aceptarse();
     solicitudes.remove(solicitud);
   }
+
   public void nuevaSolicitud(Solicitud solicitud) {
     solicitudes.add(solicitud);
   }

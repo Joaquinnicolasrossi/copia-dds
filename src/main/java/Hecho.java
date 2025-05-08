@@ -9,7 +9,8 @@ public class Hecho {
   private LocalDate fecha;
   private boolean eliminado = false;
 
-  public Hecho(String titulo, String descripcion, String categoria, double latitud, double longitud, LocalDate fecha) {
+  public Hecho(String titulo, String descripcion, String categoria, double latitud,
+               double longitud, LocalDate fecha) {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.categoria = categoria;
