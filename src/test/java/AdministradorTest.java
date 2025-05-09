@@ -1,36 +1,28 @@
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-// Agregadas para tests
-import java.time.LocalDate;
-import java.net.URL;
+import org.junit.jupiter.api.BeforeEach;
 
 
 class AdministradorTest {
 
-//   private Administrador admin;
-//
-//   @BeforeEach
-//   void setUp() {
-//     admin = new Administrador();
-//   }
-//
-//   @Test
-//   void crearColeccion() {
-//   }
-//
-//   @Test
-//   void aceptarSolicitud() {
-//   }
-//
-//   @Test
-//   void rechazarSolicitud() {
-//   }
-//
+   private Administrador admin;
+
+   @BeforeEach
+   void setUp() {
+     admin = new Administrador();
+   }
+
+   @Test
+   void crearColeccion() {
+   }
+
+   @Test
+   void aceptarSolicitud() {
+   }
+
+   @Test
+   void rechazarSolicitud() {
+   }
+
 //   @Test
 //   /*
 //   * Deberia leer el csv y luego crear la colección
