@@ -285,7 +285,7 @@ public class Fuente {
   /**
    * Cada vez que se llama, abre el CSV, lo recorre y devuelve
    * la lista de Hechos con los siguientes valores:
-   * - título = municipio + " " + texto de causa
+   * - título = texto de causa + " en " + municipio
    * - descripción = texto de causa_desc
    * - categoría = "Incendio Forestal"
    * - latitud  = lat (0.0 si vacío)
@@ -329,7 +329,7 @@ public class Fuente {
         }
 
         Hecho h = new Hecho(
-            municipio + " " + causaTexto,
+            causaTexto + " en " + municipio,
             descTexto,
             "Incendio Forestal",
             lat,

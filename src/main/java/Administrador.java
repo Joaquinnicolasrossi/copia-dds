@@ -2,16 +2,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Administrador extends Persona {
-  //  public Fuente crearFuente(String nombre, String csv) {
-  //    return new Fuente(nombre, csv);
-  //  }
 
-  public List<Coleccion> colecciones = new ArrayList<>();
-  // Lista para traer los hechos desde el csv
-  public List<Hecho> hechosImportados = new ArrayList<>();
+  private Fuente crearFuente(String csv) {
+    return new Fuente(csv); //para extraer los hechos y crear la coleccion
+  }
 
-  public void crearColeccion(String titulo, Fuente fuente, Criterio criterio) {
-    colecciones.add(new Coleccion(titulo, fuente, criterio));
+  //arbitrariamente: cada vez que creo una fuente es para crear una coleccion sobre esta.
+  public void crearColeccion(String titulo, String descripcion, String csv, Criterio criterio) {
+    Fuente fuente = this.crearFuente(csv);
+    GestorColecciones.getInstancia().crearColeccion(titulo, descripcion, fuente, criterio);
   }
 
   public void aceptarSolicitud(Solicitud solicitud, GestorSolicitudes gestor) {
@@ -20,18 +19,6 @@ public class Administrador extends Persona {
 
   public void rechazarSolicitud(Solicitud solicitud, GestorSolicitudes gestor) {
     gestor.eliminarSolicitud(solicitud);
-  }
-
-  /*
-  * -- Verificar y cambiar de ser necesario --
-  * Crea una colección a partir de una fuente de datos y un criterio dado,
-  * importados desde una fuente y la agrega a la lista de colecciones
-  */
-  public List<Hecho> importarHechos(String titulo, Fuente fuente, Criterio criterio) {
-    List<Hecho> hechos = fuente.extraerHechos();
-    hechosImportados.addAll(hechos);
-    this.crearColeccion(titulo, fuente, criterio);
-    return hechos;
   }
 
 }

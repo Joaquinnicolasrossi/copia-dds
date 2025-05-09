@@ -1,5 +1,5 @@
 public class Contribuyente implements Rol {
-  public Rol subirHecho() {
-    return this;
-  }
+//   public Rol subirHecho() {
+//     return this;
+//   }
 }

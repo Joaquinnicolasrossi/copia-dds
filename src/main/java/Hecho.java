@@ -27,8 +27,8 @@ public class Hecho {
     return fecha;
   }
 
-  public String getUbicacion() {
-    return "";
+  public String getTitulo() {
+    return titulo;
   }
 
   public void eliminarse() {

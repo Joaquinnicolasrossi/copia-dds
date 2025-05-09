@@ -4,31 +4,39 @@ import java.util.List;
 
 public class Coleccion {
   public String titulo;
+  public String descripcion;
   public Fuente fuente;
   public Criterio criterio;
 
-  public Coleccion(String titulo, Fuente fuente, Criterio criterio) {
+  public Coleccion(String titulo, String descripcion, Fuente fuente, Criterio criterio) {
     this.titulo = titulo;
+    this.descripcion = descripcion;
     this.fuente = fuente;
     this.criterio = criterio;
   }
 
-  // private void mostrarHechos() { --> Le cambie para llamarla desde visualizador
+  public String getTitulo() {
+    return this.titulo;
+  }
+
+  // Mostrar todos los hechos que pertencen a la coleccion
+  // ya que cumplen su criterio
   public void mostrarHechos() {
     fuente.extraerHechos().stream()
         .filter(hecho -> criterio.seCumpleCriterio(hecho))
         .forEach(System.out::println);
   }
 
-  // Mostrar todos los hechos
-  public List<Hecho> mostrarTodosLosHechos(){
-    List<Hecho> hechos = fuente.extraerHechos();
-    hechos.forEach(System.out::println);
-    return hechos;
+  // Mostrar hechos segun el criterio del user
+  public void mostrarHechosFiltrados(Criterio criterio) {
+    fuente.extraerHechos().stream()
+        .filter(hecho -> criterio.seCumpleCriterio(hecho))
+        .forEach(System.out::println);
   }
-  public List<Hecho> mostrarHechosFiltrados(Filtro filtro) {
-    List<Hecho> hechos = fuente.extraerHechos().stream().filter(hecho -> filtro.cumpleFiltro(hecho));
-    hechos.forEach(System.out::println);
-    return hechos;
+
+  // Mostrar todos los hechos (de la fuente)
+  // No cumple el enunciado pero sirve para debug
+  public void mostrarTodosLosHechos() {
+    fuente.extraerHechos().forEach(System.out::println);
   }
 }

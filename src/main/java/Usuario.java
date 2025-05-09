@@ -7,10 +7,10 @@ public class Usuario extends Persona {
     this.registro = registro;
   }
 
-  @Override
-  public void subirHecho() {
-    this.rol = rol.subirHecho();
-  }
+//   @Override
+//   public void subirHecho() {
+//     this.rol = rol.subirHecho();
+//   }
 
   public void cambiarRol(Rol rol) {
     this.rol = rol;

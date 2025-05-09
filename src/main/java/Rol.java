@@ -1,3 +1,3 @@
 public interface Rol {
-  Rol subirHecho();
+//   Rol subirHecho();
 }
