@@ -24,19 +24,19 @@ public class Coleccion {
   public void mostrarHechos() {
     fuente.extraerHechos().stream()
         .filter(hecho -> criterio.seCumpleCriterio(hecho))
-        .forEach(System.out::println);
+        .forEach(hecho -> System.out.println(hecho.getTitulo()));
   }
 
   // Mostrar hechos segun el criterio del user
   public void mostrarHechosFiltrados(Criterio criterio) {
     fuente.extraerHechos().stream()
         .filter(hecho -> criterio.seCumpleCriterio(hecho))
-        .forEach(System.out::println);
+        .forEach(hecho -> System.out.println(hecho.getTitulo()));
   }
 
   // Mostrar todos los hechos (de la fuente)
   // No cumple el enunciado pero sirve para debug
   public void mostrarTodosLosHechos() {
-    fuente.extraerHechos().forEach(System.out::println);
+    fuente.extraerHechos().forEach(hecho -> System.out.println(hecho.getTitulo()));
   }
 }

@@ -20,7 +20,7 @@ public class GestorColecciones {
   }
 
   public List<Coleccion> obtenerColecciones() {
-    return colecciones;
+    return new ArrayList<>(colecciones);
   }
 
   public Coleccion obtenerColeccion(String nombre) {

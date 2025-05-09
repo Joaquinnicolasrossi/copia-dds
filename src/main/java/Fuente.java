@@ -294,14 +294,17 @@ public class Fuente {
    */
   public List<Hecho> extraerHechos() {
     List<Hecho> lista = new ArrayList<>();
-
+    // NOTA: Se podria usar
+    // new InputStreamReader(new FileInputStream(rutaCsv), StandardCharsets.UTF_8)
+    // para garantizar que el archivo este en UTF-8 y
+    // no usar el encoding default del sistema operativo
     try (CSVReader reader = new CSVReaderBuilder(new FileReader(rutaCsv))
         .withSkipLines(1)
         .build()) {
       String[] f;
       while ((f = reader.readNext()) != null) {
-        String causaId = (f[9] != null) ? f[9].trim() : null;
-        String descId = (f[11] != null) ? f[11].trim() : null;
+        final String causaId = (f[10] != null) ? f[10].trim() : null;
+        final String descId = (f[12] != null) ? f[12].trim() : null;
 
         String causaTexto = (causaId != null)
             ? CAUSA_MAP.getOrDefault(causaId, "")
@@ -309,33 +312,9 @@ public class Fuente {
         String descTexto = (descId != null)
             ? CAUSA_DESC_MAP.getOrDefault(descId, "")
             : "";
-
-        String municipio = (f[8] != null && !f[8].trim().isEmpty())
-            ? f[8].trim() : "";
-
-        LocalDate fecha = null;
-        if (f[2] != null && !f[2].trim().isEmpty()) {
-          fecha = LocalDate.parse(f[2].trim());
-        }
-
-        double lat = 0.0;
-        if (f[3] != null && !f[3].trim().isEmpty()) {
-          lat = Double.parseDouble(f[3].trim());
-        }
-
-        double lng = 0.0;
-        if (f[4] != null && !f[4].trim().isEmpty()) {
-          lng = Double.parseDouble(f[4].trim());
-        }
-
-        Hecho h = new Hecho(
-            causaTexto + " en " + municipio,
-            descTexto,
-            "Incendio Forestal",
-            lat,
-            lng,
-            fecha
-        );
+        // Agrega la causa y descripcion sacados del map a
+        // la version generica del hecho del csv
+        Hecho h = construirHecho(f, causaTexto, descTexto);
 
         lista.add(h);
       }
@@ -344,6 +323,36 @@ public class Fuente {
     }
 
     return lista;
+  }
+
+  private static Hecho construirHecho(String[] f, String causaTexto, String descTexto) {
+    final String municipio = (f[9] != null && !f[9].trim().isEmpty())
+        ? f[9].trim() : "";
+
+    LocalDate fecha = null;
+    if (f[2] != null && !f[2].trim().isEmpty()) {
+      fecha = LocalDate.parse(f[2].trim());
+    }
+
+    double lat = 0.0;
+    if (f[3] != null && !f[3].trim().isEmpty()) {
+      lat = Double.parseDouble(f[3].trim());
+    }
+
+    double lng = 0.0;
+    if (f[4] != null && !f[4].trim().isEmpty()) {
+      lng = Double.parseDouble(f[4].trim());
+    }
+
+    Hecho h = new Hecho(
+        causaTexto + " en " + municipio,
+        descTexto,
+        "Incendio Forestal",
+        lat,
+        lng,
+        fecha
+    );
+    return h;
   }
 }
 

@@ -14,8 +14,8 @@ public class Solicitud {
 
   public void descripcionValida(String descripcion) throws IllegalArgumentException {
     if (descripcion.length() < 500) {
-      throw new IllegalArgumentException("La solicitud debe contener una descripcion " +
-          "de al menos 500 caracteres.");
+      throw new IllegalArgumentException("La solicitud debe contener una descripcion "
+          + "de al menos 500 caracteres.");
     }
   }
 }

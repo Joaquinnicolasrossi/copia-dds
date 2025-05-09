@@ -10,7 +10,7 @@ public abstract class Persona {
     coleccion.mostrarHechosFiltrados(criterio);
   }
 
-//  public abstract void subirHecho();
+  //  public abstract void subirHecho();
 
   public void solicitarEliminarHecho(Hecho hecho, String descripcion, GestorSolicitudes gestor) {
     gestor.nuevaSolicitud(new Solicitud(hecho, descripcion));
