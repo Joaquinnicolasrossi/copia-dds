@@ -4,24 +4,29 @@ import org.junit.jupiter.api.BeforeEach;
 
 class AdministradorTest {
 
-   private Administrador admin;
+  @Test
+  public void testAlgo() {
+    // código de prueba
+  }
 
-   @BeforeEach
-   void setUp() {
-     admin = new Administrador();
-   }
-
-   @Test
-   void crearColeccion() {
-   }
-
-   @Test
-   void aceptarSolicitud() {
-   }
-
-   @Test
-   void rechazarSolicitud() {
-   }
+//   private Administrador admin;
+//
+//   @BeforeEach
+//   void setUp() {
+//     admin = new Administrador();
+//   }
+//
+//   @Test
+//   void crearColeccion() {
+//   }
+//
+//   @Test
+//   void aceptarSolicitud() {
+//   }
+//
+//   @Test
+//   void rechazarSolicitud() {
+//   }
 
 //   @Test
 //   /*
