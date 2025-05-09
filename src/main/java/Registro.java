@@ -19,6 +19,18 @@ public class Registro {
 
   }
 
+  // Getters
+  public String getNombre() {
+    return nombre;
+  }
+
+  public String getApellido() {
+    return apellido;
+  }
+
+  public int getEdad() {
+    return edad;
+  }
 }
 
 
