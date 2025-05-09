@@ -34,4 +34,9 @@ public class Hecho {
   public void eliminarse() {
     eliminado = true;
   }
+
+  public boolean isEliminado() {
+    return eliminado;
+  }
+
 }
