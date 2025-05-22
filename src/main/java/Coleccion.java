@@ -1,5 +1,3 @@
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Coleccion {
@@ -19,24 +17,15 @@ public class Coleccion {
     return this.titulo;
   }
 
-  // Mostrar todos los hechos que pertencen a la coleccion
-  // ya que cumplen su criterio
-  public void mostrarHechos() {
-    fuente.extraerHechos().stream()
+  public List<Hecho> mostrarHechos() {
+    return fuente.extraerHechos().stream()
         .filter(hecho -> criterio.seCumpleCriterio(hecho))
-        .forEach(hecho -> System.out.println(hecho.getTitulo()));
+        .toList();
   }
 
-  // Mostrar hechos segun el criterio del user
-  public void mostrarHechosFiltrados(Criterio criterio) {
-    fuente.extraerHechos().stream()
-        .filter(hecho -> criterio.seCumpleCriterio(hecho))
-        .forEach(hecho -> System.out.println(hecho.getTitulo()));
-  }
-
-  // Mostrar todos los hechos (de la fuente)
-  // No cumple el enunciado pero sirve para debug
-  public void mostrarTodosLosHechos() {
-    fuente.extraerHechos().forEach(hecho -> System.out.println(hecho.getTitulo()));
+  public List<Hecho> mostrarHechosFiltrados(Criterio filtro) {
+    return mostrarHechos().stream()
+        .filter(filtro::seCumpleCriterio)
+        .toList();
   }
 }
