@@ -7,7 +7,7 @@ public class Hecho {
   private double latitud;
   private double longitud;
   private LocalDate fecha;
-  private boolean eliminado = false;
+
 
   public Hecho(String titulo, String descripcion, String categoria, double latitud,
                double longitud, LocalDate fecha) {
@@ -29,14 +29,6 @@ public class Hecho {
 
   public String getTitulo() {
     return titulo;
-  }
-
-  public void eliminarse() {
-    eliminado = true;
-  }
-
-  public boolean isEliminado() {
-    return eliminado;
   }
 
 }

@@ -70,7 +70,7 @@ public class Main {
        no se extraiga de la fuente, pero para los propositos de la demo lo hacemos asi).
      */
 
-    GestorSolicitudes gestor = new GestorSolicitudes();
+    RepoSolicitudes gestor = new RepoSolicitudes();
     // La solicitud debe tener mas de 500 caracteres
     contribuyente.solicitarEliminarHecho(hechoaEliminar,
         "Solicito la eliminación de este hecho de incendio forestal porque,"
