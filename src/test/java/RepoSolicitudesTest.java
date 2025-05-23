@@ -49,9 +49,9 @@ class RepoSolicitudesTest {
     repoSolicitudes.nuevaSolicitud(hecho, descripcion);
 
     // aun no fue aceptada --> Devuelve false
-    assertFalse(repoSolicitudes.hechoEliminado(hecho));
+    assertFalse(repoSolicitudes.estaEliminado(hecho));
 
     repoSolicitudes.getSolicitudes().get(0).aceptarSolicitud();
-    assertTrue(repoSolicitudes.hechoEliminado(hecho));
+    assertTrue(repoSolicitudes.estaEliminado(hecho));
   }
 }

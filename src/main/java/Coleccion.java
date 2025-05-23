@@ -22,7 +22,7 @@ public class Coleccion {
   public List<Hecho> mostrarHechos() {
     return fuente.extraerHechos().stream()
         .filter(criterio::seCumpleCriterio)
-        .filter(solicitudes::hechoEliminado)
+        .filter(hecho -> !solicitudes.estaEliminado(hecho))
         .toList();
   }
 

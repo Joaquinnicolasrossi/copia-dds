@@ -16,7 +16,7 @@ public class RepoSolicitudes {
     return new ArrayList<>(solicitudes);
   }
 
-  public Boolean hechoEliminado(Hecho hecho) {
+  public Boolean estaEliminado(Hecho hecho) {
     return solicitudes.stream()
         .anyMatch(solicitud -> solicitud.hechoEliminado(hecho));
   }
