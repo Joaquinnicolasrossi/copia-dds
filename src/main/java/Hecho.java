@@ -30,4 +30,12 @@ public class Hecho {
   public String getTitulo() {
     return titulo;
   }
+
+  public String getDescripcion() { return descripcion; }
+
+  public double getLatitud() { return latitud; }
+
+  public double getLongitud() { return longitud; }
+
+  public LocalDate Fecha() { return fecha;  }
 }

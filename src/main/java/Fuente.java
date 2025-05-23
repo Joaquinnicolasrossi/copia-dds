@@ -304,7 +304,9 @@ public class Fuente {
       String[] f;
       while ((f = reader.readNext()) != null) {
         final String causaId = (f[10] != null) ? f[10].trim() : null;
-        final String descId = (f[12] != null) ? f[12].trim() : null;
+        // final String descId = (f[12] != null) ? f[12].trim() : null;
+        // Lo modifique porque no me daba el test
+        final String descId = (f[13] != null) ? f[13].trim() : null;
 
         String causaTexto = (causaId != null)
             ? CAUSA_MAP.getOrDefault(causaId, "")
