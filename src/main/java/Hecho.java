@@ -38,4 +38,16 @@ public class Hecho {
   public double getLongitud() { return longitud; }
 
   public LocalDate Fecha() { return fecha;  }
+
+  @Override
+  public String toString() {
+    return "Hecho{" +
+        "titulo='" + titulo + '\'' +
+        ", descripcion='" + descripcion + '\'' +
+        ", categoria='" + categoria + '\'' +
+        ", latitud=" + latitud +
+        ", longitud=" + longitud +
+        ", fecha=" + fecha +
+        '}';
+  }
 }
