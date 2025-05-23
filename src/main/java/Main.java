@@ -1,7 +1,14 @@
 import java.time.LocalDate;
 
 public class Main {
+  public static void main(String[] args) {
+    RepoSolicitudes repoSolicitudes = new RepoSolicitudes();
+    RepoColecciones repoColecciones = new RepoColecciones();
+  }
 
+
+
+  /*
   public static void main(String[] args) {
 
     System.out.println("===== MetaMapa - Prueba General =====");
@@ -68,7 +75,7 @@ public class Main {
        El hecho no deberia estar en memoria, hay que buscar otra forma de eliminarlo
        sin mantenerlo en memoria, quiza con alguna flag o algo cuando se lee. (Para que directamente
        no se extraiga de la fuente, pero para los propositos de la demo lo hacemos asi).
-     */
+
 
     RepoSolicitudes gestor = new RepoSolicitudes();
     // La solicitud debe tener mas de 500 caracteres
@@ -100,6 +107,6 @@ public class Main {
     System.out.println("\n==== Fin de la ejecucion ====");
 
   }
-
+  */
 }
 

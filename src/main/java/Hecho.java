@@ -30,5 +30,4 @@ public class Hecho {
   public String getTitulo() {
     return titulo;
   }
-
 }

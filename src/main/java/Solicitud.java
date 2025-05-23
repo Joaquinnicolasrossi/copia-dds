@@ -2,19 +2,25 @@ public class Solicitud {
   public Hecho hecho;
   public String descripcion;
   public Boolean eliminado = false;
+  private final RepoSolicitudes repoSolicitudes;
 
   public Solicitud(Hecho hecho, String descripcion, RepoSolicitudes repoSolicitudes) {
     descripcionValida(descripcion);
     this.hecho = hecho;
     this.descripcion = descripcion;
+    this.repoSolicitudes = repoSolicitudes;
   }
 
-  public void aceptar() {
+  public void aceptarSolicitud() {
     eliminado = true;
   }
 
-  public void eliminar() {
+  public void eliminarSolicitud() {
     repoSolicitudes.eliminarSolicitud(this);
+  }
+
+  public Boolean hechoEliminado(Hecho hecho) {
+    return hecho == this.hecho && eliminado;
   }
 
   public void descripcionValida(String descripcion) throws IllegalArgumentException {

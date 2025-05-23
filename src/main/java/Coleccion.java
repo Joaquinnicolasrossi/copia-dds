@@ -5,12 +5,14 @@ public class Coleccion {
   public String descripcion;
   public Fuente fuente;
   public Criterio criterio;
+  private final RepoSolicitudes solicitudes;
 
-  public Coleccion(String titulo, String descripcion, Fuente fuente, Criterio criterio) {
+  public Coleccion(String titulo, String descripcion, Fuente fuente, Criterio criterio, RepoSolicitudes solicitudes) {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.fuente = fuente;
     this.criterio = criterio;
+    this.solicitudes = solicitudes;
   }
 
   public String getTitulo() {
@@ -19,7 +21,8 @@ public class Coleccion {
 
   public List<Hecho> mostrarHechos() {
     return fuente.extraerHechos().stream()
-        .filter(hecho -> criterio.seCumpleCriterio(hecho))
+        .filter(criterio::seCumpleCriterio)
+        .filter(solicitudes::hechoEliminado)
         .toList();
   }
 
