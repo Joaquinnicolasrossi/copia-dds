@@ -4,14 +4,14 @@ public class Coleccion {
   public String titulo;
   public String descripcion;
   public Fuente fuente;
-  public Criterio criterio;
+  public List<Criterio> criterios;
   private final RepoSolicitudes solicitudes;
 
-  public Coleccion(String titulo, String descripcion, Fuente fuente, Criterio criterio, RepoSolicitudes solicitudes) {
+  public Coleccion(String titulo, String descripcion, Fuente fuente, List<Criterio> criterio, RepoSolicitudes solicitudes) {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.fuente = fuente;
-    this.criterio = criterio;
+    this.criterios = criterios;
     this.solicitudes = solicitudes;
   }
 
@@ -21,7 +21,7 @@ public class Coleccion {
 
   public List<Hecho> mostrarHechos() {
     return fuente.extraerHechos().stream()
-        .filter(criterio::seCumpleCriterio)
+        .filter(hecho -> cumpleCriterios(hecho))
         .filter(hecho -> !solicitudes.estaEliminado(hecho))
         .toList();
   }
@@ -30,5 +30,9 @@ public class Coleccion {
     return mostrarHechos().stream()
         .filter(filtro::seCumpleCriterio)
         .toList();
+  }
+
+  private boolean cumpleCriterios(Hecho hecho) {
+    return criterios.stream().allMatch(criterio -> criterio.seCumpleCriterio(hecho));
   }
 }
