@@ -9,8 +9,8 @@ public class RepoColecciones {
     this.repoSolicitudes = repoSolicitudes;
   }
 
-  public void crearColeccion(String titulo, String descripcion, Fuente fuente, Criterio criterio) {
-    Coleccion coleccion = new Coleccion(titulo, descripcion, fuente, criterio, repoSolicitudes);
+  public void crearColeccion(String titulo, String descripcion, Fuente fuente, List<Criterio> criterios) {
+    Coleccion coleccion = new Coleccion(titulo, descripcion, fuente, criterios, repoSolicitudes);
     colecciones.add(coleccion);
   }
 }

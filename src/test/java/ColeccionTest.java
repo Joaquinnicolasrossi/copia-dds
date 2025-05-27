@@ -9,19 +9,22 @@ class ColeccionTest {
 
   private Coleccion crearColeccionBase() {
     Fuente fuente = new Fuente("src/test/resources/fires-all.csv");
+
+    CriterioCategoria criterio1 = new CriterioCategoria("Incendio Forestal");
     LocalDate desde = LocalDate.of(2018, 8, 23);
     LocalDate hasta = LocalDate.of(2018, 9, 25);
-    Criterio criterio = new Criterio("Incendio Forestal", desde, hasta);
+    CriterioFecha criterio2 = new CriterioFecha(desde, hasta);
+    List<Criterio> criterios = List.of(criterio1, criterio2);
+
     RepoSolicitudes repoSolicitudes = new RepoSolicitudes();
-    return new Coleccion("Incendios test", "Hechos de prueba", fuente, criterio, repoSolicitudes);
+
+    return new Coleccion("Incendios test", "Hechos de prueba", fuente, criterios, repoSolicitudes);
   }
 
   @Test
   public void mostrarHechos() {
     Coleccion coleccion = crearColeccionBase();
     List<Hecho> hechos = coleccion.mostrarHechos();
-
-
 
     assertFalse(hechos.isEmpty() , "la lista filtrada no deberia estar vacia");
     assertTrue(hechos.stream().allMatch(h -> "Incendio Forestal".equals(h.getCategoria())),
@@ -39,16 +42,16 @@ class ColeccionTest {
   public void mostrarHechosFiltrados() {
     Coleccion coleccion = crearColeccionBase();
 
+
     LocalDate filtroDesde = LocalDate.of(2018, 9, 1);
     LocalDate filtroHasta = LocalDate.of(2018, 9, 15);
-    Criterio filtroAdicional = new Criterio("Incendio Forestal", filtroDesde, filtroHasta);
+    CriterioFecha filtro = new CriterioFecha(filtroDesde, filtroHasta);
 
-    List<Hecho> hechosFiltrados = coleccion.mostrarHechosFiltrados(filtroAdicional);
-
+    List<Hecho> hechosFiltrados = coleccion.mostrarHechosFiltrados(filtro);
 
     assertFalse(hechosFiltrados.isEmpty(), "La lista filtrada no debería estar vacía");
     assertTrue(hechosFiltrados.stream()
-            .allMatch(h -> filtroAdicional.seCumpleCriterio(h)),
+            .allMatch(h -> filtro.seCumpleCriterio(h)),
         "Todos los hechos deben cumplir el filtro adicional");
     System.out.println("RESULTADOS FILTRO ADICIONAL");
     hechosFiltrados.forEach(System.out::println);

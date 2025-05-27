@@ -7,7 +7,7 @@ public class Coleccion {
   public List<Criterio> criterios;
   private final RepoSolicitudes solicitudes;
 
-  public Coleccion(String titulo, String descripcion, Fuente fuente, List<Criterio> criterio, RepoSolicitudes solicitudes) {
+  public Coleccion(String titulo, String descripcion, Fuente fuente, List<Criterio> criterios, RepoSolicitudes solicitudes) {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.fuente = fuente;
