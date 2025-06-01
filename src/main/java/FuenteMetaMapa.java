@@ -1,10 +1,10 @@
 import java.util.List;
 
-public class FuenteMetamapa implements FuenteDeDatos {
+public class FuenteMetaMapa implements FuenteDeDatos {
 
   private ClienteMetaMapa cliente;
 
-  public FuenteMetamapa(ClienteMetaMapa cliente) {
+  public FuenteMetaMapa(ClienteMetaMapa cliente) {
     this.cliente = cliente;
   }
 
