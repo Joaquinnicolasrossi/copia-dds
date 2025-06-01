@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Fuente {
+public class Fuente implements FuenteDeDatos {
 
   private final String rutaCsv;
 
@@ -292,6 +292,7 @@ public class Fuente {
    * - longitud = lng (0.0 si vacío)
    * - fecha    = fecha (null si vacío)
    */
+  @Override
   public List<Hecho> extraerHechos() {
     List<Hecho> lista = new ArrayList<>();
     // NOTA: Se podria usar
