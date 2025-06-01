@@ -169,6 +169,8 @@ public class Hecho {
         ", latitud=" + latitud +
         ", longitud=" + longitud +
         ", fecha=" + fecha +
-        '}';
+        ", fechaCarga=" + fechaCarga +
+        ", estado=" + estado +
+        '}' + "\n";
   }
 }
