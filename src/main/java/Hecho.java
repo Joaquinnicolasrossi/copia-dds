@@ -25,8 +25,11 @@ public class Hecho {
   }
 
   public boolean estaDentroDePlazoDeEdicion() {
-
     return fechaCarga != null && fechaCarga.isAfter(LocalDate.now().minusDays(7));
+  }
+
+  public void aplicarRevision(Revision revision) {
+    this.estado = revision.getEstado();
   }
 
   public static class HechoBuilder implements IBuilder {
@@ -145,6 +148,7 @@ public class Hecho {
   public LocalDate Fecha() {
     return fecha;
   }
+
   public Hecho actualizarHechoConBuilderParcial(Hecho original, Hecho.HechoBuilder parcial) {
     Hecho.HechoBuilder combinado = new Hecho.HechoBuilder()
         .setTitulo(parcial.getTitulo() != null ? parcial.getTitulo() : original.getTitulo())

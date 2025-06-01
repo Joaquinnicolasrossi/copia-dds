@@ -1,5 +1,11 @@
 public class FuenteDinamica {
   RepoFuenteDinamica repoFuenteDinamica;
+  RepoSolicitudesRevision repoSolicitudesRevision;
+
+  public FuenteDinamica(RepoFuenteDinamica repoFuenteDinamica, RepoSolicitudesRevision repoSolicitudesRevision) {
+    this.repoFuenteDinamica = repoFuenteDinamica;
+    this.repoSolicitudesRevision = repoSolicitudesRevision;
+  }
 
   public void subirHecho(Hecho hecho) {
     repoFuenteDinamica.save(hecho);
@@ -17,6 +23,14 @@ public class FuenteDinamica {
       throw new Exception("No pudo actualizar el hecho");
     }
   }
+
+  public void revisarHecho(String titulo, Revision resivion) {
+
+    Hecho hecho = getHecho(titulo);
+    repoFuenteDinamica.save(hecho);
+    repoSolicitudesRevision.save(resivion);
+  }
+
 
   private Hecho getHecho(String titulo) {
     Hecho hecho = repoFuenteDinamica.findByTitulo(titulo);
