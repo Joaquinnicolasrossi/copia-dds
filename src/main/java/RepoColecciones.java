@@ -9,7 +9,7 @@ public class RepoColecciones {
     this.repoSolicitudes = repoSolicitudes;
   }
 
-  public void crearColeccion(String titulo, String descripcion, Fuente fuente, List<Criterio> criterios) {
+  public void crearColeccion(String titulo, String descripcion, FuenteEstaticaIncendios fuente, List<Criterio> criterios) {
     Coleccion coleccion = new Coleccion(titulo, descripcion, fuente, criterios, repoSolicitudes);
     colecciones.add(coleccion);
   }

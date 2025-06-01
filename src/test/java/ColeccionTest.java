@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 class ColeccionTest {
 
   private Coleccion crearColeccionBase() {
-    Fuente fuente = new Fuente("src/test/resources/fires-all.csv");
+    FuenteEstaticaIncendios fuenteEstaticaIncendios = new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
 
     CriterioCategoria criterio1 = new CriterioCategoria("Incendio Forestal");
     LocalDate desde = LocalDate.of(2018, 8, 23);
@@ -18,7 +18,7 @@ class ColeccionTest {
 
     RepoSolicitudes repoSolicitudes = new RepoSolicitudes();
 
-    return new Coleccion("Incendios test", "Hechos de prueba", fuente, criterios, repoSolicitudes);
+    return new Coleccion("Incendios test", "Hechos de prueba", fuenteEstaticaIncendios, criterios, repoSolicitudes);
   }
 
   @Test
