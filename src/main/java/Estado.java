@@ -1,5 +1,3 @@
-package ar.edu.utn.frba.dds.Enum;
-
 public enum Estado {
   PENDIENTE,
   RECHAZADA,

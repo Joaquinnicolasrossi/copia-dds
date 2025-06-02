@@ -1,4 +1,3 @@
-import ar.edu.utn.frba.dds.Enum.Estado;
 import java.time.LocalDate;
 
 public class Revision {

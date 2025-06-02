@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class FuenteMetaMapa implements FuenteDeDatos {
+public class FuenteMetaMapa implements IFuente {
 
   private ClienteMetaMapa cliente;
 

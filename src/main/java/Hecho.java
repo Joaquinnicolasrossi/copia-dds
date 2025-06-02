@@ -1,4 +1,3 @@
-import ar.edu.utn.frba.dds.Enum.Estado;
 import java.time.LocalDate;
 
 public class Hecho {
@@ -32,7 +31,7 @@ public class Hecho {
     this.estado = revision.getEstado();
   }
 
-  public static class HechoBuilder implements IBuilder {
+  public static class HechoBuilder implements IBuilder<Hecho> {
     private String titulo;
     private String descripcion;
     private String categoria;
