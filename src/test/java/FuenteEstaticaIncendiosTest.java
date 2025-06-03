@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,7 +31,7 @@ class FuenteEstaticaIncendiosTest {
   }
 
   @Test
-  void hechoTieneLatYLongPorDefecto(){
+  void hechoTieneLatYLongPorDefecto() {
 
     FuenteEstaticaIncendios fuenteEstaticaIncendios = new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
 
@@ -43,7 +44,7 @@ class FuenteEstaticaIncendiosTest {
   }
 
   @Test
-  void seCarganTodosLosHechosDelCSV(){
+  void seCarganTodosLosHechosDelCSV() {
 
     FuenteEstaticaIncendios fuenteEstaticaIncendios = new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
 

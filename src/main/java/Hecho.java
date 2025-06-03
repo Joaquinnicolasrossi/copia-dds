@@ -1,5 +1,7 @@
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDate;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Hecho {
   private String titulo;
   private String descripcion;
@@ -10,6 +12,11 @@ public class Hecho {
   private LocalDate fechaCarga;
   private Estado estado;
 
+  public Hecho() {
+    //utilizado por Jackson
+    this.fechaCarga = LocalDate.now();
+    this.estado = Estado.PENDIENTE;
+  }
 
   public Hecho(String titulo, String descripcion, String categoria, double latitud,
                double longitud, LocalDate fecha) {

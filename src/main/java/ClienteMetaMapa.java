@@ -5,6 +5,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class ClienteMetaMapa {
 
@@ -16,6 +17,7 @@ public class ClienteMetaMapa {
   public ClienteMetaMapa() {
     this.client = HttpClient.newHttpClient();
     this.mapper = new ObjectMapper();
+    mapper.registerModule(new JavaTimeModule());
   }
 
   public List<Hecho> getHechos() throws Exception{
