@@ -4,78 +4,115 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.net.URL;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class FuenteDemoAdapter implements IFuente {
-  private final Conexion clienteExterno;
-  private final URL urlExterna;
-  private LocalDateTime ultimaConsulta;
-  private List<Hecho> listaHechos = new ArrayList<>();
+    private final Conexion clienteExterno;
+    private final URL urlExterna;
+    private LocalDateTime ultimaConsulta;
+    private List<Hecho> listaHechos = new ArrayList<>();
+    private ScheduledExecutorService scheduler; // Scheduler que periódicamente ejecuta extraerHechos() y acumula resultados
+    private final long periodoPolling; // cada cuánto debe llamar a extraerHechos()
+    private final TimeUnit unidadPeriodo; // Por defecto: 1 hora, pero en tests o en otra instancia se puede parametrizar
 
-  public FuenteDemoAdapter(URL url, LocalDateTime ultimaConsulta) {
-    this.clienteExterno = new Conexion();
-    this.urlExterna = url;
-    this.ultimaConsulta = ultimaConsulta; // inicializo
-  }
-
-  public void setUltimaConsulta(LocalDateTime ultimaConsulta) {
-    this.ultimaConsulta = ultimaConsulta;
-  }
-
-  @Override
-  public List<Hecho> extraerHechos() {
-    /* TODO: el codigo comentado deberia ser una funcion actualizarHechos
-       para que extraer hechos siempre devuelva toda la lista */
-    List<Hecho> lista = new ArrayList<>();
-    Map<String, Object> datos;
-    // Llamo a la biblioteca externa hasta que devuelva null
-    while ((datos = clienteExterno.siguienteHecho(urlExterna, ultimaConsulta)) != null) {
-      Hecho h = mapToHecho(datos);
-      lista.add(h);
+    public FuenteDemoAdapter(URL url, LocalDateTime ultimaConsulta, Conexion clienteExterno, long periodoPolling, TimeUnit unidadPeriodo) {
+      this.urlExterna = url;
+      this.ultimaConsulta = ultimaConsulta;
+      this.clienteExterno = clienteExterno;
+      this.periodoPolling = periodoPolling;
+      this.unidadPeriodo = unidadPeriodo;
+      // Scheduler no se inicia automáticamente: se arranca con startScheduler()
+      this.scheduler = null;
     }
-    ultimaConsulta = LocalDateTime.now();
-    return listaHechos;
-  }
 
-  private Hecho mapToHecho(Map<String, Object> raw) {
-    Hecho.HechoBuilder builder = new Hecho.HechoBuilder();
+    public void setUltimaConsulta(LocalDateTime ultimaConsulta) {
+      this.ultimaConsulta = ultimaConsulta;
+    }
 
-    // Se asumen los tipos de datos
-    // y nombres de las keys
-    Object tituloObj = raw.get("titulo");
-    builder.setTitulo((String) tituloObj);
+    @Override
+    public List<Hecho> extraerHechos() {
+      return actualizarHechos();
+    }
 
-    Object descObj = raw.get("descripcion");
-    builder.setDescripcion((String) descObj);
+    // carga los hechos nuevos a listaHechos
+    public List<Hecho> actualizarHechos() {
+      Map<String, Object> datos;
+      // Llamo a la biblioteca externa hasta que devuelva null
+      while ((datos = clienteExterno.siguienteHecho(urlExterna, ultimaConsulta)) != null) {
+        Hecho h = mapToHecho(datos);
+        listaHechos.add(h);
+      }
+      ultimaConsulta = LocalDateTime.now();
+      return listaHechos;
+    }
 
-    Object catObj = raw.get("categoria");
-    builder.setCategoria((String) catObj);
+    private Hecho mapToHecho(Map<String, Object> raw) {
+      Hecho.HechoBuilder builder = new Hecho.HechoBuilder();
 
-    Object latObj = raw.get("latitud");
-    builder.setLatitud((double)latObj);
+      // Se asumen los tipos de datos
+      // y nombres de las keys
+      Object tituloObj = raw.get("titulo");
+      builder.setTitulo((String) tituloObj);
 
-    Object longObj = raw.get("longitud");
-    builder.setLongitud((double)longObj);
+      Object descObj = raw.get("descripcion");
+      builder.setDescripcion((String) descObj);
 
-    // asumo java.util.LocalDate
-    Object fechaRaw = raw.get("fecha");
-    LocalDate fechaHecho = (LocalDate) fechaRaw;
-    builder.setFecha(fechaHecho);
+      Object catObj = raw.get("categoria");
+      builder.setCategoria((String) catObj);
 
-    builder.setFechaCarga(LocalDate.now());
+      Object latObj = raw.get("latitud");
+      builder.setLatitud((double)latObj);
 
-    Object estadoObj = raw.get("estado");
-    if (estadoObj instanceof String) {
-      try {
-        Estado e = Estado.valueOf(((String) estadoObj).toUpperCase());
-        builder.setEstado(e);
-      } catch (IllegalArgumentException ex) {
+      Object longObj = raw.get("longitud");
+      builder.setLongitud((double)longObj);
+
+      // asumo java.util.LocalDate
+      Object fechaRaw = raw.get("fecha");
+      LocalDate fechaHecho = (LocalDate) fechaRaw;
+      builder.setFecha(fechaHecho);
+
+      builder.setFechaCarga(LocalDate.now());
+
+      Object estadoObj = raw.get("estado");
+      if (estadoObj instanceof String) {
+        try {
+          Estado e = Estado.valueOf(((String) estadoObj).toUpperCase());
+          builder.setEstado(e);
+        } catch (IllegalArgumentException ex) {
+          builder.setEstado(Estado.PENDIENTE);
+        }
+      } else {
         builder.setEstado(Estado.PENDIENTE);
       }
-    } else {
-      builder.setEstado(Estado.PENDIENTE);
+      return builder.build();
     }
 
-    return builder.build();
-  }
+    // Inicia un ScheduledExecutorService
+    // cada cierto periodoPolling/unidadPeriodo invoca extraerHechos() y añade los resultados
+    public synchronized void startScheduler() {
+      if (scheduler != null && !scheduler.isShutdown()) {
+        // Ya estaba corriendo
+        return;
+      }
+      // Crea un scheduler
+      scheduler = Executors.newSingleThreadScheduledExecutor();
+      // Programamos la primera ejecución al cabo de “periodoPolling” unidades, y luego repetimos
+      scheduler.scheduleAtFixedRate(() -> {
+        try {
+          extraerHechos(); // actualiza listaHechos internamente
+        } catch (Exception ex) {
+          ex.printStackTrace(); // en un caso real, se loguearía
+        }
+      }, periodoPolling, periodoPolling, unidadPeriodo);
+    }
 
+    // Detiene el scheduler, si está corriendo.
+    public synchronized void stopScheduler() {
+      if (scheduler != null && !scheduler.isShutdown()) {
+        scheduler.shutdownNow();
+      }
+      scheduler = null;
+    }
 }
