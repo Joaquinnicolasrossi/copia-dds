@@ -8,6 +8,11 @@ public class RepoFuenteDinamica {
     hechos.add(hecho);
     return hecho;
   }
+
+  public List<Hecho> getHechos() {
+    return hechos;
+  }
+
   public Hecho findByTitulo(String titulo) {
     return hechos.stream()
         .filter(h -> h.getTitulo().equals(titulo))
