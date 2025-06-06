@@ -8,8 +8,8 @@ class SolicitudTest {
 
   @Test
   void seCreaCorrectamenteConDescripcionValida() {
-
-    RepoSolicitudes repoSolicitudes = new RepoSolicitudes();
+   DetectorDeSpamFiltro detectorDeSpamFiltro = new DetectorDeSpamFiltro();
+    RepoSolicitudes repoSolicitudes = new RepoSolicitudes(detectorDeSpamFiltro);
     Hecho hecho = new Hecho("titulo", "desc", "categoria", 0, 0, LocalDate.now());
     String descripcion = "x".repeat(500);
 
@@ -22,8 +22,8 @@ class SolicitudTest {
 
   @Test
   void eliminarSolicitudLaQuitaDelRepo() {
-
-    RepoSolicitudes repoSolicitudes = new RepoSolicitudes();
+    DetectorDeSpamFiltro detectorDeSpamFiltro = new DetectorDeSpamFiltro();
+    RepoSolicitudes repoSolicitudes = new RepoSolicitudes(detectorDeSpamFiltro );
     Hecho hecho = new Hecho("titulo", "desc", "categoria", 0, 0, LocalDate.now());
     String descripcion = "x".repeat(500);
 

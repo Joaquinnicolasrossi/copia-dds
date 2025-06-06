@@ -5,6 +5,10 @@ public class RepoSolicitudes {
   private final List<Solicitud> solicitudes = new ArrayList<>();
   private DetectorDeSpamFiltro detectorDeSpamFiltro;
 
+  public RepoSolicitudes(DetectorDeSpamFiltro detectorDeSpamFiltro) {
+    this.detectorDeSpamFiltro = detectorDeSpamFiltro;
+  }
+
   public void eliminarSolicitud(Solicitud solicitud) {
     solicitudes.remove(solicitud);
   }

@@ -15,8 +15,8 @@ class ColeccionTest {
     LocalDate hasta = LocalDate.of(2018, 9, 25);
     CriterioFecha criterio2 = new CriterioFecha(desde, hasta);
     List<Criterio> criterios = List.of(criterio1, criterio2);
-
-    RepoSolicitudes repoSolicitudes = new RepoSolicitudes();
+    DetectorDeSpamFiltro deSpamFiltro = new DetectorDeSpamFiltro();
+    RepoSolicitudes repoSolicitudes = new RepoSolicitudes(deSpamFiltro);
 
     return new Coleccion("Incendios test", "Hechos de prueba", fuenteEstaticaIncendios, criterios, repoSolicitudes);
   }

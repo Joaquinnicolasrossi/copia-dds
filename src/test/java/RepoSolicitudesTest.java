@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -7,10 +8,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RepoSolicitudesTest {
 
+   private DetectorDeSpamFiltro detectorDeSpamFiltro = new DetectorDeSpamFiltro();
+  private RepoSolicitudes repoSolicitudes;
+
+  @BeforeEach
+  void setUp() {
+    DetectorDeSpamFiltro detector = new DetectorDeSpamFiltro();
+    repoSolicitudes = new RepoSolicitudes(detector);
+  }
   @Test
   void nuevaSolicitudLaAgregaCorrectamenteAlRepositorio() {
 
-    RepoSolicitudes repoSolicitudes = new RepoSolicitudes();
+
+
     Hecho hecho = new Hecho("Incendio", "desc", "Incendio Forestal", 0, 0, LocalDate.now());
     String descripcion = "x".repeat(500);
 
@@ -28,7 +38,7 @@ class RepoSolicitudesTest {
   @Test
   void eliminarSolicitudLaQuitaDelRepositorio() {
 
-    RepoSolicitudes repoSolicitudes = new RepoSolicitudes();
+
     Hecho hecho = new Hecho("Incendio", "desc", "Incendio Forestal", 0, 0, LocalDate.now());
     String descripcion = "x".repeat(500);
 
@@ -42,7 +52,7 @@ class RepoSolicitudesTest {
   @Test
   void hechoEliminadoSoloEsTrueSiSeAcepta(){
 
-    RepoSolicitudes repoSolicitudes = new RepoSolicitudes();
+
     Hecho hecho = new Hecho("Incendio", "desc", "Incendio Forestal", 0, 0, LocalDate.now());
     String descripcion = "x".repeat(500);
 
