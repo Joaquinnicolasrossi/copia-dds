@@ -29,7 +29,7 @@ class RepoSolicitudesTest {
     assertEquals(1, solicitudes.size());
     Solicitud solicitud = solicitudes.get(0);
     assertEquals(hecho, solicitud.hecho);
-    assertEquals(descripcion, solicitud.descripcion);
+    assertEquals(descripcion, solicitud.getDescripcion());
     assertFalse(solicitud.eliminado);
 
   }

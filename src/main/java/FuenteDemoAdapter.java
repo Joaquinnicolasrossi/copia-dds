@@ -48,7 +48,7 @@ public class FuenteDemoAdapter implements InterfaceFuente {
       listaHechos.add(h);
     }
     ultimaConsulta = LocalDateTime.now();
-    return listaHechos;
+    return new ArrayList<>(listaHechos);
   }
 
   private Hecho mapToHecho(Map<String, Object> raw) {
@@ -120,6 +120,6 @@ public class FuenteDemoAdapter implements InterfaceFuente {
   }
 
   public List<Hecho> getListaHechos() {
-    return listaHechos;
+    return new ArrayList<>(listaHechos);
   }
 }

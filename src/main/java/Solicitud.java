@@ -1,6 +1,6 @@
 public class Solicitud {
   public Hecho hecho;
-  public String descripcion;
+  private String descripcion;
   public Boolean eliminado = false;
   private final RepoSolicitudes repoSolicitudes;
 
@@ -28,5 +28,9 @@ public class Solicitud {
       throw new IllegalArgumentException("La solicitud debe contener una descripcion "
           + "de al menos 500 caracteres.");
     }
+  }
+
+  public String getDescripcion() {
+    return descripcion;
   }
 }

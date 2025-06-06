@@ -7,6 +7,6 @@ public class CriterioCategoria implements Criterio {
 
   @Override
   public boolean seCumpleCriterio(Hecho hecho) {
-    return hecho.getCategoria() == categoria;
+    return categoria.equals(hecho.getCategoria());
   }
 }

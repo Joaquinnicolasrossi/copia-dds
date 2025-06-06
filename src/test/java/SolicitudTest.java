@@ -15,7 +15,7 @@ class SolicitudTest {
     Solicitud solicitud = new Solicitud(hecho, descripcion, repoSolicitudes);
 
     assertEquals(hecho, solicitud.hecho);
-    assertEquals(descripcion, solicitud.descripcion);
+    assertEquals(descripcion, solicitud.getDescripcion());
     assertFalse(solicitud.eliminado);
   }
 

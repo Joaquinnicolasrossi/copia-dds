@@ -2,7 +2,7 @@ import java.util.List;
 
 public class Coleccion {
   public String titulo;
-  public String descripcion;
+  private String descripcion;
   public InterfaceFuente fuente;
   public List<Criterio> criterios;
   private final RepoSolicitudes solicitudes;
@@ -36,5 +36,9 @@ public class Coleccion {
 
   private boolean cumpleCriterios(Hecho hecho) {
     return criterios.stream().allMatch(criterio -> criterio.seCumpleCriterio(hecho));
+  }
+
+  public String getDescripcion() {
+    return descripcion;
   }
 }

@@ -10,7 +10,7 @@ public class RepoFuenteDinamica {
   }
 
   public List<Hecho> getHechos() {
-    return hechos;
+    return new ArrayList<>(hechos);
   }
 
   public Hecho findByTitulo(String titulo) {
