@@ -1,14 +1,14 @@
+import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.net.URL;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class FuenteDemoAdapter implements IFuente {
+public class FuenteDemoAdapter implements InterfaceFuente {
   private final Conexion clienteExterno;
   private final URL urlExterna;
   private LocalDateTime ultimaConsulta;

@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FuenteEstaticaIncendios implements IFuente {
+public class FuenteEstaticaIncendios implements InterfaceFuente {
 
   private final String rutaCsv;
 

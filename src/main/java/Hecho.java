@@ -38,7 +38,7 @@ public class Hecho {
     this.estado = revision.getEstado();
   }
 
-  public static class HechoBuilder implements IBuilder<Hecho> {
+  public static class HechoBuilder implements InterfaceBuilder<Hecho> {
     private String titulo;
     private String descripcion;
     private String categoria;
@@ -149,10 +149,6 @@ public class Hecho {
 
   public double getLongitud() {
     return longitud;
-  }
-
-  public LocalDate Fecha() {
-    return fecha;
   }
 
   public Estado getEstado() {

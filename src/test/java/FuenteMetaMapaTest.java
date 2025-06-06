@@ -1,14 +1,12 @@
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import com.github.tomakehurst.wiremock.WireMockServer;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import org.checkerframework.framework.qual.DefaultQualifier;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.github.tomakehurst.wiremock.WireMockServer;
-
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 public class FuenteMetaMapaTest {

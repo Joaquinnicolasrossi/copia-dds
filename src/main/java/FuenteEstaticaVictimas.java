@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FuenteEstaticaVictimas implements IFuente {
+public class FuenteEstaticaVictimas implements InterfaceFuente {
 
   private final String rutaCsv;
 

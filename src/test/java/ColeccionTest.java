@@ -18,7 +18,8 @@ class ColeccionTest {
     DetectorDeSpamFiltro deSpamFiltro = new DetectorDeSpamFiltro();
     RepoSolicitudes repoSolicitudes = new RepoSolicitudes(deSpamFiltro);
 
-    return new Coleccion("Incendios test", "Hechos de prueba", fuenteEstaticaIncendios, criterios, repoSolicitudes);
+    return new Coleccion(
+        "Incendios test", "Hechos de prueba", fuenteEstaticaIncendios, criterios, repoSolicitudes);
   }
 
   @Test
@@ -26,7 +27,7 @@ class ColeccionTest {
     Coleccion coleccion = crearColeccionBase();
     List<Hecho> hechos = coleccion.mostrarHechos();
 
-    assertFalse(hechos.isEmpty() , "la lista filtrada no deberia estar vacia");
+    assertFalse(hechos.isEmpty(), "la lista filtrada no deberia estar vacia");
     assertTrue(hechos.stream().allMatch(h -> "Incendio Forestal".equals(h.getCategoria())),
         "Todos los hechos deben ser de la categoría 'Incendio Forestal'");
 

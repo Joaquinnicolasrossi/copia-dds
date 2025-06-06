@@ -1,5 +1,5 @@
 import java.util.List;
 
-public interface IFuente {
+public interface InterfaceFuente {
   List<Hecho> extraerHechos(); // método abstracto
 }

@@ -1,8 +1,10 @@
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
-import java.util.*;
-import java.time.*;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import java.time.LocalDate;
+import java.util.List;
+
 
 @Path("/hechos")
 public class ServidorMetaMapa {
