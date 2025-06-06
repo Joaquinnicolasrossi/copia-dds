@@ -115,4 +115,8 @@ public class FuenteDemoAdapter implements IFuente {
       }
       scheduler = null;
     }
+
+  public List<Hecho> getListaHechos() {
+    return listaHechos;
+  }
 }

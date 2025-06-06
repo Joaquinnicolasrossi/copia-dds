@@ -155,6 +155,10 @@ public class Hecho {
     return fecha;
   }
 
+  public Estado getEstado() {
+    return estado;
+  }
+
   public Hecho actualizarHechoConBuilderParcial(Hecho original, Hecho.HechoBuilder parcial) {
     Hecho.HechoBuilder combinado = new Hecho.HechoBuilder()
         .setTitulo(parcial.getTitulo() != null ? parcial.getTitulo() : original.getTitulo())
