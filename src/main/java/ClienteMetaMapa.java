@@ -20,7 +20,7 @@ public class ClienteMetaMapa {
     mapper.registerModule(new JavaTimeModule());
   }
 
-  public List<Hecho> getHechos() throws Exception{
+  public List<Hecho> getHechos() throws Exception {
     HttpRequest request = HttpRequest.newBuilder()
         .uri(new URI(url + "/hechos"))
         .GET()
@@ -29,7 +29,8 @@ public class ClienteMetaMapa {
     HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
     if (response.statusCode() == 200) {
-      return mapper.readValue(response.body(), new TypeReference<List<Hecho>>() {});
+      return mapper.readValue(response.body(), new TypeReference<List<Hecho>>() {
+      });
     } else {
       throw new RuntimeException("Error en la petición: " + response.statusCode());
     }

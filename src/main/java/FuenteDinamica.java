@@ -3,7 +3,8 @@ public class FuenteDinamica {
   RepoSolicitudesRevision repoSolicitudesRevision;
 
   //TODO Mejorar excepciones podrian ser algo como NotFountException , validationErrorException
-  public FuenteDinamica(RepoFuenteDinamica repoFuenteDinamica, RepoSolicitudesRevision repoSolicitudesRevision) {
+  public FuenteDinamica(RepoFuenteDinamica repoFuenteDinamica, RepoSolicitudesRevision
+      repoSolicitudesRevision) {
     this.repoFuenteDinamica = repoFuenteDinamica;
     this.repoSolicitudesRevision = repoSolicitudesRevision;
   }
@@ -31,7 +32,6 @@ public class FuenteDinamica {
     repoFuenteDinamica.save(hecho);
     repoSolicitudesRevision.save(resivion);
   }
-
 
   private Hecho getHecho(String titulo) {
     Hecho hecho = repoFuenteDinamica.findByTitulo(titulo);

@@ -43,7 +43,8 @@ public class FuenteEstaticaVictimas implements IFuente {
     // seteo el formato de fecha
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
 
-    try (CSVReader reader = new CSVReaderBuilder(new InputStreamReader(new FileInputStream(rutaCsv), StandardCharsets.UTF_8))
+    try (CSVReader reader = new CSVReaderBuilder(new InputStreamReader(new FileInputStream(rutaCsv),
+        StandardCharsets.UTF_8))
         .withCSVParser(parser)
         .withSkipLines(1)
         .build()) {
@@ -65,7 +66,9 @@ public class FuenteEstaticaVictimas implements IFuente {
         String latStr = f[10].trim();
         String lngStr = f[11].trim();
 
-        if (latStr.equalsIgnoreCase("Perdido") || lngStr.equalsIgnoreCase("Perdido")) {
+        if (latStr.equalsIgnoreCase("Perdido")
+            ||
+            lngStr.equalsIgnoreCase("Perdido")) {
           latStr = "0";
           lngStr = "0";
         }

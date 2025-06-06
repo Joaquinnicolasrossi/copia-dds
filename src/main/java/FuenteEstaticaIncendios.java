@@ -301,7 +301,8 @@ public class FuenteEstaticaIncendios implements IFuente {
     // new InputStreamReader(new FileInputStream(rutaCsv), StandardCharsets.UTF_8)
     // para garantizar que el archivo este en UTF-8 y
     // no usar el encoding default del sistema operativo
-    try (CSVReader reader = new CSVReaderBuilder(new InputStreamReader(new FileInputStream(rutaCsv), StandardCharsets.UTF_8))
+    try (CSVReader reader = new CSVReaderBuilder(new InputStreamReader(new FileInputStream(rutaCsv),
+        StandardCharsets.UTF_8))
         .withSkipLines(1)
         .build()) {
       String[] f;

@@ -11,8 +11,10 @@ public class ServidorMetaMapa {
   @Produces(MediaType.APPLICATION_JSON)
   public List<Hecho> getHechos() {
     return List.of(
-        new Hecho("TituloA", "DescripcionA", "CategoriaA", -34.6037, -34.6037,  LocalDate.of(2025, 5, 28)),
-        new Hecho("TituloB", "DescripcionB", "CategoriaB", -34.6037, -34.6037,  LocalDate.of(2025, 5, 28))
+        new Hecho("TituloA", "DescripcionA", "CategoriaA", -34.6037,
+            -34.6037, LocalDate.of(2025, 5, 28)),
+        new Hecho("TituloB", "DescripcionB", "CategoriaB", -34.6037,
+            -34.6037, LocalDate.of(2025, 5, 28))
     );
 
   }

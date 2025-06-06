@@ -162,8 +162,10 @@ public class Hecho {
   public Hecho actualizarHechoConBuilderParcial(Hecho original, Hecho.HechoBuilder parcial) {
     Hecho.HechoBuilder combinado = new Hecho.HechoBuilder()
         .setTitulo(parcial.getTitulo() != null ? parcial.getTitulo() : original.getTitulo())
-        .setDescripcion(parcial.getDescripcion() != null ? parcial.getDescripcion() : original.getDescripcion())
-        .setCategoria(parcial.getCategoria() != null ? parcial.getCategoria() : original.getCategoria())
+        .setDescripcion(parcial.getDescripcion() != null ? parcial.getDescripcion() : original
+            .getDescripcion())
+        .setCategoria(parcial.getCategoria() != null ? parcial.getCategoria() : original
+            .getCategoria())
         .setLatitud(parcial.getLatitud() != 0 ? parcial.getLatitud() : original.getLatitud())
         .setLongitud(parcial.getLongitud() != 0 ? parcial.getLongitud() : original.getLongitud())
         .setFecha(parcial.getFecha() != null ? parcial.getFecha() : original.getFecha());
@@ -172,15 +174,25 @@ public class Hecho {
 
   @Override
   public String toString() {
-    return "Hecho{" +
-        "titulo='" + titulo + '\'' +
-        ", descripcion='" + descripcion + '\'' +
-        ", categoria='" + categoria + '\'' +
-        ", latitud=" + latitud +
-        ", longitud=" + longitud +
-        ", fecha=" + fecha +
-        ", fechaCarga=" + fechaCarga +
-        ", estado=" + estado +
+    return "Hecho{"
+        +
+        "titulo='" + titulo
+        + '\''
+        +
+        ", descripcion='" + descripcion + '\''
+        +
+        ", categoria='" + categoria + '\''
+        +
+        ", latitud=" + latitud
+        +
+        ", longitud=" + longitud
+        +
+        ", fecha=" + fecha
+        +
+        ", fechaCarga=" + fechaCarga
+        +
+        ", estado=" + estado
+        +
         '}' + "\n";
   }
 }

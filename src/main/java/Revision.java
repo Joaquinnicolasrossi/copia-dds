@@ -19,11 +19,17 @@ public class Revision {
 
   @Override
   public String toString() {
-    return "Revision{" +
-        "estado=" + estado +
-        ", sugerencia='" + sugerencia + '\'' +
-        ", fecha=" + fecha +
-        ", hecho=" + hecho +
+    return "Revision{"
+        +
+        "estado=" + estado
+        +
+        ", sugerencia='" + sugerencia
+        + '\''
+        +
+        ", fecha=" + fecha
+        +
+        ", hecho=" + hecho
+        +
         '}';
   }
 
