@@ -35,8 +35,8 @@ class ColeccionTest {
             !h.getFecha().isBefore(LocalDate.of(2018, 8, 23)) &&
                 !h.getFecha().isAfter(LocalDate.of(2018, 9, 25))),
         "Todas las fechas deben estar entre 2018-08-23 y 2018-09-25");
-    System.out.println("RESULTADOS DEL FILTRO");
-    hechos.forEach(System.out::println);
+
+
   }
 
   @Test
@@ -54,8 +54,8 @@ class ColeccionTest {
     assertTrue(hechosFiltrados.stream()
             .allMatch(h -> filtro.seCumpleCriterio(h)),
         "Todos los hechos deben cumplir el filtro adicional");
-    System.out.println("RESULTADOS FILTRO ADICIONAL");
-    hechosFiltrados.forEach(System.out::println);
+
+
 
   }
 }

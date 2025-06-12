@@ -50,7 +50,7 @@ public class FuenteDinamicaTest {
     Revision revision = new Revision(Estado.ACEPTADA, "Ninguna", incendio);
     fuenteDinamica.revisarHecho("Incendio en zona rural", revision);
     repoSolicitudesRevision.save(revision);
-    System.out.println(revision);
+
   }
 
   @Test
@@ -59,7 +59,7 @@ public class FuenteDinamicaTest {
     hechoBuilder.setDescripcion("Nueva descripcion test");
     fuenteDinamica.actualizarHecho("Incendio en zona rural", hechoBuilder);
     Hecho hechoNuevo = repoFuenteDinamica.saveUpdate(incendio, hechoBuilder);
-    System.out.println(hechoNuevo);
+
   }
 
   @Test
@@ -67,6 +67,6 @@ public class FuenteDinamicaTest {
     Revision revision = new Revision(Estado.ACEPTADA_CON_CAMBIOS, "Cambiar la categoria", incendio);
     fuenteDinamica.revisarHecho("Incendio en zona rural", revision);
     repoSolicitudesRevision.save(revision);
-    System.out.println(revision);
+
   }
 }
