@@ -3,10 +3,10 @@ import java.util.List;
 
 public class RepoSolicitudes {
   private final List<Solicitud> solicitudes = new ArrayList<>();
-  private DetectorDeSpamFiltro detectorDeSpamFiltro;
+  private DetectorDeSpamFiltro detectorDeSpam;
 
   public RepoSolicitudes(DetectorDeSpamFiltro detectorDeSpamFiltro) {
-    this.detectorDeSpamFiltro = detectorDeSpamFiltro;
+    this.detectorDeSpam = detectorDeSpamFiltro;
   }
 
   public void eliminarSolicitud(Solicitud solicitud) {
@@ -15,7 +15,7 @@ public class RepoSolicitudes {
 
   public void nuevaSolicitud(Hecho hecho, String descripcion) {
     Solicitud nueva = new Solicitud(hecho, descripcion, this);
-    if (detectorDeSpamFiltro.esSpam(descripcion)) {
+    if (detectorDeSpam.esSpam(descripcion)) {
       System.out
           .println("El texto es spam");
       return;
