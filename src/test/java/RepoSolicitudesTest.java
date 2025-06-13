@@ -16,7 +16,7 @@ class RepoSolicitudesTest {
     repoSolicitudes = new RepoSolicitudes(detector);
   }
   @Test
-  void nuevaSolicitudLaAgregaCorrectamenteAlRepositorio() {
+  void nuevaSolicitudLaAgregaCorrectamenteAlRepositorio() throws Exception {
 
 
 
@@ -35,7 +35,7 @@ class RepoSolicitudesTest {
   }
 
   @Test
-  void eliminarSolicitudLaQuitaDelRepositorio() {
+  void eliminarSolicitudLaQuitaDelRepositorio() throws Exception {
 
 
     Hecho hecho = new Hecho("Incendio", "desc", "Incendio Forestal", 0, 0, LocalDate.now());
@@ -49,7 +49,7 @@ class RepoSolicitudesTest {
   }
 
   @Test
-  void hechoEliminadoSoloEsTrueSiSeAcepta(){
+  void hechoEliminadoSoloEsTrueSiSeAcepta() throws Exception {
 
 
     Hecho hecho = new Hecho("Incendio", "desc", "Incendio Forestal", 0, 0, LocalDate.now());

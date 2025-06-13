@@ -13,7 +13,7 @@ public class Hecho {
   private Estado estado;
 
   public Hecho() {
-    //utilizado por Jackson
+
     this.fechaCarga = LocalDate.now();
     this.estado = Estado.PENDIENTE;
   }
@@ -168,27 +168,5 @@ public class Hecho {
     return combinado.build();
   }
 
-  @Override
-  public String toString() {
-    return "Hecho{"
-        +
-        "titulo='" + titulo
-        + '\''
-        +
-        ", descripcion='" + descripcion + '\''
-        +
-        ", categoria='" + categoria + '\''
-        +
-        ", latitud=" + latitud
-        +
-        ", longitud=" + longitud
-        +
-        ", fecha=" + fecha
-        +
-        ", fechaCarga=" + fechaCarga
-        +
-        ", estado=" + estado
-        +
-        '}' + "\n";
-  }
+
 }

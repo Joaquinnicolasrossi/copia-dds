@@ -20,7 +20,7 @@ class SolicitudTest {
   }
 
   @Test
-  void eliminarSolicitudLaQuitaDelRepo() {
+  void eliminarSolicitudLaQuitaDelRepo() throws Exception {
     DetectorDeSpamFiltro detectorDeSpamFiltro = new DetectorDeSpamFiltro();
     RepoSolicitudes repoSolicitudes = new RepoSolicitudes(detectorDeSpamFiltro );
     Hecho hecho = new Hecho("titulo", "desc", "categoria", 0, 0, LocalDate.now());
