@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 import java.util.List;
 
-public class FuenteDinamica implements Fuente{
+public class FuenteDinamica implements Fuente {
   RepoFuenteDinamica repoFuenteDinamica;
   RepoSolicitudesRevision repoSolicitudesRevision;
 
@@ -19,10 +19,12 @@ public class FuenteDinamica implements Fuente{
 
   public void subirHecho(Hecho hecho) {
     repoFuenteDinamica.save(hecho);
+    repoSolicitudesRevision.nuevaSolicitud(hecho);
   }
 
 
-  public void actualizarHecho(Hecho hecho, Hecho.HechoBuilder hechoBuilder, Usuario usuario) throws Exception {
+  public void actualizarHecho(Hecho hecho, Hecho.HechoBuilder hechoBuilder, Usuario usuario)
+      throws Exception {
 
     if (!hecho.perteneceA(usuario)) {
       throw new Exception("El usuario no esta registrado");
@@ -34,15 +36,13 @@ public class FuenteDinamica implements Fuente{
     repoFuenteDinamica.saveUpdate(hecho, hechoBuilder);
   }
 
-  public void revisarHecho(String titulo, Revision resivion) {
+  public void revisarSolicitud(Hecho hecho, EstadoRevision estadoRevision,
+                               String sugerencia) {
+    var solicitudRevision = repoSolicitudesRevision.getSolicitudPorHecho(hecho);
+    estadoRevision.aplicar(hecho, sugerencia);
+    repoSolicitudesRevision.eliminarSolcitud(solicitudRevision);
 
-    Hecho hecho = getHecho(titulo);
-    repoFuenteDinamica.save(hecho);
-    repoSolicitudesRevision.save(resivion);
   }
 
-  private Hecho getHecho(String titulo) {
-    Hecho hecho = repoFuenteDinamica.findByTitulo(titulo);
-    return hecho;
-  }
+
 }

@@ -18,6 +18,7 @@ public class Hecho {
   public Hecho() {
 
   }
+
   public Hecho(String titulo, String descripcion, String categoria, Double latitud,
                Double longitud, LocalDate fecha, LocalDate fechaCarga, Estado estado) {
     this.titulo = titulo;
@@ -75,9 +76,20 @@ public class Hecho {
     return this.usuario != null && this.usuario == usuario;
   }
 
-  public void aplicarRevision(Revision revision) {
-    this.estado = revision.getEstado();
+  public void aceptar() {
+    this.estado = Estado.ACEPTADA;
+
   }
+
+  public void aceptarConSugerencias() {
+    this.estado = Estado.ACEPTADA_CON_CAMBIOS;
+  }
+
+  public void rechazar() {
+    this.estado = Estado.RECHAZADA;
+
+  }
+
 
   public static class HechoBuilder {
     private String titulo;
@@ -130,7 +142,8 @@ public class Hecho {
     }
 
     public Hecho build() {
-      return new Hecho(titulo, descripcion, categoria, latitud, longitud, fecha, fechaCarga, estado);
+      return new Hecho(titulo, descripcion, categoria, latitud, longitud, fecha, fechaCarga,
+          estado);
     }
   }
 

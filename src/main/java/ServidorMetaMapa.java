@@ -14,9 +14,11 @@ public class ServidorMetaMapa {
   public List<Hecho> getHechos() {
     return List.of(
         new Hecho("TituloA", "DescripcionA", "CategoriaA", -34.6037,
-            -34.6037, LocalDate.of(2025, 5, 28), LocalDate.now(), Estado.ACEPTADA),
+            -34.6037, LocalDate.of(2025, 5, 28), LocalDate.now(),
+            Estado.ACEPTADA),
         new Hecho("TituloB", "DescripcionB", "CategoriaB", -34.6037,
-            -34.6037, LocalDate.of(2025, 5, 28), LocalDate.now(),Estado.ACEPTADA)
+            -34.6037, LocalDate.of(2025, 5, 28), LocalDate.now(),
+            Estado.ACEPTADA)
     );
 
   }
