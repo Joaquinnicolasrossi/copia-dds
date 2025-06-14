@@ -18,8 +18,6 @@ class RepoSolicitudesTest {
   @Test
   void nuevaSolicitudLaAgregaCorrectamenteAlRepositorio() throws Exception {
 
-
-
     Hecho hecho = new Hecho("Incendio", "desc", "Incendio Forestal", 0, 0, LocalDate.now());
     String descripcion = "x".repeat(500);
 
@@ -62,5 +60,19 @@ class RepoSolicitudesTest {
 
     repoSolicitudes.getSolicitudes().get(0).aceptarSolicitud();
     assertTrue(repoSolicitudes.estaEliminado(hecho));
+  }
+  @Test
+  public void nuevaSolicitud_rechazaDescripcionSpam() {
+    DetectorDeSpam detector = texto -> true;
+
+    RepoSolicitudes repo = new RepoSolicitudes(detector);
+
+    String descripcionLargaConSpam = "Gana Dinero ahora. ".repeat(30);
+
+    Exception e = assertThrows(Exception.class, () ->
+        repo.nuevaSolicitud(new Hecho("t", "d", "c", 0, 0, LocalDate.now()), descripcionLargaConSpam)
+    );
+
+    assertEquals("La solicitud es spam", e.getMessage());
   }
 }

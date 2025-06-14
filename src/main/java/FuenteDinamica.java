@@ -13,8 +13,15 @@ public class FuenteDinamica {
     repoFuenteDinamica.save(hecho);
   }
 
+
   public void actualizarHecho(String titulo, Hecho.HechoBuilder hechoBuilder) throws Exception {
     var hecho = getHecho(titulo);
+
+
+    if (!hecho.isUsuario()) {
+      throw new Exception("El usuario no esta registrado");
+    }
+
 
     if (!hecho.estaDentroDePlazoDeEdicion()) {
       throw new Exception("El plazo para modificar este hecho ha expirado.");

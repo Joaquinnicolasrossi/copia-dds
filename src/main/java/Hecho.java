@@ -1,5 +1,6 @@
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDate;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Hecho {
@@ -11,6 +12,8 @@ public class Hecho {
   private LocalDate fecha;
   private LocalDate fechaCarga;
   private Estado estado;
+  private boolean usuario;
+  private List<ContenidoMultimedia> contenidoMultimedia;
 
   public Hecho() {
 
@@ -28,6 +31,16 @@ public class Hecho {
     this.fecha = fecha;
     this.estado = Estado.PENDIENTE;
     this.fechaCarga = LocalDate.now();
+    this.usuario = false;
+  }
+
+
+  public void setUsuario(boolean usuario) {
+    this.usuario = usuario;
+  }
+
+  public boolean isUsuario() {
+    return usuario;
   }
 
   public boolean estaDentroDePlazoDeEdicion() {
