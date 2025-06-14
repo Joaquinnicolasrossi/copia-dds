@@ -56,6 +56,5 @@ class ColeccionTest {
         "Todos los hechos deben cumplir el filtro adicional");
 
 
-
   }
 }

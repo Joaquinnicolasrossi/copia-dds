@@ -7,56 +7,78 @@ public class Hecho {
   private String titulo;
   private String descripcion;
   private String categoria;
-  private double latitud;
-  private double longitud;
+  private Double latitud;
+  private Double longitud;
   private LocalDate fecha;
   private LocalDate fechaCarga;
-  private Estado estado;
-  private boolean usuario;
+  private Estado estado = Estado.PENDIENTE;
+  private Usuario usuario = null;
   private List<ContenidoMultimedia> contenidoMultimedia;
 
-  public Hecho() {
 
-    this.fechaCarga = LocalDate.now();
-    this.estado = Estado.PENDIENTE;
-  }
-
-  public Hecho(String titulo, String descripcion, String categoria, double latitud,
-               double longitud, LocalDate fecha) {
+  public Hecho(String titulo, String descripcion, String categoria, Double latitud,
+               Double longitud, LocalDate fecha, LocalDate fechaCarga, Estado estado) {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.categoria = categoria;
     this.latitud = latitud;
     this.longitud = longitud;
     this.fecha = fecha;
-    this.estado = Estado.PENDIENTE;
-    this.fechaCarga = LocalDate.now();
-    this.usuario = false;
+    this.fechaCarga = fechaCarga;
+    this.estado = estado;
   }
 
 
-  public void setUsuario(boolean usuario) {
+  public String getTitulo() {
+    return titulo;
+  }
+
+  public String getDescripcion() {
+    return descripcion;
+  }
+
+  public String getCategoria() {
+    return categoria;
+  }
+
+  public Double getLatitud() {
+    return latitud;
+  }
+
+  public Double getLongitud() {
+    return longitud;
+  }
+
+  public LocalDate getFecha() {
+    return fecha;
+  }
+
+  public Estado getEstado() {
+    return estado;
+  }
+
+  public void setUsuario(Usuario usuario) {
     this.usuario = usuario;
-  }
-
-  public boolean isUsuario() {
-    return usuario;
   }
 
   public boolean estaDentroDePlazoDeEdicion() {
     return fechaCarga != null && fechaCarga.isAfter(LocalDate.now().minusDays(7));
   }
 
+  public boolean perteneceA(Usuario usuario) {
+    return this.usuario != null && this.usuario == usuario;
+  }
+
   public void aplicarRevision(Revision revision) {
     this.estado = revision.getEstado();
   }
 
-  public static class HechoBuilder implements InterfaceBuilder<Hecho> {
+  public static class HechoBuilder {
     private String titulo;
     private String descripcion;
     private String categoria;
-    private double latitud;
-    private double longitud;
+    private Double latitud;
+    private Double longitud;
     private LocalDate fecha;
     private LocalDate fechaCarga;
     private Estado estado;
@@ -76,12 +98,12 @@ public class Hecho {
       return this;
     }
 
-    public HechoBuilder setLatitud(double latitud) {
+    public HechoBuilder setLatitud(Double latitud) {
       this.latitud = latitud;
       return this;
     }
 
-    public HechoBuilder setLongitud(double longitud) {
+    public HechoBuilder setLongitud(Double longitud) {
       this.longitud = longitud;
       return this;
     }
@@ -90,7 +112,6 @@ public class Hecho {
       this.fecha = fecha;
       return this;
     }
-
     public HechoBuilder setFechaCarga(LocalDate fechaCarga) {
       this.fechaCarga = fechaCarga;
       return this;
@@ -101,82 +122,23 @@ public class Hecho {
       return this;
     }
 
-    public String getTitulo() {
-      return this.titulo;
-    }
-
-    public String getDescripcion() {
-      return this.descripcion;
-    }
-
-    public String getCategoria() {
-      return this.categoria;
-    }
-
-    public Double getLatitud() {
-      return this.latitud;
-    }
-
-    public Double getLongitud() {
-      return this.longitud;
-    }
-
-    public LocalDate getFecha() {
-      return this.fecha;
-    }
-
-    public LocalDate getFechaCarga() {
-      return this.fechaCarga;
-    }
-
-    public Estado getEstado() {
-      return this.estado;
-    }
-
-    @Override
     public Hecho build() {
-      return new Hecho(titulo, descripcion, categoria, latitud, longitud, fecha);
+      return new Hecho(titulo, descripcion, categoria, latitud, longitud, fecha, fechaCarga, estado);
     }
   }
 
 
-  public String getCategoria() {
-    return categoria;
-  }
+  public Hecho actualizarHecho(Hecho original, Hecho.HechoBuilder actualizacion) {
+    Hecho parcial = actualizacion.build();
 
-  public LocalDate getFecha() {
-    return fecha;
-  }
-
-  public String getTitulo() {
-    return titulo;
-  }
-
-  public String getDescripcion() {
-    return descripcion;
-  }
-
-  public double getLatitud() {
-    return latitud;
-  }
-
-  public double getLongitud() {
-    return longitud;
-  }
-
-  public Estado getEstado() {
-    return estado;
-  }
-
-  public Hecho actualizarHechoConBuilderParcial(Hecho original, Hecho.HechoBuilder parcial) {
     Hecho.HechoBuilder combinado = new Hecho.HechoBuilder()
         .setTitulo(parcial.getTitulo() != null ? parcial.getTitulo() : original.getTitulo())
         .setDescripcion(parcial.getDescripcion() != null ? parcial.getDescripcion() : original
             .getDescripcion())
         .setCategoria(parcial.getCategoria() != null ? parcial.getCategoria() : original
             .getCategoria())
-        .setLatitud(parcial.getLatitud() != 0 ? parcial.getLatitud() : original.getLatitud())
-        .setLongitud(parcial.getLongitud() != 0 ? parcial.getLongitud() : original.getLongitud())
+        .setLatitud(parcial.getLatitud() != null ? parcial.getLatitud() : original.getLatitud())
+        .setLongitud(parcial.getLongitud() != null ? parcial.getLongitud() : original.getLongitud())
         .setFecha(parcial.getFecha() != null ? parcial.getFecha() : original.getFecha());
     return combinado.build();
   }

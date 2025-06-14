@@ -1,12 +1,20 @@
-public class FuenteDinamica {
+import java.time.LocalDate;
+import java.util.List;
+
+public class FuenteDinamica implements Fuente{
   RepoFuenteDinamica repoFuenteDinamica;
   RepoSolicitudesRevision repoSolicitudesRevision;
 
   //TODO Mejorar excepciones podrian ser algo como NotFountException , validationErrorException
-  public FuenteDinamica(RepoFuenteDinamica repoFuenteDinamica, RepoSolicitudesRevision
-      repoSolicitudesRevision) {
+  public FuenteDinamica(RepoFuenteDinamica repoFuenteDinamica,
+                        RepoSolicitudesRevision repoSolicitudesRevision) {
     this.repoFuenteDinamica = repoFuenteDinamica;
     this.repoSolicitudesRevision = repoSolicitudesRevision;
+  }
+
+  @Override
+  public List<Hecho> extraerHechos() {
+    return List.of();
   }
 
   public void subirHecho(Hecho hecho) {
@@ -14,23 +22,16 @@ public class FuenteDinamica {
   }
 
 
-  public void actualizarHecho(String titulo, Hecho.HechoBuilder hechoBuilder) throws Exception {
-    var hecho = getHecho(titulo);
+  public void actualizarHecho(Hecho hecho, Hecho.HechoBuilder hechoBuilder, Usuario usuario) throws Exception {
 
-
-    if (!hecho.isUsuario()) {
+    if (!hecho.perteneceA(usuario)) {
       throw new Exception("El usuario no esta registrado");
     }
-
 
     if (!hecho.estaDentroDePlazoDeEdicion()) {
       throw new Exception("El plazo para modificar este hecho ha expirado.");
     }
-
-    Hecho hechoActualizado = repoFuenteDinamica.saveUpdate(hecho, hechoBuilder);
-    if (hechoActualizado == null) {
-      throw new Exception("No pudo actualizar el hecho");
-    }
+    repoFuenteDinamica.saveUpdate(hecho, hechoBuilder);
   }
 
   public void revisarHecho(String titulo, Revision resivion) {

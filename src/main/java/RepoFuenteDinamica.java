@@ -20,11 +20,10 @@ public class RepoFuenteDinamica {
         .orElse(null);
   }
 
-  public Hecho saveUpdate(Hecho hechoOriginal, Hecho.HechoBuilder hechoBuilder) {
-    Hecho actualizado = hechoOriginal.actualizarHechoConBuilderParcial(hechoOriginal, hechoBuilder);
-    hechos.removeIf(h -> h.getTitulo().equals(hechoOriginal.getTitulo()));
+  public void saveUpdate(Hecho hechoOriginal, Hecho.HechoBuilder hechoBuilder) {
+    Hecho actualizado = hechoOriginal.actualizarHecho(hechoOriginal, hechoBuilder);
+    hechos.remove(hechoOriginal);
     hechos.add(actualizado);
-    return actualizado;
   }
 
 }

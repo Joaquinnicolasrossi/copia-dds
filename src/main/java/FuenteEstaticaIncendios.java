@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FuenteEstaticaIncendios implements InterfaceFuente {
+public class FuenteEstaticaIncendios implements Fuente {
 
   private final String rutaCsv;
 
@@ -356,7 +356,9 @@ public class FuenteEstaticaIncendios implements InterfaceFuente {
         "Incendio Forestal",
         lat,
         lng,
-        fecha
+        fecha,
+        LocalDate.now(),
+        Estado.ACEPTADA
     );
     return h;
   }

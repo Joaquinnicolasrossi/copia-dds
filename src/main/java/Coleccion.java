@@ -3,12 +3,12 @@ import java.util.List;
 public class Coleccion {
   public String titulo;
   private String descripcion;
-  public InterfaceFuente fuente;
+  public Fuente fuente;
   public List<Criterio> criterios;
   private final RepoSolicitudes solicitudes;
 
   public Coleccion(String titulo, String descripcion,
-                   InterfaceFuente fuente, List<Criterio> criterios,
+                   Fuente fuente, List<Criterio> criterios,
                    RepoSolicitudes solicitudes) {
     this.titulo = titulo;
     this.descripcion = descripcion;

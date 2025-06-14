@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class FuenteDemoAdapter implements InterfaceFuente {
+public class FuenteDemoAdapter implements Fuente {
   private final Conexion clienteExterno;
   private final URL urlExterna;
   private LocalDateTime ultimaConsulta;

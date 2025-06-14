@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FuenteEstaticaVictimas implements InterfaceFuente {
+public class FuenteEstaticaVictimas implements Fuente {
 
   private final String rutaCsv;
 
@@ -89,7 +89,9 @@ public class FuenteEstaticaVictimas implements InterfaceFuente {
             "Accidente Vial",
             lat,
             lng,
-            fecha
+            fecha,
+            LocalDate.now(),
+            Estado.ACEPTADA
         );
 
         lista.add(h);
