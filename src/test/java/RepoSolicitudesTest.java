@@ -18,7 +18,7 @@ class RepoSolicitudesTest {
   @Test
   void nuevaSolicitudLaAgregaCorrectamenteAlRepositorio() throws Exception {
 
-    Hecho hecho = new Hecho("Incendio", "desc", "Incendio Forestal", 0, 0, LocalDate.now());
+    Hecho hecho = crearHechoSimple();
     String descripcion = "x".repeat(500);
 
     repoSolicitudes.nuevaSolicitud(hecho, descripcion);
@@ -36,7 +36,7 @@ class RepoSolicitudesTest {
   void eliminarSolicitudLaQuitaDelRepositorio() throws Exception {
 
 
-    Hecho hecho = new Hecho("Incendio", "desc", "Incendio Forestal", 0, 0, LocalDate.now());
+    Hecho hecho = crearHechoSimple();
     String descripcion = "x".repeat(500);
 
     repoSolicitudes.nuevaSolicitud(hecho, descripcion);
@@ -49,8 +49,7 @@ class RepoSolicitudesTest {
   @Test
   void hechoEliminadoSoloEsTrueSiSeAcepta() throws Exception {
 
-
-    Hecho hecho = new Hecho("Incendio", "desc", "Incendio Forestal", 0, 0, LocalDate.now());
+    Hecho hecho = crearHechoSimple();
     String descripcion = "x".repeat(500);
 
     repoSolicitudes.nuevaSolicitud(hecho, descripcion);
@@ -70,9 +69,13 @@ class RepoSolicitudesTest {
     String descripcionLargaConSpam = "Gana Dinero ahora. ".repeat(30);
 
     Exception e = assertThrows(Exception.class, () ->
-        repo.nuevaSolicitud(new Hecho("t", "d", "c", 0, 0, LocalDate.now()), descripcionLargaConSpam)
+        repo.nuevaSolicitud(crearHechoSimple(), descripcionLargaConSpam)
     );
 
     assertEquals("La solicitud es spam", e.getMessage());
   }
+  private Hecho crearHechoSimple() {
+    return new Hecho("Incendio", "desc", "Incendio Forestal", -0.5, -0.5, LocalDate.now(), LocalDate.now(), Estado.PENDIENTE);
+  }
 }
+

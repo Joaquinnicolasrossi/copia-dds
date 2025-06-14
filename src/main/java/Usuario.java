@@ -10,7 +10,7 @@ public class Usuario {
 
   public void subirHecho(String titulo, String descripcion, String categoria,
                          double latitud, double longitud, LocalDate fecha) {
-    Hecho hecho = new Hecho(titulo, descripcion, categoria, latitud, longitud, fecha);
+    Hecho hecho = new Hecho(titulo, descripcion, categoria, latitud, longitud, fecha, LocalDate.now(), Estado.PENDIENTE);
     if(estaRegistrado) { hecho.setUsuario(this); }
     fuente.subirHecho(hecho);
   }
@@ -19,7 +19,7 @@ public class Usuario {
     estaRegistrado = true;
   }
 
-  public void actualizarHecho(Hecho hecho, Hecho.HechoBuilder builder) {
+  public void actualizarHecho(Hecho hecho, Hecho.HechoBuilder builder) throws Exception {
     fuente.actualizarHecho(hecho, builder, this);
   }
 }

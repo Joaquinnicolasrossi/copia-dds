@@ -22,8 +22,6 @@ public class FuenteMetaMapaTest {
 
     configureFor("localhost", 8080);
 
-    String fechaHoy = LocalDate.now().toString();
-
     stubFor(get(urlEqualTo("/apiMetaMapa/hechos"))
         .willReturn(aResponse()
             .withStatus(200)
@@ -34,7 +32,10 @@ public class FuenteMetaMapaTest {
                 "\"categoria\":\"CategoriaA\"," +
                 "\"latitud\":-34.6037," +
                 "\"longitud\":-34.6037," +
-                "\"fecha\":\"2025-05-28\"}]")));
+                "\"fecha\":\"2025-05-28\"," +
+                "\"fechaCarga\":\"2025-05-28\"," +
+                "\"estado\":\"PENDIENTE\"" +
+                "}]")));
 
     cliente = new ClienteMetaMapa();
     fuenteMetaMapa = new FuenteMetaMapa(cliente);
@@ -48,7 +49,7 @@ public class FuenteMetaMapaTest {
   @Test
   public void seExtraenHechosDeMetaMapa() throws RuntimeException {
     List<Hecho> hechos = fuenteMetaMapa.extraerHechos();
-    List<Hecho> hechosEsperados = List.of(new Hecho("TituloA", "DescripcionA", "CategoriaA", -34.6037, -34.6037, LocalDate.of(2025, 5, 28)));
+    List<Hecho> hechosEsperados = List.of(new Hecho("TituloA", "DescripcionA", "CategoriaA", -34.6037, -34.6037, LocalDate.of(2025, 5, 28), LocalDate.of(2025, 5, 28), Estado.PENDIENTE));
 
     assertEquals(hechosEsperados.get(0).getTitulo(), hechos.get(0).getTitulo());
   }

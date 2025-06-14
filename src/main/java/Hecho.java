@@ -11,11 +11,13 @@ public class Hecho {
   private Double longitud;
   private LocalDate fecha;
   private LocalDate fechaCarga;
-  private Estado estado = Estado.PENDIENTE;
+  private Estado estado;
   private Usuario usuario = null;
   private List<ContenidoMultimedia> contenidoMultimedia;
 
+  public Hecho() {
 
+  }
   public Hecho(String titulo, String descripcion, String categoria, Double latitud,
                Double longitud, LocalDate fecha, LocalDate fechaCarga, Estado estado) {
     this.titulo = titulo;
@@ -51,6 +53,10 @@ public class Hecho {
 
   public LocalDate getFecha() {
     return fecha;
+  }
+
+  public LocalDate getFechaCarga() {
+    return fechaCarga;
   }
 
   public Estado getEstado() {
@@ -112,6 +118,7 @@ public class Hecho {
       this.fecha = fecha;
       return this;
     }
+
     public HechoBuilder setFechaCarga(LocalDate fechaCarga) {
       this.fechaCarga = fechaCarga;
       return this;
@@ -139,9 +146,9 @@ public class Hecho {
             .getCategoria())
         .setLatitud(parcial.getLatitud() != null ? parcial.getLatitud() : original.getLatitud())
         .setLongitud(parcial.getLongitud() != null ? parcial.getLongitud() : original.getLongitud())
-        .setFecha(parcial.getFecha() != null ? parcial.getFecha() : original.getFecha());
+        .setFecha(parcial.getFecha() != null ? parcial.getFecha() : original.getFecha())
+        .setFechaCarga(original.getFechaCarga())
+        .setEstado(original.getEstado());
     return combinado.build();
   }
-
-
 }

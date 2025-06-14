@@ -9,7 +9,7 @@ class SolicitudTest {
   void seCreaCorrectamenteConDescripcionValida() {
    DetectorDeSpamFiltro detectorDeSpamFiltro = new DetectorDeSpamFiltro();
     RepoSolicitudes repoSolicitudes = new RepoSolicitudes(detectorDeSpamFiltro);
-    Hecho hecho = new Hecho("titulo", "desc", "categoria", 0, 0, LocalDate.now());
+    Hecho hecho = crearHechoSimple();
     String descripcion = "x".repeat(500);
 
     Solicitud solicitud = new Solicitud(hecho, descripcion, repoSolicitudes);
@@ -23,7 +23,7 @@ class SolicitudTest {
   void eliminarSolicitudLaQuitaDelRepo() throws Exception {
     DetectorDeSpamFiltro detectorDeSpamFiltro = new DetectorDeSpamFiltro();
     RepoSolicitudes repoSolicitudes = new RepoSolicitudes(detectorDeSpamFiltro );
-    Hecho hecho = new Hecho("titulo", "desc", "categoria", 0, 0, LocalDate.now());
+    Hecho hecho = crearHechoSimple();
     String descripcion = "x".repeat(500);
 
     // Agregamos la solicitud
@@ -36,6 +36,8 @@ class SolicitudTest {
     solicitud.eliminarSolicitud();
 
     assertTrue(repoSolicitudes.getSolicitudes().isEmpty());
-
+  }
+  private Hecho crearHechoSimple() {
+    return new Hecho("Incendio", "desc", "Incendio Forestal", -0.5, -0.5, LocalDate.now(), LocalDate.now(), Estado.PENDIENTE);
   }
 }
