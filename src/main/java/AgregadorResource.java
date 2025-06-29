@@ -11,7 +11,7 @@ public class AgregadorResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public List<Hecho> getHechosFromFuentes(List<Fuente> fuentes) {
-    Fuente fuenteAgregada = new FuenteAgregada(fuentes);
+    Fuente fuenteAgregada = new FuenteAgregada(fuentes, new RepoHechos());
     return fuenteAgregada.extraerHechos();
   }
 }

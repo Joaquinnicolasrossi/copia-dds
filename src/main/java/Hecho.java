@@ -4,6 +4,7 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Hecho {
+  private Fuente fuenteOrigen;
   private String titulo;
   private String descripcion;
   private String categoria;
@@ -31,6 +32,9 @@ public class Hecho {
     this.estado = estado;
   }
 
+  public Fuente getFuenteOrigen() {
+    return fuenteOrigen;
+  }
 
   public String getTitulo() {
     return titulo;
@@ -62,6 +66,10 @@ public class Hecho {
 
   public Estado getEstado() {
     return estado;
+  }
+
+  public void setFuenteOrigen(Fuente fuenteOrigen) {
+    this.fuenteOrigen = fuenteOrigen;
   }
 
   public void setUsuario(Usuario usuario) {

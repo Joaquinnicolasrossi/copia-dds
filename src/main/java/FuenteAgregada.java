@@ -8,17 +8,41 @@ import java.util.concurrent.Future;
 
 public class FuenteAgregada implements Fuente {
   private final List<Fuente> fuentes;
+  private final RepoHechos repositorio;
 
-  public FuenteAgregada(List<Fuente> fuentes) {
+  public FuenteAgregada(List<Fuente> fuentes, RepoHechos repositorio) {
     this.fuentes = fuentes;
+    this.repositorio = repositorio;
   }
 
   @Override
   public List<Hecho> extraerHechos() {
+    return fuentes.stream()
+        .flatMap(fuente -> repositorio.obtenerHechosPorFuente(fuente).stream())
+        .toList();
+  }
 
+  private List<Hecho> filtrarRepetidos(List<Hecho> hechos) {
+    Set<String> titulosVistos = new HashSet<>();
+
+    return hechos.stream()
+        .filter(hecho -> titulosVistos.add(hecho.getTitulo()))
+        .toList();
+  }
+
+  public void actualizarRepositorio() {
+    List<Hecho> hechos = extrerHechosActualizados();
+    repositorio.guardarHechos(hechos);
+  }
+
+  private List<Hecho> extrerHechosActualizados() {
     try (ExecutorService executor = Executors.newFixedThreadPool(fuentes.size())) {
       List<Callable<List<Hecho>>> tareas = fuentes.stream()
-          .<Callable<List<Hecho>>>map(fuente -> fuente::extraerHechos)
+          .<Callable<List<Hecho>>>map(fuente -> () ->
+              fuente.extraerHechos().stream()
+                  .peek(hecho -> hecho.setFuenteOrigen(fuente))
+                  .toList()
+          )
           .toList();
 
       List<Future<List<Hecho>>> resultados = executor.invokeAll(tareas);
@@ -42,11 +66,4 @@ public class FuenteAgregada implements Fuente {
     }
   }
 
-  private List<Hecho> filtrarRepetidos(List<Hecho> hechos) {
-    Set<String> titulosVistos = new HashSet<>();
-
-    return hechos.stream()
-        .filter(hecho -> titulosVistos.add(hecho.getTitulo()))
-        .toList();
-  }
 }
