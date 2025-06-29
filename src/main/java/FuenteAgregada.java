@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,7 +9,9 @@ import java.util.concurrent.Future;
 public class FuenteAgregada implements Fuente {
   private final List<Fuente> fuentes;
 
-  public FuenteAgregada(List<Fuente> fuentes) { this.fuentes = fuentes; }
+  public FuenteAgregada(List<Fuente> fuentes) {
+    this.fuentes = fuentes;
+  }
 
   @Override
   public List<Hecho> extraerHechos() {
