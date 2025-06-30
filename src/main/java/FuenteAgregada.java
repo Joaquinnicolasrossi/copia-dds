@@ -36,7 +36,8 @@ public class FuenteAgregada implements Fuente {
   }
 
   private List<Hecho> extrerHechosActualizados() {
-    try (ExecutorService executor = Executors.newFixedThreadPool(fuentes.size())) {
+    ExecutorService executor = Executors.newFixedThreadPool(fuentes.size());
+    try {
       List<Callable<List<Hecho>>> tareas = fuentes.stream()
           .<Callable<List<Hecho>>>map(fuente -> () ->
               fuente.extraerHechos().stream()
@@ -63,7 +64,8 @@ public class FuenteAgregada implements Fuente {
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new RuntimeException("Consulta interrumpida", e);
+    } finally {
+      executor.shutdown();
     }
   }
-
 }
