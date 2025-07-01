@@ -7,6 +7,15 @@ public class Coleccion {
   public List<Criterio> criterios;
   private final RepoSolicitudes solicitudes;
   private FuenteAgregada fuenteAgregada;
+  private TipoAlgoritmoConsenso tipoAlgoritmoConsenso;
+
+  public Coleccion(RepoSolicitudes solicitudes) {
+    this.solicitudes = solicitudes;
+  }
+
+  public TipoAlgoritmoConsenso getTipoAlgoritmoConsenso() {
+    return tipoAlgoritmoConsenso;
+  }
 
   public Coleccion(String titulo, String descripcion,
                    Fuente fuente, List<Criterio> criterios,

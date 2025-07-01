@@ -1,4 +1,6 @@
 public class ModoFactory {
+
+
   public Navegador obtenerModo(Modo modo) {
 
     if (modo == Modo.CURADA) {
