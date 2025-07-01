@@ -64,7 +64,6 @@ public class FuenteDinamicaTest {
     usuario.registrarse();
     fuenteDinamica.subirHecho(incendio);
     hechoBuilder.setDescripcion("nueva descripcion");
-
     fuenteDinamica.actualizarHecho(incendio, hechoBuilder, usuario);
 
     Hecho hechoActualizado = repoFuenteDinamica.findByTitulo(incendio.getTitulo());
@@ -72,6 +71,7 @@ public class FuenteDinamicaTest {
     assertEquals("nueva descripcion", hechoActualizado.getDescripcion());
     assertTrue(hechoActualizado.estaDentroDePlazoDeEdicion());
     assertNotNull(hechoActualizado.getTitulo());
+    assertTrue(usuario.estaRegistrado,"El usuario esta registrado");
   }
 
   @Test

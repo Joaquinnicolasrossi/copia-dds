@@ -6,6 +6,7 @@ public class Coleccion {
   public Fuente fuente;
   public List<Criterio> criterios;
   private final RepoSolicitudes solicitudes;
+  private FuenteAgregada fuenteAgregada;
 
   public Coleccion(String titulo, String descripcion,
                    Fuente fuente, List<Criterio> criterios,
@@ -17,9 +18,19 @@ public class Coleccion {
     this.solicitudes = solicitudes;
   }
 
+  public List<Fuente> getFuentes() {
+    return fuenteAgregada.getFuentes();
+  }
+
+  public List<Hecho> getHechos() {
+    return fuenteAgregada.extraerHechos();
+  }
+
+
   public String getTitulo() {
     return this.titulo;
   }
+
 
   public List<Hecho> mostrarHechos() {
     return fuente.extraerHechos().stream()
