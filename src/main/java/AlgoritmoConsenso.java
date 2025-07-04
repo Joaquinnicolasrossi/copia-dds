@@ -11,6 +11,6 @@ import java.util.List;
   - True si està consensuado
 */
 
-public interface TipoAlgoritmoConsenso {
+public interface AlgoritmoConsenso {
   boolean estaConsensuado(Hecho hecho, List<Fuente> fuentes);
 }

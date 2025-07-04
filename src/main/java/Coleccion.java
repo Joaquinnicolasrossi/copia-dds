@@ -7,16 +7,17 @@ public class Coleccion {
   public List<Criterio> criterios;
   private final RepoSolicitudes solicitudes;
   private FuenteAgregada fuenteAgregada;
-  private TipoAlgoritmoConsenso tipoAlgoritmoConsenso;
+  private AlgoritmoConsenso algoritmoConsenso;
 
   public Coleccion(RepoSolicitudes solicitudes) {
     this.solicitudes = solicitudes;
   }
 
-  public TipoAlgoritmoConsenso getTipoAlgoritmoConsenso() {
-    return tipoAlgoritmoConsenso;
+  public AlgoritmoConsenso getTipoAlgoritmoConsenso() {
+    return algoritmoConsenso;
   }
 
+  // Constructor original (sin algoritmo --> para compatibilidad)
   public Coleccion(String titulo, String descripcion,
                    Fuente fuente, List<Criterio> criterios,
                    RepoSolicitudes solicitudes) {
@@ -25,6 +26,19 @@ public class Coleccion {
     this.fuente = fuente;
     this.criterios = criterios;
     this.solicitudes = solicitudes;
+    this.algoritmoConsenso = null;
+  }
+
+  // Constructor nuevo con algoritmo de consenso
+  public Coleccion(String titulo, String descripcion,
+                   Fuente fuente, List<Criterio> criterios,
+                   RepoSolicitudes solicitudes, AlgoritmoConsenso algoritmoConsenso) {
+    this.titulo = titulo;
+    this.descripcion = descripcion;
+    this.fuente = fuente;
+    this.criterios = criterios;
+    this.solicitudes = solicitudes;
+    this.algoritmoConsenso = algoritmoConsenso;
   }
 
   public List<Fuente> getFuentes() {
@@ -60,5 +74,20 @@ public class Coleccion {
 
   public String getDescripcion() {
     return descripcion;
+  }
+
+  // Algoritmo de consenso
+
+  public AlgoritmoConsenso getAlgoritmoConsenso() {
+    return algoritmoConsenso;
+  }
+
+  public void setAlgoritmoConsenso(AlgoritmoConsenso algoritmo){
+    this.algoritmoConsenso = algoritmo;
+  }
+
+  public boolean estaConsensuado(Hecho hecho, List<Fuente> fuentesDelNodo) {
+    if (algoritmoConsenso == null) return true;
+    return algoritmoConsenso.estaConsensuado(hecho, fuentesDelNodo);
   }
 }
