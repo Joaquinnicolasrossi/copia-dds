@@ -6,6 +6,7 @@ public class Coleccion {
   private String descripcion;
   public Fuente fuente;
   public List<Criterio> criterios;
+  private RepoHechos repoHechos;
   private final RepoSolicitudes solicitudes;
   private AlgoritmoConsenso algoritmoConsenso;
 
@@ -32,13 +33,14 @@ public class Coleccion {
   // Constructor nuevo con algoritmo de consenso
   public Coleccion(String titulo, String descripcion,
                    Fuente fuente, List<Criterio> criterios,
-                   RepoSolicitudes solicitudes, AlgoritmoConsenso algoritmoConsenso) {
+                   RepoSolicitudes solicitudes, AlgoritmoConsenso algoritmoConsenso , RepoHechos repoHechos) {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.fuente = fuente;
     this.criterios = criterios;
     this.solicitudes = solicitudes;
     this.algoritmoConsenso = algoritmoConsenso;
+    this.repoHechos = repoHechos;
   }
 
   public String getTitulo() {
@@ -73,7 +75,15 @@ public class Coleccion {
   }
 
   // Algoritmo de consenso
-
+  public List<Fuente> getFuentesRepo() {
+    return repoHechos.obtenerTodasLasFuentes();
+  }
+  public List<Hecho> getHechos() {
+    return repoHechos.obtenerTodosLosHechos();
+  }
+  public List<Hecho> navegar(Modo modo) {
+    return new ModoFactory().obtenerModo(modo).NavegarHechosEn(this);
+  }
   public AlgoritmoConsenso getAlgoritmoConsenso() {
     return algoritmoConsenso;
   }

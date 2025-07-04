@@ -19,6 +19,20 @@ public class RepoHechos {
         )
     );
   }
+  public List<Hecho> obtenerTodosLosHechos() {
+    return cache.values().stream()
+        .flatMap(List::stream)
+        .toList();
+  }
+  public List<Fuente> obtenerTodasLasFuentes() {
+    return new ArrayList<>(cache.keySet());
+  }
+  public List<Hecho> obtenerHechosDeFuentes(List<Fuente> fuentes) {
+    return fuentes.stream()
+        .flatMap(f -> obtenerHechosPorFuente(f).stream())
+        .toList();
+  }
+
 
   public List<Hecho> obtenerHechosPorFuente(Fuente fuente) {
     return cache.getOrDefault(fuente, Collections.emptyList());
