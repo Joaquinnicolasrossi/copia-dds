@@ -1,5 +1,8 @@
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Coleccion {
   public String titulo;
@@ -9,13 +12,12 @@ public class Coleccion {
   private RepoHechos repoHechos;
   private final RepoSolicitudes solicitudes;
   private AlgoritmoConsenso algoritmoConsenso;
+  // Guardo los hechosConsensuados en una lista para eficiencia
+  private Set<Hecho> hechosConsensuados = new HashSet<>();
+
 
   public Coleccion(RepoSolicitudes solicitudes) {
     this.solicitudes = solicitudes;
-  }
-
-  public AlgoritmoConsenso getTipoAlgoritmoConsenso() {
-    return algoritmoConsenso;
   }
 
   // Constructor original (sin algoritmo --> para compatibilidad)
@@ -96,13 +98,21 @@ public class Coleccion {
     this.algoritmoConsenso = algoritmo;
   }
 
-  // Aplica consenso solo si hay algoritmo definido y la fuente es FuenteAgregada.
-  // En caso contrario, acepta el hecho por defecto.
+  // Busca el hecho consensuado en la lista
   public boolean estaConsensuado(Hecho hecho) {
     if (algoritmoConsenso == null) return true;
-
     if (!(fuente instanceof FuenteAgregada fuenteAgregada)) return true;
 
-    return algoritmoConsenso.estaConsensuado(hecho, fuenteAgregada);
+    return hechosConsensuados.contains(hecho);
+  }
+
+  public void recalcularConsensos(){
+    if (!(fuente instanceof FuenteAgregada fuenteAgregada)) return;
+    if (algoritmoConsenso == null) return;
+
+    List<Hecho> hechos = fuenteAgregada.extraerHechos();
+    this.hechosConsensuados = hechos.stream()
+        .filter(hecho -> algoritmoConsenso.estaConsensuado(hecho, fuenteAgregada))
+        .collect(Collectors.toSet());
   }
 }

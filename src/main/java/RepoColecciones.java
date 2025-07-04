@@ -14,4 +14,9 @@ public class RepoColecciones {
     Coleccion coleccion = new Coleccion(titulo, descripcion, fuente, criterios, repoSolicitudes);
     colecciones.add(coleccion);
   }
+
+  public List<Coleccion> getColecciones() {
+    return new ArrayList<>(colecciones);
+  }
+
 }

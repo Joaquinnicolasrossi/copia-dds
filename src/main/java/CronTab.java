@@ -22,6 +22,13 @@ public class CronTab {
         FuenteAgregada fuenteAgregada = new FuenteAgregada(fuentes, repo);
         actualizarFuenteAgregada(fuenteAgregada);
         break;
+      case "recalcularconsensos":
+        DetectorDeSpamFiltro spam = new DetectorDeSpamFiltro();
+        RepoSolicitudes repoSolicitudes = new RepoSolicitudes(spam);
+        RepoColecciones repoColecciones = new RepoColecciones(repoSolicitudes);
+        List<Coleccion> colecciones = repoColecciones.getColecciones();
+        recalcularConsensosDeColecciones(colecciones);
+        break;
       default:
         System.err.println("Tarea desconocida: " + tarea);
         System.exit(1);
@@ -37,4 +44,9 @@ public class CronTab {
     fuenteAgregada.actualizarRepositorio();
     System.out.println("FuenteAgregada actualizada");
   }
+
+  private static void recalcularConsensosDeColecciones(List<Coleccion> colecciones){
+      colecciones.forEach(Coleccion::recalcularConsensos);
+    }
+
 }
