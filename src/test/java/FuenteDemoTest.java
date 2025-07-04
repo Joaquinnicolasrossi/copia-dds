@@ -25,7 +25,7 @@ public class FuenteDemoTest {
     url = new URL("http://localhost/fuente-demo");
     fechaInicio = LocalDateTime.now().minusHours(2); // simulamos que la última consulta fue hace 2 horas
 
-    fuenteDemoAdapter = new FuenteDemoAdapter(url, fechaInicio, conexionMock, 200, TimeUnit.MILLISECONDS);
+    fuenteDemoAdapter = new FuenteDemoAdapter(url, conexionMock);
   }
 
   @Test
@@ -91,17 +91,17 @@ public class FuenteDemoTest {
         .thenReturn(null);
 
     // Chequeo que la lista este vacia al comienzo
-    assertTrue(fuenteDemoAdapter.getListaHechos().isEmpty());
+    assertTrue(fuenteDemoAdapter.extraerHechos().isEmpty());
 
     // Arrancamos el scheduler: cada 200ms ejecutará extraerHechos() y
     // agregará al buffer todo lo que devuelva.
-    fuenteDemoAdapter.startScheduler();
+    // fuenteDemoAdapter.startScheduler();
 
     // Esperamos un poco más de 400 ms para garantizar que ocurran al menos dos ciclos:
     Thread.sleep(450);
 
     // Tomamos el snapshot del buffer acumulado
-    List<Hecho> listaHechosActualizada = fuenteDemoAdapter.getListaHechos();
+    List<Hecho> listaHechosActualizada = fuenteDemoAdapter.extraerHechos();
 
     // Dado que en dos ciclos devolvimos 2 hechos distintos, deberían estar ahí los dos.
     assertEquals(2, listaHechosActualizada.size(), "El buffer debería tener exactamente dos hechos");
@@ -113,16 +113,16 @@ public class FuenteDemoTest {
     assertTrue(encontroH2, "Debe haber aparecido el Hecho con título 'H2'");
 
     // Finalmente, detenemos el scheduler
-    fuenteDemoAdapter.stopScheduler();
+    // fuenteDemoAdapter.stopScheduler();
 
     // Guardamos cuántos hay ahora
-    int tamListaHechosFinal = fuenteDemoAdapter.getListaHechos().size();
+    int tamListaHechosFinal = fuenteDemoAdapter.extraerHechos().size();
 
     // Esperamos 300ms adicionales para asegurarnos de que, al haber detenido el scheduler,
     // no se agreguen más elementos:
     Thread.sleep(300);
 
-    int tamListaHechosDespuesPause = fuenteDemoAdapter.getListaHechos().size();
+    int tamListaHechosDespuesPause = fuenteDemoAdapter.extraerHechos().size();
     assertEquals(tamListaHechosFinal, tamListaHechosDespuesPause,
         "Después de detener el scheduler, el buffer no debería crecer más");
   }

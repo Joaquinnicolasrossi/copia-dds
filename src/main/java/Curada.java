@@ -9,9 +9,9 @@ public class Curada implements Navegador {
     var tipoAlgoritmo = coleccion.getTipoAlgoritmoConsenso();
 
     if (tipoAlgoritmo == null) {
-      return coleccion.getHechos();
+      return coleccion.mostrarHechos();
     }
-    return coleccion.getHechos().stream().filter(hecho ->
-        tipoAlgoritmo.estaConsensuado(hecho, coleccion.getFuentes())).toList();
+    return coleccion.mostrarHechos().stream().filter(hecho ->
+            tipoAlgoritmo.estaConsensuado(hecho, coleccion.getFuentes())).toList();
   }
 }

@@ -5,7 +5,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("/agregadorAPI")
+@Path("/agregadorAPI") // nodo independiente --> solo funciones de agregacion
 public class AgregadorResource {
   @POST
   @Consumes(MediaType.APPLICATION_JSON)

@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.ArrayList;
 
 public class Coleccion {
   public String titulo;
@@ -6,7 +7,6 @@ public class Coleccion {
   public Fuente fuente;
   public List<Criterio> criterios;
   private final RepoSolicitudes solicitudes;
-  private FuenteAgregada fuenteAgregada;
   private AlgoritmoConsenso algoritmoConsenso;
 
   public Coleccion(RepoSolicitudes solicitudes) {
@@ -41,19 +41,15 @@ public class Coleccion {
     this.algoritmoConsenso = algoritmoConsenso;
   }
 
-  public List<Fuente> getFuentes() {
-    return fuenteAgregada.getFuentes();
-  }
-
-  public List<Hecho> getHechos() {
-    return fuenteAgregada.extraerHechos();
-  }
-
-
   public String getTitulo() {
     return this.titulo;
   }
 
+  public List<Fuente> getFuentes() {
+    List<Fuente> fuentes = new ArrayList<>();
+    fuentes.add(fuente);
+    return fuentes;
+   }
 
   public List<Hecho> mostrarHechos() {
     return fuente.extraerHechos().stream()
@@ -82,12 +78,18 @@ public class Coleccion {
     return algoritmoConsenso;
   }
 
+  public Fuente getFuente() {
+    return fuente;
+  }
+
   public void setAlgoritmoConsenso(AlgoritmoConsenso algoritmo){
     this.algoritmoConsenso = algoritmo;
   }
 
-  public boolean estaConsensuado(Hecho hecho, List<Fuente> fuentesDelNodo) {
+  public boolean estaConsensuado(Hecho hecho) {
     if (algoritmoConsenso == null) return true;
-    return algoritmoConsenso.estaConsensuado(hecho, fuentesDelNodo);
+    List<Fuente> fuentes = new ArrayList<>();
+    fuentes.add(fuente);
+    return algoritmoConsenso.estaConsensuado(hecho, fuentes);
   }
 }

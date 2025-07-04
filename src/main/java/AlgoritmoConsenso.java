@@ -4,8 +4,7 @@ import java.util.List;
   Estrategia de consenso: se utiliza para definir los distintos algoritmos
 
   Recibe
-  - Un hecho (el que se quiere validar
-  - Una lista con todas las fuentes de un nodo
+  - Un hecho (el que se quiere validar)
 
   Devuelve
   - True si està consensuado

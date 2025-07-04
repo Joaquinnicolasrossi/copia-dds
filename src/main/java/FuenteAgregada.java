@@ -8,15 +8,11 @@ import java.util.concurrent.Future;
 
 public class FuenteAgregada implements Fuente {
   private final List<Fuente> fuentes;
-  private final RepoHechos repositorio;
+  private final RepoHechos repositorio; // copia local
 
   public FuenteAgregada(List<Fuente> fuentes, RepoHechos repositorio) {
     this.fuentes = fuentes;
     this.repositorio = repositorio;
-  }
-
-  public List<Fuente> getFuentes() {
-    return fuentes;
   }
 
   @Override
@@ -35,11 +31,11 @@ public class FuenteAgregada implements Fuente {
   }
 
   public void actualizarRepositorio() {
-    List<Hecho> hechos = extrerHechosActualizados();
+    List<Hecho> hechos = extraerHechosActualizados();
     repositorio.guardarHechos(hechos);
   }
 
-  private List<Hecho> extrerHechosActualizados() {
+  public List<Hecho> extraerHechosActualizados() {
     ExecutorService executor = Executors.newFixedThreadPool(fuentes.size());
     try {
       List<Callable<List<Hecho>>> tareas = fuentes.stream()

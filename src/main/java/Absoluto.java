@@ -11,9 +11,6 @@ public class Absoluto implements AlgoritmoConsenso {
         // Mas eficiente - Devuelve True si cumple con la condiciòn
         .allMatch(f -> f.extraerHechos().contains(hecho));
 
-
-
-
   }
 }
 

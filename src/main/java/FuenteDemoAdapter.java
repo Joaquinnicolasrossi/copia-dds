@@ -4,30 +4,16 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class FuenteDemoAdapter implements Fuente {
   private final Conexion clienteExterno;
   private final URL urlExterna;
-  private LocalDateTime ultimaConsulta;
+  private LocalDateTime ultimaConsulta = LocalDateTime.now();
   private List<Hecho> listaHechos = new ArrayList<>();
-  private ScheduledExecutorService scheduler; // Scheduler que periódicamente ejecuta extraerHechos
-  // () y acumula resultados
-  private final long periodoPolling; // cada cuánto debe llamar a extraerHechos()
-  private final TimeUnit unidadPeriodo; // Por defecto: 1 hora, pero en tests o en otra instancia
-  // se puede parametrizar
 
-  public FuenteDemoAdapter(URL url, LocalDateTime ultimaConsulta, Conexion clienteExterno, long
-      periodoPolling, TimeUnit unidadPeriodo) {
+  public FuenteDemoAdapter(URL url, Conexion clienteExterno) {
     this.urlExterna = url;
-    this.ultimaConsulta = ultimaConsulta;
     this.clienteExterno = clienteExterno;
-    this.periodoPolling = periodoPolling;
-    this.unidadPeriodo = unidadPeriodo;
-    // Scheduler no se inicia automáticamente: se arranca con startScheduler()
-    this.scheduler = null;
   }
 
   public void setUltimaConsulta(LocalDateTime ultimaConsulta) {
@@ -36,7 +22,7 @@ public class FuenteDemoAdapter implements Fuente {
 
   @Override
   public List<Hecho> extraerHechos() {
-    return actualizarHechos();
+    return listaHechos;
   }
 
   // carga los hechos nuevos a listaHechos
@@ -90,36 +76,5 @@ public class FuenteDemoAdapter implements Fuente {
       builder.setEstado(Estado.PENDIENTE);
     }
     return builder.build();
-  }
-
-  // Inicia un ScheduledExecutorService
-  // cada cierto periodoPolling/unidadPeriodo invoca extraerHechos() y añade los resultados
-  public synchronized void startScheduler() {
-    if (scheduler != null && !scheduler.isShutdown()) {
-      // Ya estaba corriendo
-      return;
-    }
-    // Crea un scheduler
-    scheduler = Executors.newSingleThreadScheduledExecutor();
-    // Programamos la primera ejecución al cabo de “periodoPolling” unidades, y luego repetimos
-    scheduler.scheduleAtFixedRate(() -> {
-      try {
-        extraerHechos(); // actualiza listaHechos internamente
-      } catch (Exception ex) {
-        ex.printStackTrace(); // en un caso real, se loguearía
-      }
-    }, periodoPolling, periodoPolling, unidadPeriodo);
-  }
-
-  // Detiene el scheduler, si está corriendo.
-  public synchronized void stopScheduler() {
-    if (scheduler != null && !scheduler.isShutdown()) {
-      scheduler.shutdownNow();
-    }
-    scheduler = null;
-  }
-
-  public List<Hecho> getListaHechos() {
-    return new ArrayList<>(listaHechos);
   }
 }

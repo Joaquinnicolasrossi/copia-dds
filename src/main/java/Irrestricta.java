@@ -5,6 +5,6 @@ public class Irrestricta implements Navegador{
 
   @Override
   public List<Hecho> NavegarHechosEn(Coleccion coleccion) {
-    return coleccion.getHechos();
+    return coleccion.mostrarHechos();
   }
 }
