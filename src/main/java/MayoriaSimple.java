@@ -9,11 +9,14 @@ import java.util.List;
 public class MayoriaSimple implements AlgoritmoConsenso {
 
   @Override
-  public boolean estaConsensuado(Hecho hecho, List<Fuente> fuentes){
+  public boolean estaConsensuado(Hecho hecho, Fuente fuenteDeNodo){
+    List<Hecho> hechos =  fuenteDeNodo.extraerHechos();
 
-    long coincidencias = fuentes.stream()
-        .filter(f -> f.extraerHechos().contains(hecho))
+    if(hechos.isEmpty()){return false;}
+
+    long coincidencias = hechos.stream()
+        .filter(h -> h.tieneMismoContenidoQue(hecho))
         .count();
-    return coincidencias >= Math.ceil(fuentes.size() / 2.0);
+    return coincidencias >= Math.ceil(hechos.size() / 2.0);
   }
 }

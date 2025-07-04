@@ -96,10 +96,13 @@ public class Coleccion {
     this.algoritmoConsenso = algoritmo;
   }
 
+  // Aplica consenso solo si hay algoritmo definido y la fuente es FuenteAgregada.
+  // En caso contrario, acepta el hecho por defecto.
   public boolean estaConsensuado(Hecho hecho) {
     if (algoritmoConsenso == null) return true;
-    List<Fuente> fuentes = new ArrayList<>();
-    fuentes.add(fuente);
-    return algoritmoConsenso.estaConsensuado(hecho, fuentes);
+
+    if (!(fuente instanceof FuenteAgregada fuenteAgregada)) return true;
+
+    return algoritmoConsenso.estaConsensuado(hecho, fuenteAgregada);
   }
 }

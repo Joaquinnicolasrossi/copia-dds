@@ -5,11 +5,12 @@ public class Absoluto implements AlgoritmoConsenso {
   // Si todas las fuentes del nodo contienen el mismo hecho
 
   @Override
-  public boolean estaConsensuado(Hecho hecho, List<Fuente> fuentes) {
-
-    return fuentes.stream()
+  public boolean estaConsensuado(Hecho hecho, Fuente fuenteDeNodo) {
+    List<Hecho> hechos = fuenteDeNodo.extraerHechos();
+    if(hechos.isEmpty()){ return false; }
+    return hechos.stream()
         // Mas eficiente - Devuelve True si cumple con la condiciòn
-        .allMatch(f -> f.extraerHechos().contains(hecho));
+        .allMatch(h -> h.tieneMismoContenidoQue(hecho));
 
   }
 }

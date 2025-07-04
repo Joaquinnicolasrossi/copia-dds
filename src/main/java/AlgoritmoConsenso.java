@@ -11,5 +11,5 @@ import java.util.List;
 */
 
 public interface AlgoritmoConsenso {
-  boolean estaConsensuado(Hecho hecho, List<Fuente> fuentes);
+  boolean estaConsensuado(Hecho hecho, Fuente fuente);
 }

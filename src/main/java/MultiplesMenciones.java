@@ -6,18 +6,20 @@ import java.util.List;
 
 public class MultiplesMenciones implements AlgoritmoConsenso {
   @Override
-  public boolean estaConsensuado(Hecho hecho, List<Fuente> fuentes) {
+  public boolean estaConsensuado(Hecho hecho, Fuente fuenteDelNodo) {
 
     // Contamos la cantidad de coincidencias para la primer validaciòn
-    long coincidencias = fuentes.stream()
-        .filter(f -> f.extraerHechos().contains(hecho))
+    List<Hecho> hechos = fuenteDelNodo.extraerHechos();
+    if(hechos.isEmpty()){ return false; }
+    long coincidencias = hechos.stream()
+        .filter(h -> h.tieneMismoContenidoQue(hecho))
         .count();
 
     // Verificamos si existe un hecho con el mismo tìtulo pero con diferente
     // contenido
-    boolean hayConflicto = fuentes.stream()
-        .flatMap(f -> f.extraerHechos().stream())
-        .anyMatch(h -> h.getTitulo().equals(hecho.getTitulo()) && !h.equals(hecho));
+    boolean hayConflicto = hechos.stream()
+        .filter(h -> h.getTitulo().equals(hecho.getTitulo()))
+        .anyMatch(h -> !h.tieneMismoContenidoQue(hecho));
 
     return coincidencias >= 2 && !hayConflicto;
   }

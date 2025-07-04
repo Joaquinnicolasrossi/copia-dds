@@ -98,6 +98,17 @@ public class Hecho {
 
   }
 
+  public boolean tieneMismoContenidoQue(Hecho otro) {
+
+    if (otro == null) return false;
+
+    return this.titulo.equals(otro.getTitulo())
+        && this.descripcion.equals(otro.getDescripcion())
+        && this.categoria.equals(otro.getCategoria())
+        && this.latitud.equals(otro.getLatitud())
+        && this.longitud.equals(otro.getLongitud());
+  }
+
 
   public static class HechoBuilder {
     private String titulo;
@@ -172,4 +183,5 @@ public class Hecho {
         .setEstado(original.getEstado());
     return combinado.build();
   }
+
 }
