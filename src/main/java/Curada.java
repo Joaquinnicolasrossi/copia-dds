@@ -3,15 +3,12 @@ import java.util.List;
 
 public class Curada implements Navegador {
 
-
+  // Obtiene la lista de hechos filtrados por criterios y solicitudes
+  // Filtra y Junta todos los hechos "consensuados" en una nueva lista
   @Override
   public List<Hecho> NavegarHechosEn(Coleccion coleccion) {
-    var tipoAlgoritmo = coleccion.getTipoAlgoritmoConsenso();
-
-    if (tipoAlgoritmo == null) {
-      return coleccion.mostrarHechos();
-    }
-    return coleccion.mostrarHechos().stream().filter(hecho ->
-            tipoAlgoritmo.estaConsensuado(hecho, coleccion.getFuentes())).toList();
+    return coleccion.mostrarHechos().stream()
+        .filter(coleccion::estaConsensuado)
+        .toList();
   }
 }
