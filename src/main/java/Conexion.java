@@ -6,8 +6,6 @@ public interface Conexion {
   /**
    * Devuelve un mapa con los atributos de un hecho, indexados por nombre de atributo.
    * Si retorna null, significa que no hay nuevos hechos por ahora. La fecha es opcional.
-   */
-  default Map<String, Object> siguienteHecho(URL url, LocalDateTime fechaUltimaConsulta) {
-    return null;
-  }
+   * */
+  Map<String, Object> siguienteHecho(URL url, LocalDateTime fechaUltimaConsulta);
 }

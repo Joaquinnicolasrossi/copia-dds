@@ -26,7 +26,7 @@ public class FuenteDemoAdapter implements Fuente {
   }
 
   // carga los hechos nuevos a listaHechos
-  public List<Hecho> actualizarHechos() {
+  public void actualizarHechos() {
     Map<String, Object> datos;
     // Llamo a la biblioteca externa hasta que devuelva null
     while ((datos = clienteExterno.siguienteHecho(urlExterna, ultimaConsulta)) != null) {
@@ -34,7 +34,6 @@ public class FuenteDemoAdapter implements Fuente {
       listaHechos.add(h);
     }
     ultimaConsulta = LocalDateTime.now();
-    return new ArrayList<>(listaHechos);
   }
 
   private Hecho mapToHecho(Map<String, Object> raw) {
