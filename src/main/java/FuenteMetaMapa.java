@@ -9,7 +9,7 @@ public class FuenteMetaMapa implements Fuente {
   }
 
   @Override
-  public List<Hecho> extraerHechos() throws RuntimeException {
+  public List<Hecho> extraerHechos() {
     try {
       return cliente.getHechos();
     } catch (Exception e) {
