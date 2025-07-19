@@ -36,36 +36,10 @@ public class FuenteAgregada implements Fuente {
   }
 
   public List<Hecho> extraerHechosActualizados() {
-    ExecutorService executor = Executors.newFixedThreadPool(fuentes.size());
-    try {
-      List<Callable<List<Hecho>>> tareas = fuentes.stream()
-          .<Callable<List<Hecho>>>map(fuente -> () ->
-              fuente.extraerHechos().stream()
-                  .peek(hecho -> hecho.setFuenteOrigen(fuente))
-                  .toList()
-          )
-          .toList();
-
-      List<Future<List<Hecho>>> resultados = executor.invokeAll(tareas);
-
-      List<Hecho> hechos = resultados.stream()
-          .map(futuro -> {
-            try {
-              return futuro.get();
-            } catch (Exception e) {
-              return List.<Hecho>of();
-            }
-          })
-          .flatMap(List::stream)
+      List<Hecho> hechos = fuentes.stream()
+          .flatMap(fuente -> fuente.extraerHechos().stream())
           .toList();
 
       return filtrarRepetidos(hechos);
-
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new RuntimeException("Consulta interrumpida", e);
-    } finally {
-      executor.shutdown();
-    }
   }
 }
