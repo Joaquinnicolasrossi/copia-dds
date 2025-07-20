@@ -15,11 +15,6 @@ public class Coleccion {
   // Guardo los hechosConsensuados en una lista para eficiencia
   private Set<Hecho> hechosConsensuados = new HashSet<>();
 
-
-  public Coleccion(RepoSolicitudes solicitudes) {
-    this.solicitudes = solicitudes;
-  }
-
   // Constructor original (sin algoritmo --> para compatibilidad)
   public Coleccion(String titulo, String descripcion,
                    Fuente fuente, List<Criterio> criterios,
@@ -49,11 +44,13 @@ public class Coleccion {
     return this.titulo;
   }
 
-  public List<Fuente> getFuentes() {
-    List<Fuente> fuentes = new ArrayList<>();
-    fuentes.add(fuente);
-    return fuentes;
-   }
+  public Fuente getFuente() {
+    return this.fuente;
+  }
+  public String getDescripcion() {
+    return descripcion;
+  }
+
 
   public List<Hecho> mostrarHechos() {
     return fuente.extraerHechos().stream()
@@ -72,9 +69,7 @@ public class Coleccion {
     return criterios.stream().allMatch(criterio -> criterio.seCumpleCriterio(hecho));
   }
 
-  public String getDescripcion() {
-    return descripcion;
-  }
+
 
   // Algoritmo de consenso
   public List<Fuente> getFuentesRepo() {
@@ -83,21 +78,28 @@ public class Coleccion {
   public List<Hecho> getHechos() {
     return repoHechos.obtenerTodosLosHechos();
   }
-  public List<Hecho> navegar(Modo modo) {
-    return new ModoFactory().obtenerModo(modo).NavegarHechosEn(this);
+
+  public List<Hecho> navegar(Modo modo, Criterio filtro) {
+    if(modo == Modo.IRRESTRICTA) {
+      return mostrarHechosFiltrados(filtro);
+    } else if (modo == Modo.CURADA) {
+      List<Hecho> hechosFiltrados = mostrarHechosFiltrados(filtro);
+      return filtrarHechosCurados(hechosFiltrados);
+    } else throw new RuntimeException("Modo de navegacion no valido");
   }
   public AlgoritmoConsenso getAlgoritmoConsenso() {
     return algoritmoConsenso;
-  }
-
-  public Fuente getFuente() {
-    return fuente;
   }
 
   public void setAlgoritmoConsenso(AlgoritmoConsenso algoritmo){
     this.algoritmoConsenso = algoritmo;
   }
 
+  private List<Hecho> filtrarHechosCurados(List<Hecho> hechos) {
+    return hechos.stream()
+        .filter(this::estaConsensuado)
+        .toList();
+  }
   // Busca el hecho consensuado en la lista
   public boolean estaConsensuado(Hecho hecho) {
     if (algoritmoConsenso == null) return true;
