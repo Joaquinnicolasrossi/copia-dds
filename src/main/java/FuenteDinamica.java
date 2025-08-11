@@ -14,11 +14,10 @@ public class FuenteDinamica implements Fuente {
 
   @Override
   public List<Hecho> extraerHechos() {
-    return List.of();
+    return repoFuenteDinamica.getHechos();
   }
 
   public void subirHecho(Hecho hecho) {
-    repoFuenteDinamica.save(hecho);
     repoSolicitudesRevision.nuevaSolicitud(hecho);
   }
 
@@ -36,10 +35,9 @@ public class FuenteDinamica implements Fuente {
     repoFuenteDinamica.saveUpdate(hecho, hechoBuilder);
   }
 
-  public void revisarSolicitud(Hecho hecho, EstadoRevision estadoRevision,
-                               String sugerencia) {
+  public void revisarSolicitud(Hecho hecho, EstadoRevision estadoRevision) throws Exception {
     var solicitudRevision = repoSolicitudesRevision.getSolicitudPorHecho(hecho);
-    estadoRevision.aplicar(hecho, sugerencia);
+    estadoRevision.aplicar(hecho);
     repoSolicitudesRevision.eliminarSolcitud(solicitudRevision);
 
   }

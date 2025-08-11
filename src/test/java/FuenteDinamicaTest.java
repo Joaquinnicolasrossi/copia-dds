@@ -44,7 +44,7 @@ public class FuenteDinamicaTest {
 
     fuenteDinamica.subirHecho(incendio);
 
-    assertEquals(1, repoFuenteDinamica.getHechos().size());
+
     assertEquals("Incendio en zona rural", incendio.getTitulo());
     assertEquals("Se detectó un foco de incendio de gran magnitud en una zona forestal.", incendio.getDescripcion());
     assertEquals("Incendio", incendio.getCategoria());
@@ -109,16 +109,44 @@ public class FuenteDinamicaTest {
     assertEquals("El plazo para modificar este hecho ha expirado.", ex.getMessage());
   }
   @Test
-  public void Revision_HechoEsAceptadoConSugerencias() {
+  public void Revision_HechoEsAceptadoConSugerencias() throws Exception {
+    incendio.setUsuario(usuario);
+    usuario.registrarse();
+    fuenteDinamica.subirHecho(incendio);
+    hechoBuilder.setDescripcion("nueva descripcion");
+    hechoBuilder.setCategoria("Nueva categoria");
 
-    AceptarConSugerencia aceptarConSugerencia = new AceptarConSugerencia();
-    fuenteDinamica.revisarSolicitud(incendio, aceptarConSugerencia, "cambiar coordenadas de ubicacion");
+    AceptarConSugerencia aceptarConSugerencia = new AceptarConSugerencia(fuenteDinamica,hechoBuilder,repoFuenteDinamica,usuario);
+    fuenteDinamica.revisarSolicitud(incendio,aceptarConSugerencia);
+    Hecho hechoActualizado = repoFuenteDinamica.findByTitulo(incendio.getTitulo());
 
-    assertEquals(0, repoSolicitudesRevision.getRevisiones().size());
-    assertEquals("ACEPTADA_CON_CAMBIOS", incendio.getEstado().name());
+    assertEquals("nueva descripcion", hechoActualizado.getDescripcion());
+    assertEquals("Nueva categoria",hechoActualizado.getCategoria());
+    assertTrue(hechoActualizado.estaDentroDePlazoDeEdicion());
+    assertNotNull(hechoActualizado.getTitulo());
+    assertTrue(usuario.estaRegistrado,"El usuario esta registrado");
 
   }
+  @Test
+  public void Revision_Hecho_Aceptado() throws Exception {
+    Aceptar aceptar = new Aceptar(repoFuenteDinamica);
 
+    fuenteDinamica.revisarSolicitud(incendio,aceptar);
+
+    assertEquals(1,repoFuenteDinamica.getHechos().size());
+    assertEquals(0, repoSolicitudesRevision.getRevisiones().size());
+  }
+@Test
+  public void Revision_Hecho_Rechazado() throws Exception {
+    Rechazar rechazar = new Rechazar(repoFuenteDinamica);
+
+  fuenteDinamica.revisarSolicitud(incendio,rechazar);
+  assertEquals(0,repoFuenteDinamica.getHechos().size());
+  assertEquals(0, repoSolicitudesRevision.getRevisiones().size());
+  assertEquals("RECHAZADA", incendio.getEstado().name());
+}
 
 }
+
+
 

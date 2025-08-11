@@ -84,18 +84,8 @@ public class Hecho {
     return this.usuario != null && this.usuario == usuario;
   }
 
-  public void aceptar() {
-    this.estado = Estado.ACEPTADA;
-
-  }
-
-  public void aceptarConSugerencias() {
-    this.estado = Estado.ACEPTADA_CON_CAMBIOS;
-  }
-
-  public void rechazar() {
-    this.estado = Estado.RECHAZADA;
-
+  public void setEstado(Estado estado) {
+    this.estado = estado;
   }
 
   public boolean tieneMismoContenidoQue(Hecho otro) {
