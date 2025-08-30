@@ -11,7 +11,7 @@ public class ServicioDeRecalculoDeConsensos {
 
     colecciones.stream()
         .filter(c -> c.getAlgoritmoConsenso() != null)
-        .filter(c -> c.getFuentes() instanceof FuenteAgregada)
+        .filter(c -> c.getFuente() instanceof FuenteAgregada)
         .forEach(Coleccion::recalcularConsensos);
   }
 
