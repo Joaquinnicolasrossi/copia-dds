@@ -85,7 +85,7 @@
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>X.X.X</version>
+      <version>8.0.32</version>
     </dependency>
     <dependency>
       <groupId>org.hsqldb</groupId>
