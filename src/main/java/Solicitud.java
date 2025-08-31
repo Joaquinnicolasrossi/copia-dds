@@ -1,4 +1,15 @@
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Solicitud {
+  @Id
+  @GeneratedValue
+  private Long id;
+
+  @ManyToOne
   public Hecho hecho;
   private String descripcion;
   public Boolean eliminado = false;
