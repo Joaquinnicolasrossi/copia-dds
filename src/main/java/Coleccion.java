@@ -3,14 +3,25 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
+@Entity
 public class Coleccion {
+  @Id
   public String titulo;
   private String descripcion;
+  @ManyToOne
   public Fuente fuente;
+  @ElementCollection
   public List<Criterio> criterios;
+  @ManyToOne
   private RepoHechos repoHechos;
+  @ManyToOne
   private final RepoSolicitudes solicitudes;
+  @ManyToOne
   private AlgoritmoConsenso algoritmoConsenso;
   // Guardo los hechosConsensuados en una lista para eficiencia
   private Set<Hecho> hechosConsensuados = new HashSet<>();
