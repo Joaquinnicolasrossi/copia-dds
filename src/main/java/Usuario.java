@@ -1,11 +1,23 @@
 import java.time.LocalDate;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
+@Entity
 public class Usuario {
+  @Id
+  @GeneratedValue
+  private Long id;
+
   private FuenteDinamica fuente;
   public boolean estaRegistrado = false;
 
   public Usuario(FuenteDinamica fuente) {
     this.fuente = fuente;
+  }
+
+  public Long getId() {
+    return id;
   }
 
   public void subirHecho(String titulo, String descripcion, String categoria,
