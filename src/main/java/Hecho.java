@@ -1,10 +1,16 @@
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDate;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
 public class Hecho {
+  @ManyToOne
   private Fuente fuenteOrigen;
+  @Id
   private String titulo;
   private String descripcion;
   private String categoria;
