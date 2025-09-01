@@ -1,9 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 public class RepoColecciones {
   private List<Coleccion> colecciones = new ArrayList<>();
   private final RepoSolicitudes repoSolicitudes;
+  @PersistenceContext
+  EntityManager entityManager;
 
   public RepoColecciones(RepoSolicitudes repoSolicitudes) {
     this.repoSolicitudes = repoSolicitudes;
@@ -13,6 +17,9 @@ public class RepoColecciones {
                              List<Criterio> criterios) {
     Coleccion coleccion = new Coleccion(titulo, descripcion, fuente, criterios, repoSolicitudes);
     colecciones.add(coleccion);
+    entityManager.getTransaction().begin();
+    entityManager.persist(coleccion);
+    entityManager.getTransaction().commit();
   }
 
   public List<Coleccion> getColecciones() {
