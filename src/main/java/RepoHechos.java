@@ -1,10 +1,13 @@
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+
 
 public class RepoHechos {
-  @PersistenceContext
-  EntityManager entityManager;
+  private EntityManager entityManager;
+
+  public void setEntityManager(EntityManager entityManager) {
+    this.entityManager = entityManager;
+  }
 
   public void guardarHechos(List<Hecho> hechos) {
     entityManager.getTransaction().begin();

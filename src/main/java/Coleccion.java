@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -13,6 +14,8 @@ import javax.persistence.Table;
 @Table(name = "coleccion")
 public class Coleccion {
   @Id
+  @GeneratedValue
+  private Long id;
   public String titulo;
   private String descripcion;
   @ManyToOne

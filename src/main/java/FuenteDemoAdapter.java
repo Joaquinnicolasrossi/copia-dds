@@ -16,6 +16,8 @@ public class FuenteDemoAdapter implements Fuente {
     this.clienteExterno = clienteExterno;
   }
 
+  public Long getId() { return null; }
+
   public void setUltimaConsulta(LocalDateTime ultimaConsulta) {
     this.ultimaConsulta = ultimaConsulta;
   }

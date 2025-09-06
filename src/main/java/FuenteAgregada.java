@@ -15,6 +15,8 @@ public class FuenteAgregada implements Fuente {
     this.repositorio = repositorio;
   }
 
+  public Long getId() { return null; }
+
   @Override
   public List<Hecho> extraerHechos() {
     return fuentes.stream()

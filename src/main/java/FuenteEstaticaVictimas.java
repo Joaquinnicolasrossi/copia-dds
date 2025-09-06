@@ -21,6 +21,8 @@ public class FuenteEstaticaVictimas implements Fuente {
     this.rutaCsv = rutaCsv;
   }
 
+  public Long getId() { return null; }
+
   /**
    * Cada vez que se llama, abre el CSV, lo recorre y devuelve
    * la lista de Hechos con los siguientes valores:

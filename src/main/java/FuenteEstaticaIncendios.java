@@ -294,6 +294,9 @@ public class FuenteEstaticaIncendios implements Fuente {
    * - longitud = lng (0.0 si vacío)
    * - fecha    = fecha (null si vacío)
    */
+
+  public Long getId() { return null; }
+
   @Override
   public List<Hecho> extraerHechos() {
     List<Hecho> lista = new ArrayList<>();
