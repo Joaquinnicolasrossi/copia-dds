@@ -19,7 +19,7 @@ public class RepoHechos {
 
   public List<Fuente> obtenerTodasLasFuentes() {
     return entityManager.createNativeQuery("SELECT DISTINCT f.* FROM fuente f " +
-            "INNER JOIN hecho h ON h.fuenteOrigen = f.id", Fuente.class)
+            "INNER JOIN hecho h ON h.fuente_origen_id = f.id", Fuente.class)
         .getResultList();
   }
 
