@@ -17,7 +17,7 @@ public class Hecho {
   @Column(columnDefinition = "TEXT")
   private String titulo;
   @Column(columnDefinition = "TEXT")
-  private String provincia;
+  private Ubicacion ubicacion;
   private String descripcion;
   private String categoria;
   private Double latitud;
