@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @Table(name = "hecho")
 public class Hecho {
   @ManyToOne
+  @Column(name = "fuente_origen_id")
   private Fuente fuenteOrigen;
   @Id
   @Column(columnDefinition = "TEXT")
