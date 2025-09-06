@@ -1,9 +1,10 @@
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-public class GeneradorEstadistica implements IEstadistica{
- private Fuente fuente;
+public class GeneradorEstadistica  {
+  private Fuente fuente;
   @PersistenceContext
   EntityManager entityManager;
 
@@ -12,22 +13,38 @@ public class GeneradorEstadistica implements IEstadistica{
     this.fuente = fuente;
   }
 
-  @Override
-  public String categoriaConMayorHechosReportados() {
-    List<Object[]> resultados = entityManager.createQuery(
-            "SELECT h.categoria, COUNT(h) " +
-                "FROM Hecho h " +
-                "WHERE h.fuenteOrigen = :fuente " +
+  public void categoriaConMayorHechosReportados(Long coleccionId) {
+    List<Object[]> resultados = entityManager.createNativeQuery(
+            "SELECT h.categoria, COUNT(*) AS cantidad " +
+                "FROM hecho h " +
+                "JOIN coleccion c ON c.fuente_id = h.fuente_id " +
+                "WHERE c.id = :coleccionId " +
                 "GROUP BY h.categoria " +
-                "ORDER BY COUNT(h) DESC",
-            Object[].class
+                "ORDER BY cantidad DESC " +
+                "LIMIT 1"
         )
-        .setParameter("fuente", this.fuente)
-        .setMaxResults(1)
+        .setParameter("coleccionId", coleccionId)
         .getResultList();
 
-    return (String) resultados.get(0)[0];
+    if (resultados.isEmpty()) return;
+
+    Object[] fila = resultados.get(0);
+    String categoria = (String) fila[0];
+    Long cantidad = ((Number) fila[1]).longValue();
+
+    EstadisticaRegistro registro = new EstadisticaRegistro();
+    registro.setColeccionId(coleccionId);
+    registro.setTipo("CATEGORIA_MAYOR_HECHOS");
+    registro.setValor(categoria);
+    registro.setCantidad(cantidad.intValue());
+    registro.setVisiblePublico(true);
+    registro.setFechaActualizacion(LocalDateTime.now());
+
+    entityManager.getTransaction().begin();
+    entityManager.persist(registro);
+    entityManager.getTransaction().commit();
   }
+
 
 
 }
