@@ -3,6 +3,8 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -25,7 +27,9 @@ public class Hecho {
   private Double longitud;
   private LocalDate fecha;
   private LocalDate fechaCarga;
+  @Enumerated(EnumType.STRING)
   private Estado estado;
+  @ManyToOne
   private Usuario usuario = null;
   private List<ContenidoMultimedia> contenidoMultimedia;
 
