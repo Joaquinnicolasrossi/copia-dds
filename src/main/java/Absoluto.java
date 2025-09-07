@@ -1,6 +1,10 @@
 import java.util.List;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
-public class Absoluto implements AlgoritmoConsenso {
+@Entity
+@DiscriminatorValue("ABSOLUTO")
+public class Absoluto extends Consenso {
 
   // Si todas las fuentes del nodo contienen el mismo hecho
 

@@ -5,8 +5,12 @@
  */
 
 import java.util.List;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
-public class MayoriaSimple implements AlgoritmoConsenso {
+@Entity
+@DiscriminatorValue("MAYORIA_SIMPLE")
+public class MayoriaSimple extends Consenso {
 
   @Override
   public boolean estaConsensuado(Hecho hecho, Fuente fuenteDeNodo){
