@@ -44,7 +44,7 @@ public class GeneradorEstadistica {
     entityManager.persist(registro);
     entityManager.getTransaction().commit();
   }
- // todavia no resolvimos si provincia va a ser un campo del hecho o si vamos a usar una clase ubicacion
+
   public String provinciaConMasHechos(Long coleccionId) {
     List<Object[]> resultados = entityManager.createNativeQuery(
             "SELECT h.provincia, COUNT(*) AS cantidad " +

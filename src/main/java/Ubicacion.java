@@ -1,3 +1,9 @@
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
+@Embeddable
 public class Ubicacion {
-  String provincia;
+  @Enumerated(EnumType.STRING)
+  private Provincia provincia;
 }

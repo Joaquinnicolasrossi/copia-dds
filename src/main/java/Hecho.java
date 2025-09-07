@@ -2,6 +2,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -20,6 +21,7 @@ public class Hecho {
   @Column(columnDefinition = "TEXT")
   private String titulo;
   @Column(columnDefinition = "TEXT")
+  @Embedded
   private Ubicacion ubicacion;
   private String descripcion;
   private String categoria;
