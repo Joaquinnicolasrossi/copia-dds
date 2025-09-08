@@ -1,3 +1,4 @@
+import Exceptions.HechoMalGeneradoException;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
@@ -295,65 +296,42 @@ public class FuenteEstaticaIncendios implements Fuente {
    * - fecha    = fecha (null si vacío)
    */
 
+  @Override
   public Long getId() { return null; }
 
   @Override
   public List<Hecho> extraerHechos() {
     List<Hecho> lista = new ArrayList<>();
-    // NOTA: Se podria usar
-    // new InputStreamReader(new FileInputStream(rutaCsv), StandardCharsets.UTF_8)
-    // para garantizar que el archivo este en UTF-8 y
-    // no usar el encoding default del sistema operativo
-    try (CSVReader reader = new CSVReaderBuilder(new InputStreamReader(new FileInputStream(rutaCsv),
-        StandardCharsets.UTF_8))
+
+    try (CSVReader reader = new CSVReaderBuilder(
+        new InputStreamReader(new FileInputStream(rutaCsv), StandardCharsets.UTF_8))
         .withSkipLines(1)
         .build()) {
-      String[] f;
-      while ((f = reader.readNext()) != null) {
-        final String causaId = (f[10] != null) ? f[10].trim() : null;
-        // final String descId = (f[12] != null) ? f[12].trim() : null;
-        // Lo modifique porque no me daba el test
-        final String descId = (f[13] != null) ? f[13].trim() : null;
 
-        String causaTexto = (causaId != null)
-            ? CAUSA_MAP.getOrDefault(causaId, "")
-            : "";
-        String descTexto = (descId != null)
-            ? CAUSA_DESC_MAP.getOrDefault(descId, "")
-            : "";
-        // Agrega la causa y descripcion sacados del map a
-        // la version generica del hecho del csv
-        Hecho h = construirHecho(f, causaTexto, descTexto);
+      String[] fila;
+      while ((fila = reader.readNext()) != null) {
+        String causaId = CSVHelper.getValue(fila, 10);
+        String descId  = CSVHelper.getValue(fila, 13); // test requería col 13
 
-        lista.add(h);
+        String causaTexto = CAUSA_MAP.getOrDefault(causaId, "");
+        String descTexto  = CAUSA_DESC_MAP.getOrDefault(descId, "");
+
+        lista.add(construirHecho(fila, causaTexto, descTexto));
       }
     } catch (IOException | CsvException e) {
-      e.printStackTrace();
+      throw new HechoMalGeneradoException();
     }
 
     return lista;
   }
 
-  private static Hecho construirHecho(String[] f, String causaTexto, String descTexto) {
-    final String municipio = (f[9] != null && !f[9].trim().isEmpty())
-        ? f[9].trim() : "";
+  private Hecho construirHecho(String[] fila, String causaTexto, String descTexto) {
+    String municipio = CSVHelper.getValue(fila, 9);
+    LocalDate fecha  = CSVHelper.parseFecha(CSVHelper.getValue(fila, 2), null);
+    double lat       = CSVHelper.parseCoordenada(CSVHelper.getValue(fila, 3));
+    double lng       = CSVHelper.parseCoordenada(CSVHelper.getValue(fila, 4));
 
-    LocalDate fecha = null;
-    if (f[2] != null && !f[2].trim().isEmpty()) {
-      fecha = LocalDate.parse(f[2].trim());
-    }
-
-    double lat = 0.0;
-    if (f[3] != null && !f[3].trim().isEmpty()) {
-      lat = Double.parseDouble(f[3].trim());
-    }
-
-    double lng = 0.0;
-    if (f[4] != null && !f[4].trim().isEmpty()) {
-      lng = Double.parseDouble(f[4].trim());
-    }
-
-    Hecho h = new Hecho(
+    return new Hecho(
         causaTexto + " en " + municipio,
         descTexto,
         "Incendio Forestal",
@@ -363,7 +341,5 @@ public class FuenteEstaticaIncendios implements Fuente {
         LocalDate.now(),
         Estado.ACEPTADA
     );
-    return h;
   }
 }
-

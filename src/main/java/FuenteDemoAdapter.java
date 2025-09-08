@@ -9,32 +9,38 @@ public class FuenteDemoAdapter implements Fuente {
   private final Conexion clienteExterno;
   private final URL urlExterna;
   private LocalDateTime ultimaConsulta = LocalDateTime.now();
-  private List<Hecho> listaHechos = new ArrayList<>();
+  private RepoHechos repositorio;
 
   public FuenteDemoAdapter(URL url, Conexion clienteExterno) {
     this.urlExterna = url;
     this.clienteExterno = clienteExterno;
   }
 
-  public Long getId() { return null; }
-
-  public void setUltimaConsulta(LocalDateTime ultimaConsulta) {
-    this.ultimaConsulta = ultimaConsulta;
+  public FuenteDemoAdapter(URL url, Conexion clienteExterno, LocalDateTime ultimaConsultaInicial) {
+    this.urlExterna = url;
+    this.clienteExterno = clienteExterno;
+    if (ultimaConsultaInicial != null) {
+      this.ultimaConsulta = ultimaConsultaInicial;
+    }
   }
+
+  public Long getId() { return null; }
 
   @Override
   public List<Hecho> extraerHechos() {
-    return listaHechos;
+    return repositorio.obtenerHechosPorFuente(this);
   }
 
   // carga los hechos nuevos a listaHechos
   public void actualizarHechos() {
     Map<String, Object> datos;
+    List<Hecho> hechosAGuardar = new ArrayList<>();
     // Llamo a la biblioteca externa hasta que devuelva null
     while ((datos = clienteExterno.siguienteHecho(urlExterna, ultimaConsulta)) != null) {
       Hecho h = mapToHecho(datos);
-      listaHechos.add(h);
+      hechosAGuardar.add(h);
     }
+    repositorio.guardarHechos(hechosAGuardar);
     ultimaConsulta = LocalDateTime.now();
   }
 
