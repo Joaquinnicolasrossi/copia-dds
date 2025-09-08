@@ -18,14 +18,16 @@ public class FuenteDemoTest {
   private FuenteDemoAdapter fuenteDemoAdapter;
   private URL url;
   private LocalDateTime fechaInicio;
+  private RepoHechos repo;
 
   @BeforeEach
   public void setUp() throws Exception {
     conexionMock = mock(ConexionGenerica.class);
     url = new URL("http://localhost/fuente-demo");
     fechaInicio = LocalDateTime.of(2025, 6, 1, 10, 0); // simulamos que la última consulta fue hace 2 horas
+    repo = new RepoHechos();
 
-    fuenteDemoAdapter = new FuenteDemoAdapter(url, conexionMock, fechaInicio);
+    fuenteDemoAdapter = new FuenteDemoAdapter(url, conexionMock, fechaInicio, repo);
   }
 
   @Test

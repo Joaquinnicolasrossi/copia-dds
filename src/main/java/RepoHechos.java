@@ -32,7 +32,6 @@ public class RepoHechos {
         .toList();
   }
 
-
   public List<Hecho> obtenerHechosPorFuente(Fuente fuente) {
     return entityManager.createNativeQuery("SELECT h.* FROM hecho h" +
             "WHERE h.FuenteOrigen =  ?", Hecho.class)

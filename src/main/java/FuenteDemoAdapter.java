@@ -8,17 +8,13 @@ import java.util.Map;
 public class FuenteDemoAdapter implements Fuente {
   private final Conexion clienteExterno;
   private final URL urlExterna;
-  private LocalDateTime ultimaConsulta = LocalDateTime.now();
+  private LocalDateTime ultimaConsulta;
   private RepoHechos repositorio;
-
-  public FuenteDemoAdapter(URL url, Conexion clienteExterno) {
+  
+  public FuenteDemoAdapter(URL url, Conexion clienteExterno, LocalDateTime ultimaConsultaInicial, RepoHechos repositorio) {
     this.urlExterna = url;
     this.clienteExterno = clienteExterno;
-  }
-
-  public FuenteDemoAdapter(URL url, Conexion clienteExterno, LocalDateTime ultimaConsultaInicial) {
-    this.urlExterna = url;
-    this.clienteExterno = clienteExterno;
+    this.repositorio = repositorio;
     if (ultimaConsultaInicial != null) {
       this.ultimaConsulta = ultimaConsultaInicial;
     }

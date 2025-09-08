@@ -3,6 +3,9 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 public class CronTab {
 
@@ -11,10 +14,21 @@ public class CronTab {
     String tarea = args[0];
 
     switch (tarea) {
-      case "fuentedemoadapter":
+      case "fuentedemoadapter": {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
+        EntityManager em = emf.createEntityManager();
+
+        RepoHechos repo = new RepoHechos();
+        repo.setEntityManager(em);
+
         FuenteDemoAdapter fuenteDemo = new FuenteDemoAdapter(
-            new URL("https://api.demo/estado"), new ConexionGenerica());
+            new URL("https://api.demo/estado"), new ConexionGenerica(), LocalDateTime.now(), repo);
+
         actualizarFuenteDemo(fuenteDemo);
+
+        em.close();
+        emf.close();
+      }
         break;
       case "fuenteagregador":
         List<Fuente> fuentes = new ArrayList<>();
