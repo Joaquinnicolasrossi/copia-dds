@@ -20,19 +20,19 @@ public class RepoHechos {
         .getResultList();
   }
 
-  public List<ClienteMetaMapa.Fuente> obtenerTodasLasFuentes() {
+  public List<Fuente> obtenerTodasLasFuentes() {
     return entityManager.createNativeQuery("SELECT DISTINCT f.* FROM fuente f " +
-            "INNER JOIN hecho h ON h.fuente_origen_id = f.id", ClienteMetaMapa.Fuente.class)
+            "INNER JOIN hecho h ON h.fuente_origen_id = f.id", Fuente.class)
         .getResultList();
   }
 
-  public List<Hecho> obtenerHechosDeFuentes(List<ClienteMetaMapa.Fuente> fuentes) {
+  public List<Hecho> obtenerHechosDeFuentes(List<Fuente> fuentes) {
     return fuentes.stream()
         .flatMap(f -> obtenerHechosPorFuente(f).stream())
         .toList();
   }
 
-  public List<Hecho> obtenerHechosPorFuente(ClienteMetaMapa.Fuente fuente) {
+  public List<Hecho> obtenerHechosPorFuente(Fuente fuente) {
     return entityManager.createNativeQuery("SELECT h.* FROM hecho h" +
             "WHERE h.FuenteOrigen =  ?", Hecho.class)
         .setParameter(1, fuente.getId())

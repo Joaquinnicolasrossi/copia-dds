@@ -13,7 +13,7 @@ import javax.persistence.Entity;
 public class MayoriaSimple extends Consenso {
 
   @Override
-  public boolean estaConsensuado(Hecho hecho, ClienteMetaMapa.Fuente fuenteDeNodo){
+  public boolean estaConsensuado(Hecho hecho, Fuente fuenteDeNodo){
     List<Hecho> hechos =  fuenteDeNodo.extraerHechos();
 
     if(hechos.isEmpty()){return false;}

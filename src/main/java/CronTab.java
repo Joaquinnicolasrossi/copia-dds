@@ -31,7 +31,7 @@ public class CronTab {
       }
         break;
       case "fuenteagregador":
-        List<ClienteMetaMapa.Fuente> fuentes = new ArrayList<>();
+        List<Fuente> fuentes = new ArrayList<>();
         RepoHechos repo = new RepoHechos();
         FuenteAgregada fuenteAgregada = new FuenteAgregada(fuentes, repo);
         actualizarFuenteAgregada(fuenteAgregada);
@@ -78,5 +78,6 @@ public class CronTab {
       repoEstadistica.calcularCategoriaConMayorHechosReportados(coleccionId);
     }  );
     }
+
 
 }

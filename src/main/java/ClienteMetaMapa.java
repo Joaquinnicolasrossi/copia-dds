@@ -6,11 +6,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 
 
 public class ClienteMetaMapa {
@@ -40,23 +35,5 @@ public class ClienteMetaMapa {
     } else {
       throw new RuntimeException("Error en la petición: " + response.statusCode());
     }
-  }
-
-  @Entity
-  @Inheritance(strategy = InheritanceType.JOINED)
-  public abstract static class Fuente {
-    @Id
-    @GeneratedValue
-    private long id;
-
-    public Long getId() {
-      return id;
-    }
-
-    protected void setId(Long id) {
-      this.id = id;
-    }
-
-    public abstract List<Hecho> extraerHechos();
   }
 }

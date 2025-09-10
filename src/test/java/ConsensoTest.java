@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -62,7 +63,7 @@ class ConsensoTest {
     fuente2 = new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv");
     fuenteA = mock(FuenteDinamica.class);
     fuenteB = mock(FuenteEstaticaVictimas.class);
-    List<ClienteMetaMapa.Fuente> fuentes = List.of(fuenteA, fuenteB);
+    List<Fuente> fuentes = List.of(fuenteA, fuenteB);
     fuente3 = new FuenteAgregada(fuentes, new RepoHechos());
     fuenteAgregada = new FuenteAgregada(List.of(fuente1, fuente2, fuente3), new RepoHechos());
   }

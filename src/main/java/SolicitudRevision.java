@@ -9,6 +9,7 @@ public class SolicitudRevision {
     this.fechaRevision = LocalDate.now();
   }
 
+
   public Hecho getHecho() {
     return hecho;
   }

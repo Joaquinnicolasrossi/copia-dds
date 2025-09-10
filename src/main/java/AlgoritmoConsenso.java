@@ -1,3 +1,5 @@
+import java.util.List;
+
 /*
   Estrategia de consenso: se utiliza para definir los distintos algoritmos
 
@@ -9,5 +11,5 @@
 */
 
 public interface AlgoritmoConsenso {
-  boolean estaConsensuado(Hecho hecho, ClienteMetaMapa.Fuente fuente);
+  boolean estaConsensuado(Hecho hecho, Fuente fuente);
 }

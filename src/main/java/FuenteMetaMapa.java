@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class FuenteMetaMapa extends ClienteMetaMapa.Fuente {
+public class FuenteMetaMapa implements Fuente {
 
   private ClienteMetaMapa cliente;
   public Long getId() { return null; }

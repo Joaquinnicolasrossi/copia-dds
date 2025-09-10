@@ -108,4 +108,6 @@ public class RepoEstadistica {
 
     return resultados.isEmpty() ? null : resultados.get(0);
   }
+
+
 }

@@ -9,7 +9,7 @@ public class Absoluto extends Consenso {
   // Si todas las fuentes del nodo contienen el mismo hecho
 
   @Override
-  public boolean estaConsensuado(Hecho hecho, ClienteMetaMapa.Fuente fuenteDeNodo) {
+  public boolean estaConsensuado(Hecho hecho, Fuente fuenteDeNodo) {
     List<Hecho> hechos = fuenteDeNodo.extraerHechos();
     if(hechos.isEmpty()){ return false; }
     return hechos.stream()

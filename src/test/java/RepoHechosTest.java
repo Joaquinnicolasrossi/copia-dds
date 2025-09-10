@@ -15,7 +15,7 @@ public class RepoHechosTest {
   private EntityManager em;
   private RepoHechos repo = new RepoHechos();
   private List<Hecho> hechos = new ArrayList<>();
-  private ClienteMetaMapa.Fuente fuenteMock = new FuenteDinamica(new RepoFuenteDinamica(), new RepoSolicitudesRevision());
+  private Fuente fuenteMock = new FuenteDinamica(new RepoFuenteDinamica(), new RepoSolicitudesRevision());
   @BeforeEach
   public void inicializar() {
     emf = Persistence.createEntityManagerFactory("testPU");
