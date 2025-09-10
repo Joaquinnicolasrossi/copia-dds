@@ -44,14 +44,24 @@ public class CronTab {
         recalcularConsensosDeColecciones(colecciones);
         break;
       case "recalcularestadistica":
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("simple-persistence-unit");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
         EntityManager em = emf.createEntityManager();
-        DetectorDeSpam spam2 = new DetectorDeSpamFiltro();
-        RepoEstadistica repoEstadistica = new RepoEstadistica(em);
-        RepoSolicitudes repoSolicitudes2 = new RepoSolicitudes(spam2);
-        RepoColecciones repoColecciones2 = new RepoColecciones(repoSolicitudes2);
-        List<Long> idColecciones = repoColecciones2.getIdsColecciones();
-        recalcularEstadisticas(repoEstadistica, idColecciones);
+        try {
+          DetectorDeSpam spam2 = new DetectorDeSpamFiltro();
+
+          RepoEstadistica repoEstadistica = new RepoEstadistica(em);
+          GeneradorEstadistica generador = new GeneradorEstadistica(repoEstadistica);
+
+          RepoSolicitudes repoSolicitudes2 = new RepoSolicitudes(spam2);
+          RepoColecciones repoColecciones2 = new RepoColecciones(repoSolicitudes2);
+
+          List<Long> idColecciones = repoColecciones2.getIdsColecciones();
+          recalcularEstadisticas(generador, idColecciones);
+        } finally {
+          // liberar recursos
+          em.close();
+          emf.close();
+        }
         break;
       default:
         System.err.println("Tarea desconocida: " + tarea);
@@ -73,10 +83,10 @@ public class CronTab {
     colecciones.forEach(Coleccion::recalcularConsensos);
   }
 
-  private static void recalcularEstadisticas(RepoEstadistica repoEstadistica, List<Long> idColecciones) {
-    idColecciones.forEach(coleccionId -> {
-      repoEstadistica.calcularCategoriaConMayorHechosReportados(coleccionId);
-      repoEstadistica.calcularCategoriaConMayorHechosReportados(coleccionId);
-    });
+  private static void recalcularEstadisticas(GeneradorEstadistica  generador , List<Long> idColecciones){
+    idColecciones.forEach(  coleccionId -> {
+      generador.generarCategoriaConMayorHechos(coleccionId);
+      generador.generarProvinciaConMayorHechos(coleccionId);
+    }  );
   }
 }
