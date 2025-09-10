@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 @DiscriminatorValue("MULTIPLES_MENCIONES")
 public class MultiplesMenciones extends Consenso {
   @Override
-  public boolean estaConsensuado(Hecho hecho, Fuente fuenteDelNodo) {
+  public boolean estaConsensuado(Hecho hecho, ClienteMetaMapa.Fuente fuenteDelNodo) {
 
     // Contamos la cantidad de coincidencias para la primer validaciòn
     List<Hecho> hechos = fuenteDelNodo.extraerHechos();

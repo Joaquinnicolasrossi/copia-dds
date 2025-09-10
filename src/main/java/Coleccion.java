@@ -1,6 +1,5 @@
 import java.util.HashSet;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.persistence.ElementCollection;
@@ -9,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "coleccion")
@@ -18,9 +16,9 @@ public class Coleccion {
   @GeneratedValue
   private Long id;
   public String titulo;
-  private String descripcion;
+  private final String descripcion;
   @ManyToOne
-  public Fuente fuente;
+  public ClienteMetaMapa.Fuente fuente;
   @ElementCollection
   public List<Criterio> criterios;
   @ManyToOne
@@ -34,7 +32,7 @@ public class Coleccion {
 
   // Constructor original (sin algoritmo --> para compatibilidad)
   public Coleccion(String titulo, String descripcion,
-                   Fuente fuente, List<Criterio> criterios,
+                   ClienteMetaMapa.Fuente fuente, List<Criterio> criterios,
                    RepoSolicitudes solicitudes) {
     this.titulo = titulo;
     this.descripcion = descripcion;
@@ -46,7 +44,7 @@ public class Coleccion {
 
   // Constructor nuevo con algoritmo de consenso
   public Coleccion(String titulo, String descripcion,
-                   Fuente fuente, List<Criterio> criterios,
+                   ClienteMetaMapa.Fuente fuente, List<Criterio> criterios,
                    RepoSolicitudes solicitudes, AlgoritmoConsenso algoritmoConsenso , RepoHechos repoHechos) {
     this.titulo = titulo;
     this.descripcion = descripcion;
@@ -61,7 +59,7 @@ public class Coleccion {
     return this.titulo;
   }
 
-  public Fuente getFuente() {
+  public ClienteMetaMapa.Fuente getFuente() {
     return this.fuente;
   }
   public String getDescripcion() {
@@ -89,7 +87,7 @@ public class Coleccion {
 
 
   // Algoritmo de consenso
-  public List<Fuente> getFuentesRepo() {
+  public List<ClienteMetaMapa.Fuente> getFuentesRepo() {
     return repoHechos.obtenerTodasLasFuentes();
   }
   public List<Hecho> getHechos() {

@@ -10,8 +10,8 @@ public class AgregadorResource {
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public List<Hecho> getHechosFromFuentes(List<Fuente> fuentes) {
-    Fuente fuenteAgregada = new FuenteAgregada(fuentes, new RepoHechos());
+  public List<Hecho> getHechosFromFuentes(List<ClienteMetaMapa.Fuente> fuentes) {
+    ClienteMetaMapa.Fuente fuenteAgregada = new FuenteAgregada(fuentes, new RepoHechos());
     return fuenteAgregada.extraerHechos();
   }
 }

@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,7 +6,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="fuente")
-public class FuenteDinamica implements Fuente {
+public class FuenteDinamica extends ClienteMetaMapa.Fuente {
   RepoFuenteDinamica repoFuenteDinamica;
   RepoSolicitudesRevision repoSolicitudesRevision;
   @Id

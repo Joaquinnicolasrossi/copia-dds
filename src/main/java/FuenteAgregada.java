@@ -1,16 +1,12 @@
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
-public class FuenteAgregada implements Fuente {
-  private final List<Fuente> fuentes;
+public class FuenteAgregada extends ClienteMetaMapa.Fuente {
+  private final List<ClienteMetaMapa.Fuente> fuentes;
   private final RepoHechos repositorio; // copia local
 
-  public FuenteAgregada(List<Fuente> fuentes, RepoHechos repositorio) {
+  public FuenteAgregada(List<ClienteMetaMapa.Fuente> fuentes, RepoHechos repositorio) {
     this.fuentes = fuentes;
     this.repositorio = repositorio;
   }

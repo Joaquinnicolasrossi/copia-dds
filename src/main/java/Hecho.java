@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class Hecho {
   @ManyToOne
   @Column(name = "fuente_origen_id")
-  private Fuente fuenteOrigen;
+  private ClienteMetaMapa.Fuente fuenteOrigen;
   @Id
   @Column(columnDefinition = "TEXT")
   private String titulo;
@@ -35,10 +35,6 @@ public class Hecho {
   private Usuario usuario = null;
   private List<ContenidoMultimedia> contenidoMultimedia;
 
-  public Hecho() {
-
-  }
-
   public Hecho(String titulo, String descripcion, String categoria, Double latitud,
                Double longitud, LocalDate fecha, LocalDate fechaCarga, Estado estado) {
     this.titulo = titulo;
@@ -51,7 +47,7 @@ public class Hecho {
     this.estado = estado;
   }
 
-  public Fuente getFuenteOrigen() {
+  public ClienteMetaMapa.Fuente getFuenteOrigen() {
     return fuenteOrigen;
   }
 
@@ -87,7 +83,7 @@ public class Hecho {
     return estado;
   }
 
-  public void setFuenteOrigen(Fuente fuenteOrigen) {
+  public void setFuenteOrigen(ClienteMetaMapa.Fuente fuenteOrigen) {
     this.fuenteOrigen = fuenteOrigen;
   }
 
@@ -117,7 +113,6 @@ public class Hecho {
         && this.latitud.equals(otro.getLatitud())
         && this.longitud.equals(otro.getLongitud());
   }
-
 
   public static class HechoBuilder {
     private String titulo;
@@ -175,7 +170,6 @@ public class Hecho {
     }
   }
 
-
   public Hecho actualizarHecho(Hecho original, Hecho.HechoBuilder actualizacion) {
     Hecho parcial = actualizacion.build();
 
@@ -192,5 +186,4 @@ public class Hecho {
         .setEstado(original.getEstado());
     return combinado.build();
   }
-
 }

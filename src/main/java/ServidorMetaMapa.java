@@ -20,7 +20,5 @@ public class ServidorMetaMapa {
             -34.6037, LocalDate.of(2025, 5, 28), LocalDate.now(),
             Estado.ACEPTADA)
     );
-
   }
-
 }

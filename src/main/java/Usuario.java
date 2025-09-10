@@ -37,5 +37,4 @@ public class Usuario {
   public void actualizarHecho(Hecho hecho, Hecho.HechoBuilder builder) throws Exception {
     fuente.actualizarHecho(hecho, builder, this);
   }
-
 }

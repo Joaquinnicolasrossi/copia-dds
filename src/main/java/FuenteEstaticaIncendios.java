@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FuenteEstaticaIncendios implements Fuente {
+public class FuenteEstaticaIncendios extends ClienteMetaMapa.Fuente {
 
   private final String rutaCsv;
 

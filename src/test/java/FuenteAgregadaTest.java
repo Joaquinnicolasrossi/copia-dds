@@ -16,7 +16,7 @@ public class FuenteAgregadaTest {
   public void inicializar() {
     fuenteA = mock(FuenteDinamica.class);
     fuenteB = mock(FuenteEstaticaVictimas.class);
-    List<Fuente> fuentes = List.of(fuenteA, fuenteB);
+    List<ClienteMetaMapa.Fuente> fuentes = List.of(fuenteA, fuenteB);
     fuenteAgregada = new FuenteAgregada(fuentes, new RepoHechos());
   }
 

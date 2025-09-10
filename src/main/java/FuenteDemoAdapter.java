@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class FuenteDemoAdapter implements Fuente {
+public class FuenteDemoAdapter extends ClienteMetaMapa.Fuente {
   private final Conexion clienteExterno;
   private final URL urlExterna;
   private LocalDateTime ultimaConsulta;

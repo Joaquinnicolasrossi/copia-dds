@@ -25,6 +25,7 @@ public class RepoFuenteDinamica {
     hechos.remove(hechoOriginal);
     hechos.add(actualizado);
   }
+
   public void rechazar(Hecho hecho){
     hechos.remove(hecho);
   }
