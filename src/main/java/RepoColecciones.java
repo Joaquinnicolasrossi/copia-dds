@@ -24,4 +24,16 @@ public class RepoColecciones {
       return entityManager.createNativeQuery("SELECT * FROM Coleccion", Coleccion.class)
           .getResultList();
     };
+
+  public List<Long> getIdsColecciones() {
+    List<?> resultados = entityManager.createNativeQuery(
+            "SELECT id FROM coleccion")
+        .getResultList();
+
+    List<Long> ids = new ArrayList<>();
+    for (Object obj : resultados) {
+      ids.add(((Number) obj).longValue()); // convierte BigInteger → Long
+    }
+    return ids;
+  }
   }
