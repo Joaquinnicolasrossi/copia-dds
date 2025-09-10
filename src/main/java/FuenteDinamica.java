@@ -9,9 +9,6 @@ import javax.persistence.Table;
 public class FuenteDinamica extends Fuente {
   RepoFuenteDinamica repoFuenteDinamica;
   RepoSolicitudesRevision repoSolicitudesRevision;
-  @Id
-  @GeneratedValue
-  public Long id;
 
   // TODO Mejorar excepciones podrian ser algo como NotFountException ,
   // validationErrorException

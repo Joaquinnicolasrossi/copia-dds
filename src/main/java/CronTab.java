@@ -15,7 +15,7 @@ public class CronTab {
 
     switch (tarea) {
       case "fuentedemoadapter": {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("simple-persistence-unit");
         EntityManager em = emf.createEntityManager();
 
         RepoHechos repo = new RepoHechos();
@@ -44,7 +44,7 @@ public class CronTab {
         recalcularConsensosDeColecciones(colecciones);
         break;
       case "recalcularestadistica":
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("simple-persistence-unit");
         EntityManager em = emf.createEntityManager();
         DetectorDeSpam spam2 = new DetectorDeSpamFiltro();
         RepoEstadistica repoEstadistica = new RepoEstadistica(em);
@@ -52,6 +52,7 @@ public class CronTab {
         RepoColecciones repoColecciones2 = new RepoColecciones(repoSolicitudes2);
         List<Long> idColecciones = repoColecciones2.getIdsColecciones();
         recalcularEstadisticas(repoEstadistica, idColecciones);
+        break;
       default:
         System.err.println("Tarea desconocida: " + tarea);
         System.exit(1);

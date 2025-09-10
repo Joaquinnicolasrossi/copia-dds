@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.Entity;
 
+@Entity
 public class FuenteDemoAdapter extends Fuente {
   private final Conexion clienteExterno;
   private final URL urlExterna;

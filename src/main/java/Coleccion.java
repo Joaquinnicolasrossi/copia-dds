@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "coleccion")
@@ -21,11 +22,11 @@ public class Coleccion {
   public Fuente fuente;
   @ElementCollection
   public List<Criterio> criterios;
-  @ManyToOne
+  @Transient
   private RepoHechos repoHechos;
-  @ManyToOne
+  @Transient
   private final RepoSolicitudes solicitudes;
-  @ManyToOne
+  @Transient
   private AlgoritmoConsenso algoritmoConsenso;
   // Guardo los hechosConsensuados en una lista para eficiencia
   private Set<Hecho> hechosConsensuados = new HashSet<>();

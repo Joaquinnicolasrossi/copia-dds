@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.Entity;
 
+@Entity
 public class FuenteEstaticaIncendios extends Fuente {
 
     private final String rutaCsv;

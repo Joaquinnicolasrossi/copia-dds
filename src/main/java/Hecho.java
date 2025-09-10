@@ -7,22 +7,21 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "hecho")
 public class Hecho {
   @ManyToOne
-  @Column(name = "fuente_origen_id")
+  @JoinColumn(name = "fuente_origen_id")
   private Fuente fuenteOrigen;
   @Id
   @Column(columnDefinition = "TEXT")
   private String titulo;
-  @Column(columnDefinition = "TEXT")
-  @Embedded
-  private Ubicacion ubicacion;
   private String descripcion;
   private String categoria;
   private Double latitud;
@@ -31,8 +30,9 @@ public class Hecho {
   private LocalDate fechaCarga;
   @Enumerated(EnumType.STRING)
   private Estado estado;
-  @ManyToOne
+  @Transient
   private Usuario usuario = null;
+  @Transient
   private List<ContenidoMultimedia> contenidoMultimedia;
 
   public Hecho() {
