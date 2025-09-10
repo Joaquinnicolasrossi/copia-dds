@@ -51,7 +51,7 @@ public class CronTab {
         RepoSolicitudes repoSolicitudes2 = new RepoSolicitudes(spam2);
         RepoColecciones repoColecciones2 = new RepoColecciones(repoSolicitudes2);
         List<Long> idColecciones = repoColecciones2.getIdsColecciones();
-        recalcularEstadisticas(repoEstadistica,idColecciones);
+        recalcularEstadisticas(repoEstadistica, idColecciones);
       default:
         System.err.println("Tarea desconocida: " + tarea);
         System.exit(1);
@@ -68,16 +68,14 @@ public class CronTab {
     System.out.println("FuenteAgregada actualizada");
   }
 
-  private static void recalcularConsensosDeColecciones(List<Coleccion> colecciones){
-      colecciones.forEach(Coleccion::recalcularConsensos);
-    }
+  private static void recalcularConsensosDeColecciones(List<Coleccion> colecciones) {
+    colecciones.forEach(Coleccion::recalcularConsensos);
+  }
 
-    private static void recalcularEstadisticas(RepoEstadistica repoEstadistica , List<Long> idColecciones){
-    idColecciones.forEach(  coleccionId -> {
+  private static void recalcularEstadisticas(RepoEstadistica repoEstadistica, List<Long> idColecciones) {
+    idColecciones.forEach(coleccionId -> {
       repoEstadistica.calcularCategoriaConMayorHechosReportados(coleccionId);
       repoEstadistica.calcularCategoriaConMayorHechosReportados(coleccionId);
-    }  );
-    }
-
-
+    });
+  }
 }

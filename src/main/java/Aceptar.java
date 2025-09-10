@@ -1,4 +1,3 @@
-
 public class Aceptar implements EstadoRevision {
   private RepoFuenteDinamica repoFuenteDinamica;
 
@@ -10,7 +9,6 @@ public class Aceptar implements EstadoRevision {
   public void aplicar(Hecho hecho) {
     hecho.setEstado(Estado.ACEPTADA);
     repoFuenteDinamica.save(hecho);
-
   }
 }
 

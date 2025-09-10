@@ -6,14 +6,12 @@ public class ServicioDeRecalculoDeConsensos {
   public ServicioDeRecalculoDeConsensos(List<Coleccion> colecciones, List<Fuente> fuentesDelNodo) {
     this.colecciones = colecciones;
   }
-  public void recalcularTodos() {
 
+  public void recalcularTodos() {
 
     colecciones.stream()
         .filter(c -> c.getAlgoritmoConsenso() != null)
         .filter(c -> c.getFuente() instanceof FuenteAgregada)
         .forEach(Coleccion::recalcularConsensos);
   }
-
 }
-

@@ -14,16 +14,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FuenteEstaticaVictimas implements Fuente {
+public class FuenteEstaticaVictimas extends Fuente {
 
   private final String rutaCsv;
 
   public FuenteEstaticaVictimas(String rutaCsv) {
     this.rutaCsv = rutaCsv;
   }
-
-  @Override
-  public Long getId() { return null; }
 
   @Override
   public List<Hecho> extraerHechos() {
@@ -44,10 +41,10 @@ public class FuenteEstaticaVictimas implements Fuente {
       String[] fila;
       while ((fila = reader.readNext()) != null) {
         String tipoPersona = CSVHelper.getValue(fila, 2);
-        String provincia   = CSVHelper.getValue(fila, 5);
-        String localidad   = CSVHelper.getValue(fila, 9);
-        String calle       = CSVHelper.getValue(fila, 16);
-        String hora        = CSVHelper.getValue(fila, 15);
+        String provincia = CSVHelper.getValue(fila, 5);
+        String localidad = CSVHelper.getValue(fila, 9);
+        String calle = CSVHelper.getValue(fila, 16);
+        String hora = CSVHelper.getValue(fila, 15);
 
         LocalDate fecha = CSVHelper.parseFecha(CSVHelper.getValue(fila, 14), formatter);
 
@@ -62,8 +59,7 @@ public class FuenteEstaticaVictimas implements Fuente {
             lng,
             fecha,
             LocalDate.now(),
-            Estado.ACEPTADA
-        );
+            Estado.ACEPTADA);
 
         lista.add(hecho);
       }

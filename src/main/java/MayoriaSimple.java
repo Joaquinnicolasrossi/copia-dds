@@ -13,10 +13,12 @@ import javax.persistence.Entity;
 public class MayoriaSimple extends Consenso {
 
   @Override
-  public boolean estaConsensuado(Hecho hecho, Fuente fuenteDeNodo){
-    List<Hecho> hechos =  fuenteDeNodo.extraerHechos();
+  public boolean estaConsensuado(Hecho hecho, Fuente fuenteDeNodo) {
+    List<Hecho> hechos = fuenteDeNodo.extraerHechos();
 
-    if(hechos.isEmpty()){return false;}
+    if (hechos.isEmpty()) {
+      return false;
+    }
 
     long coincidencias = hechos.stream()
         .filter(h -> h.tieneMismoContenidoQue(hecho))

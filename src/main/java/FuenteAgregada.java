@@ -1,12 +1,8 @@
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
-public class FuenteAgregada implements Fuente {
+public class FuenteAgregada extends Fuente {
   private final List<Fuente> fuentes;
   private final RepoHechos repositorio; // copia local
 
@@ -14,8 +10,6 @@ public class FuenteAgregada implements Fuente {
     this.fuentes = fuentes;
     this.repositorio = repositorio;
   }
-
-  public Long getId() { return null; }
 
   @Override
   public List<Hecho> extraerHechos() {
@@ -38,10 +32,10 @@ public class FuenteAgregada implements Fuente {
   }
 
   public List<Hecho> extraerHechosActualizados() {
-      List<Hecho> hechos = fuentes.stream()
-          .flatMap(fuente -> fuente.extraerHechos().stream())
-          .toList();
+    List<Hecho> hechos = fuentes.stream()
+        .flatMap(fuente -> fuente.extraerHechos().stream())
+        .toList();
 
-      return filtrarRepetidos(hechos);
+    return filtrarRepetidos(hechos);
   }
 }

@@ -7,11 +7,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
-
 public class ClienteMetaMapa {
 
   private static final String url = "http://localhost:8080/apiMetaMapa";
-
   private final HttpClient client;
   private final ObjectMapper mapper;
 

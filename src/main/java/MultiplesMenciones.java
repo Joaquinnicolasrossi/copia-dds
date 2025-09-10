@@ -13,7 +13,9 @@ public class MultiplesMenciones extends Consenso {
 
     // Contamos la cantidad de coincidencias para la primer validaciòn
     List<Hecho> hechos = fuenteDelNodo.extraerHechos();
-    if(hechos.isEmpty()){ return false; }
+    if (hechos.isEmpty()) {
+      return false;
+    }
     long coincidencias = hechos.stream()
         .filter(h -> h.tieneMismoContenidoQue(hecho))
         .count();

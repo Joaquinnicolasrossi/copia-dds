@@ -21,7 +21,7 @@ public class Usuario {
   }
 
   public void subirHecho(String titulo, String descripcion, String categoria,
-                         double latitud, double longitud, LocalDate fecha) {
+      double latitud, double longitud, LocalDate fecha) {
     Hecho hecho = new Hecho(titulo, descripcion, categoria, latitud, longitud, fecha,
         LocalDate.now(), Estado.PENDIENTE);
     if (estaRegistrado) {

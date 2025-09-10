@@ -14,5 +14,4 @@ public abstract class Consenso implements AlgoritmoConsenso {
   @GeneratedValue
   private Long id;
 
-
 }

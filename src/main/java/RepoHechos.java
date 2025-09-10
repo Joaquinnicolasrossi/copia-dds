@@ -1,7 +1,6 @@
 import java.util.List;
 import javax.persistence.EntityManager;
 
-
 public class RepoHechos {
   private EntityManager entityManager;
 
@@ -22,7 +21,7 @@ public class RepoHechos {
 
   public List<Fuente> obtenerTodasLasFuentes() {
     return entityManager.createNativeQuery("SELECT DISTINCT f.* FROM fuente f " +
-            "INNER JOIN hecho h ON h.fuente_origen_id = f.id", Fuente.class)
+        "INNER JOIN hecho h ON h.fuente_origen_id = f.id", Fuente.class)
         .getResultList();
   }
 
@@ -34,16 +33,15 @@ public class RepoHechos {
 
   public List<Hecho> obtenerHechosPorFuente(Fuente fuente) {
     return entityManager.createNativeQuery("SELECT h.* FROM hecho h" +
-            "WHERE h.FuenteOrigen =  ?", Hecho.class)
+        "WHERE h.FuenteOrigen =  ?", Hecho.class)
         .setParameter(1, fuente.getId())
         .getResultList();
   }
 
   public List<Hecho> buscarFullText(String texto) {
     return entityManager.createNativeQuery(
-            "SELECT * FROM hecho WHERE MATCH(titulo, descripcion) AGAINST (? IN NATURAL LANGUAGE MODE)",
-            Hecho.class
-        ).setParameter(1, texto)
+        "SELECT * FROM hecho WHERE MATCH(titulo, descripcion) AGAINST (? IN NATURAL LANGUAGE MODE)",
+        Hecho.class).setParameter(1, texto)
         .getResultList();
   }
 }

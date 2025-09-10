@@ -1,5 +1,3 @@
-import java.util.List;
-
 /*
   Estrategia de consenso: se utiliza para definir los distintos algoritmos
 

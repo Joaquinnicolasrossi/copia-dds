@@ -13,7 +13,7 @@ public class RepoColecciones {
   }
 
   public void crearColeccion(String titulo, String descripcion, FuenteEstaticaIncendios fuente,
-                             List<Criterio> criterios) {
+      List<Criterio> criterios) {
     Coleccion coleccion = new Coleccion(titulo, descripcion, fuente, criterios, repoSolicitudes);
     entityManager.getTransaction().begin();
     entityManager.persist(coleccion);
@@ -21,13 +21,13 @@ public class RepoColecciones {
   }
 
   public List<Coleccion> getColecciones() {
-      return entityManager.createNativeQuery("SELECT * FROM Coleccion", Coleccion.class)
-          .getResultList();
-    };
+    return entityManager.createNativeQuery("SELECT * FROM Coleccion", Coleccion.class)
+        .getResultList();
+  };
 
   public List<Long> getIdsColecciones() {
     List<?> resultados = entityManager.createNativeQuery(
-            "SELECT id FROM coleccion")
+        "SELECT id FROM coleccion")
         .getResultList();
 
     List<Long> ids = new ArrayList<>();
@@ -36,4 +36,4 @@ public class RepoColecciones {
     }
     return ids;
   }
-  }
+}

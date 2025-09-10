@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,22 +5,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="fuente")
-public class FuenteDinamica implements Fuente {
+@Table(name = "fuente")
+public class FuenteDinamica extends Fuente {
   RepoFuenteDinamica repoFuenteDinamica;
   RepoSolicitudesRevision repoSolicitudesRevision;
   @Id
   @GeneratedValue
   public Long id;
 
-  //TODO Mejorar excepciones podrian ser algo como NotFountException , validationErrorException
+  // TODO Mejorar excepciones podrian ser algo como NotFountException ,
+  // validationErrorException
   public FuenteDinamica(RepoFuenteDinamica repoFuenteDinamica,
-                        RepoSolicitudesRevision repoSolicitudesRevision) {
+      RepoSolicitudesRevision repoSolicitudesRevision) {
     this.repoFuenteDinamica = repoFuenteDinamica;
     this.repoSolicitudesRevision = repoSolicitudesRevision;
   }
-
-  public Long getId() { return id; }
 
   @Override
   public List<Hecho> extraerHechos() {
@@ -31,7 +29,6 @@ public class FuenteDinamica implements Fuente {
   public void subirHecho(Hecho hecho) {
     repoSolicitudesRevision.nuevaSolicitud(hecho);
   }
-
 
   public void actualizarHecho(Hecho hecho, Hecho.HechoBuilder hechoBuilder, Usuario usuario)
       throws Exception {
@@ -50,8 +47,5 @@ public class FuenteDinamica implements Fuente {
     var solicitudRevision = repoSolicitudesRevision.getSolicitudPorHecho(hecho);
     estadoRevision.aplicar(hecho);
     repoSolicitudesRevision.eliminarSolcitud(solicitudRevision);
-
   }
-
-
 }

@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class FuenteDemoAdapter implements Fuente {
+public class FuenteDemoAdapter extends Fuente {
   private final Conexion clienteExterno;
   private final URL urlExterna;
   private LocalDateTime ultimaConsulta;
   private RepoHechos repositorio;
-  
-  public FuenteDemoAdapter(URL url, Conexion clienteExterno, LocalDateTime ultimaConsultaInicial, RepoHechos repositorio) {
+
+  public FuenteDemoAdapter(URL url, Conexion clienteExterno, LocalDateTime ultimaConsultaInicial,
+      RepoHechos repositorio) {
     this.urlExterna = url;
     this.clienteExterno = clienteExterno;
     this.repositorio = repositorio;
@@ -19,8 +20,6 @@ public class FuenteDemoAdapter implements Fuente {
       this.ultimaConsulta = ultimaConsultaInicial;
     }
   }
-
-  public Long getId() { return null; }
 
   @Override
   public List<Hecho> extraerHechos() {

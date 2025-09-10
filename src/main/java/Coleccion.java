@@ -1,6 +1,5 @@
 import java.util.HashSet;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.persistence.ElementCollection;
@@ -9,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "coleccion")
@@ -34,8 +32,8 @@ public class Coleccion {
 
   // Constructor original (sin algoritmo --> para compatibilidad)
   public Coleccion(String titulo, String descripcion,
-                   Fuente fuente, List<Criterio> criterios,
-                   RepoSolicitudes solicitudes) {
+      Fuente fuente, List<Criterio> criterios,
+      RepoSolicitudes solicitudes) {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.fuente = fuente;
@@ -46,8 +44,8 @@ public class Coleccion {
 
   // Constructor nuevo con algoritmo de consenso
   public Coleccion(String titulo, String descripcion,
-                   Fuente fuente, List<Criterio> criterios,
-                   RepoSolicitudes solicitudes, AlgoritmoConsenso algoritmoConsenso , RepoHechos repoHechos) {
+      Fuente fuente, List<Criterio> criterios,
+      RepoSolicitudes solicitudes, AlgoritmoConsenso algoritmoConsenso, RepoHechos repoHechos) {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.fuente = fuente;
@@ -64,10 +62,10 @@ public class Coleccion {
   public Fuente getFuente() {
     return this.fuente;
   }
+
   public String getDescripcion() {
     return descripcion;
   }
-
 
   public List<Hecho> mostrarHechos() {
     return fuente.extraerHechos().stream()
@@ -86,29 +84,30 @@ public class Coleccion {
     return criterios.stream().allMatch(criterio -> criterio.seCumpleCriterio(hecho));
   }
 
-
-
   // Algoritmo de consenso
   public List<Fuente> getFuentesRepo() {
     return repoHechos.obtenerTodasLasFuentes();
   }
+
   public List<Hecho> getHechos() {
     return repoHechos.obtenerTodosLosHechos();
   }
 
   public List<Hecho> navegar(Modo modo, Criterio filtro) {
-    if(modo == Modo.IRRESTRICTA) {
+    if (modo == Modo.IRRESTRICTA) {
       return mostrarHechosFiltrados(filtro);
     } else if (modo == Modo.CURADA) {
       List<Hecho> hechosFiltrados = mostrarHechosFiltrados(filtro);
       return filtrarHechosCurados(hechosFiltrados);
-    } else throw new RuntimeException("Modo de navegacion no valido");
+    } else
+      throw new RuntimeException("Modo de navegacion no valido");
   }
+
   public AlgoritmoConsenso getAlgoritmoConsenso() {
     return algoritmoConsenso;
   }
 
-  public void setAlgoritmoConsenso(AlgoritmoConsenso algoritmo){
+  public void setAlgoritmoConsenso(AlgoritmoConsenso algoritmo) {
     this.algoritmoConsenso = algoritmo;
   }
 
@@ -117,17 +116,22 @@ public class Coleccion {
         .filter(this::estaConsensuado)
         .toList();
   }
+
   // Busca el hecho consensuado en la lista
   public boolean estaConsensuado(Hecho hecho) {
-    if (algoritmoConsenso == null) return true;
-    if (!(fuente instanceof FuenteAgregada fuenteAgregada)) return true;
+    if (algoritmoConsenso == null)
+      return true;
+    if (!(fuente instanceof FuenteAgregada fuenteAgregada))
+      return true;
 
     return hechosConsensuados.contains(hecho);
   }
 
-  public void recalcularConsensos(){
-    if (!(fuente instanceof FuenteAgregada fuenteAgregada)) return;
-    if (algoritmoConsenso == null) return;
+  public void recalcularConsensos() {
+    if (!(fuente instanceof FuenteAgregada fuenteAgregada))
+      return;
+    if (algoritmoConsenso == null)
+      return;
 
     List<Hecho> hechos = fuenteAgregada.extraerHechos();
     this.hechosConsensuados = hechos.stream()

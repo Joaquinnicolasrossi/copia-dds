@@ -40,7 +40,7 @@ public class Hecho {
   }
 
   public Hecho(String titulo, String descripcion, String categoria, Double latitud,
-               Double longitud, LocalDate fecha, LocalDate fechaCarga, Estado estado) {
+      Double longitud, LocalDate fecha, LocalDate fechaCarga, Estado estado) {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.categoria = categoria;
@@ -109,7 +109,8 @@ public class Hecho {
 
   public boolean tieneMismoContenidoQue(Hecho otro) {
 
-    if (otro == null) return false;
+    if (otro == null)
+      return false;
 
     return this.titulo.equals(otro.getTitulo())
         && this.descripcion.equals(otro.getDescripcion())
@@ -117,7 +118,6 @@ public class Hecho {
         && this.latitud.equals(otro.getLatitud())
         && this.longitud.equals(otro.getLongitud());
   }
-
 
   public static class HechoBuilder {
     private String titulo;
@@ -175,16 +175,17 @@ public class Hecho {
     }
   }
 
-
   public Hecho actualizarHecho(Hecho original, Hecho.HechoBuilder actualizacion) {
     Hecho parcial = actualizacion.build();
 
     Hecho.HechoBuilder combinado = new Hecho.HechoBuilder()
         .setTitulo(parcial.getTitulo() != null ? parcial.getTitulo() : original.getTitulo())
-        .setDescripcion(parcial.getDescripcion() != null ? parcial.getDescripcion() : original
-            .getDescripcion())
-        .setCategoria(parcial.getCategoria() != null ? parcial.getCategoria() : original
-            .getCategoria())
+        .setDescripcion(parcial.getDescripcion() != null ? parcial.getDescripcion()
+            : original
+                .getDescripcion())
+        .setCategoria(parcial.getCategoria() != null ? parcial.getCategoria()
+            : original
+                .getCategoria())
         .setLatitud(parcial.getLatitud() != null ? parcial.getLatitud() : original.getLatitud())
         .setLongitud(parcial.getLongitud() != null ? parcial.getLongitud() : original.getLongitud())
         .setFecha(parcial.getFecha() != null ? parcial.getFecha() : original.getFecha())

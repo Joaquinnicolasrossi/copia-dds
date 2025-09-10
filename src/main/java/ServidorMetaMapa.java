@@ -5,7 +5,6 @@ import jakarta.ws.rs.core.MediaType;
 import java.time.LocalDate;
 import java.util.List;
 
-
 @Path("/hechos")
 public class ServidorMetaMapa {
 
@@ -18,9 +17,6 @@ public class ServidorMetaMapa {
             Estado.ACEPTADA),
         new Hecho("TituloB", "DescripcionB", "CategoriaB", -34.6037,
             -34.6037, LocalDate.of(2025, 5, 28), LocalDate.now(),
-            Estado.ACEPTADA)
-    );
-
+            Estado.ACEPTADA));
   }
-
 }
