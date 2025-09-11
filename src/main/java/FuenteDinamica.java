@@ -1,8 +1,10 @@
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
+@Table(name = "fuente_dinamica")
 public class FuenteDinamica extends Fuente {
   @Transient
   RepoFuenteDinamica repoFuenteDinamica;

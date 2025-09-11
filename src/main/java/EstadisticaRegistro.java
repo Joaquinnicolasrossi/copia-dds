@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,11 +12,13 @@ public class EstadisticaRegistro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "coleccion_id")
     private Long coleccionId;
     private String tipo;
     private String valor;
     private Integer cantidad;
     private Boolean visiblePublico;
+    @Column(name = "fecha_actualizacion", columnDefinition = "DATE")
     private LocalDateTime fechaActualizacion;
 
     public EstadisticaRegistro() {

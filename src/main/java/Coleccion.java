@@ -28,7 +28,7 @@ public class Coleccion {
   @Transient
   private RepoHechos repoHechos;
   @Transient
-  private final RepoSolicitudes solicitudes;
+  private RepoSolicitudes solicitudes;
   @Transient
   private AlgoritmoConsenso algoritmoConsenso;
   // Guardo los hechosConsensuados en una lista para eficiencia
@@ -39,7 +39,7 @@ public class Coleccion {
       inverseJoinColumns = @JoinColumn(name = "hecho_id") // Columna que referencia a Hecho
   )
   private Set<Hecho> hechosConsensuados = new HashSet<>();
-
+  public Coleccion () {}
   // Constructor original (sin algoritmo --> para compatibilidad)
   public Coleccion(String titulo, String descripcion,
       Fuente fuente, List<Criterio> criterios,
