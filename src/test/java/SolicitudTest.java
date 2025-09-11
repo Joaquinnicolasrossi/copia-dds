@@ -12,7 +12,7 @@ class SolicitudTest {
     Hecho hecho = crearHechoSimple();
     String descripcion = "x".repeat(500);
 
-    Solicitud solicitud = new Solicitud(hecho, descripcion, repoSolicitudes);
+    Solicitud solicitud = new Solicitud(hecho, descripcion, repoSolicitudes, false);
 
     assertEquals(hecho, solicitud.hecho);
     assertEquals(descripcion, solicitud.getDescripcion());

@@ -14,10 +14,10 @@ public class RepoSolicitudes {
   }
 
   public void nuevaSolicitud(Hecho hecho, String descripcion) throws Exception {
-    Solicitud nueva = new Solicitud(hecho, descripcion, this);
-    if (detectorDeSpam.esSpam(descripcion)) {
-      throw new Exception("La solicitud es spam");
-    }
+    boolean spam = detectorDeSpam.esSpam(descripcion);
+
+    Solicitud nueva = new Solicitud(hecho, descripcion, this, spam);
+
     solicitudes.add(nueva);
   }
 
@@ -28,5 +28,11 @@ public class RepoSolicitudes {
   public Boolean estaEliminado(Hecho hecho) {
     return solicitudes.stream()
         .anyMatch(solicitud -> solicitud.hechoEliminado(hecho));
+  }
+
+  public long cantidadSolicitudesSpam() {
+    return solicitudes.stream()
+        .filter(Solicitud::esSpam)
+        .count();
   }
 }

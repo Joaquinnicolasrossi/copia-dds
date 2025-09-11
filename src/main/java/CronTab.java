@@ -87,6 +87,9 @@ public class CronTab {
     idColecciones.forEach(  coleccionId -> {
       generador.generarCategoriaConMayorHechos(coleccionId);
       generador.generarProvinciaConMayorHechos(coleccionId);
+      generador.generarProvinciasConMasHechosPorCategorias(coleccionId);
+      generador.generarHorasConMasHechosPorCategorias(coleccionId);
+      generador.generarCantidadSolicitudesSpam(coleccionId);
     }  );
   }
 }

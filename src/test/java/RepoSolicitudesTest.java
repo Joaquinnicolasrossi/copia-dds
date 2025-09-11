@@ -77,5 +77,30 @@ class RepoSolicitudesTest {
   private Hecho crearHechoSimple() {
     return new Hecho("Incendio", "desc", "Incendio Forestal", -0.5, -0.5, LocalDate.now(), LocalDate.now(), Estado.PENDIENTE);
   }
+
+  @Test
+  void cantidadSolicitudesSpamCuentaCorrectamente() throws Exception {
+    Hecho hecho1 = crearHechoSimple();
+    Hecho hecho2 = new Hecho("Otro hecho", "descripcion de prueba ".repeat(30),
+        "Estafa", -0.5, -0.5, LocalDate.now(), LocalDate.now(), Estado.PENDIENTE);
+
+    // Solicitud válida
+    String descripcionValida = "x".repeat(500);
+    repoSolicitudes.nuevaSolicitud(hecho1, descripcionValida);
+
+    // Solicitud con spam
+    String descripcionSpam = "gana dinero ahora " + "x".repeat(500);
+    repoSolicitudes.nuevaSolicitud(hecho2, descripcionSpam);
+
+    // Verifico
+    List<Solicitud> solicitudes = repoSolicitudes.getSolicitudes();
+    assertEquals(2, solicitudes.size()); // se guardaron ambas
+
+    // la segunda debe estar marcada como spam
+    Solicitud spam = solicitudes.get(1);
+    assertTrue(spam.esSpam());
+
+    assertEquals(1, repoSolicitudes.cantidadSolicitudesSpam());
+  }
 }
 

@@ -2,6 +2,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class Solicitud {
@@ -13,13 +14,18 @@ public class Solicitud {
   public Hecho hecho;
   private String descripcion;
   public Boolean eliminado = false;
-  private final RepoSolicitudes repoSolicitudes;
+  private Boolean esSpam = false;
 
-  public Solicitud(Hecho hecho, String descripcion, RepoSolicitudes repoSolicitudes) {
+  public Solicitud() {}
+//  private final RepoSolicitudes repoSolicitudes;
+  @Transient
+  private RepoSolicitudes repoSolicitudes;
+  public Solicitud(Hecho hecho, String descripcion, RepoSolicitudes repoSolicitudes, Boolean esSpam) {
     descripcionValida(descripcion);
     this.hecho = hecho;
     this.descripcion = descripcion;
     this.repoSolicitudes = repoSolicitudes;
+    this.esSpam = esSpam;
   }
 
   public void aceptarSolicitud() {
@@ -41,7 +47,18 @@ public class Solicitud {
     }
   }
 
+  public void marcarComoSpam() {
+    this.esSpam = true;
+    this.eliminado = true;
+  }
+
+  public Boolean esSpam() {
+    return esSpam;
+  }
+
   public String getDescripcion() {
     return descripcion;
   }
+
+
 }
