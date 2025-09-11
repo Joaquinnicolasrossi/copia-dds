@@ -1,9 +1,7 @@
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
+import javax.persistence.TypedQuery;
 
 public class RepoEstadistica {
 
@@ -102,6 +100,7 @@ public class RepoEstadistica {
 
     return registro;
   }
+
   public EstadisticaRegistro horaConMasHechosPorCategoria(Long coleccionId, String categoria) {
     List<Object[]> resultados = entityManager.createNativeQuery(
             "SELECT EXTRACT(HOUR FROM h.fecha) as hora, COUNT(*) as cantidad " +
@@ -231,4 +230,12 @@ public class RepoEstadistica {
     return registro;
   }
 
+  public List<EstadisticaRegistro> buscarPorTipo(String tipo) {
+    TypedQuery<EstadisticaRegistro> query = entityManager.createQuery(
+        "SELECT e FROM EstadisticaRegistro e WHERE e.tipo = :tipo",
+        EstadisticaRegistro.class
+    );
+    query.setParameter("tipo", tipo);
+    return query.getResultList();
+  }
 }
