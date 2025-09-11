@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
 public class FuenteDemoAdapter extends Fuente {
+  @Transient
   private final Conexion clienteExterno;
   private final URL urlExterna;
   private LocalDateTime ultimaConsulta;
+  @Transient
   private RepoHechos repositorio;
 
   public FuenteDemoAdapter(URL url, Conexion clienteExterno, LocalDateTime ultimaConsultaInicial,

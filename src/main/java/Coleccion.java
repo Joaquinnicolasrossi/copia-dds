@@ -2,11 +2,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -20,7 +23,7 @@ public class Coleccion {
   private String descripcion;
   @ManyToOne
   public Fuente fuente;
-  @ElementCollection
+  @OneToMany(mappedBy = "coleccion")
   public List<Criterio> criterios;
   @Transient
   private RepoHechos repoHechos;
@@ -29,6 +32,12 @@ public class Coleccion {
   @Transient
   private AlgoritmoConsenso algoritmoConsenso;
   // Guardo los hechosConsensuados en una lista para eficiencia
+  @ManyToMany
+  @JoinTable(
+      name = "coleccion_hechos", // Nombre de la tabla de unión
+      joinColumns = @JoinColumn(name = "coleccion_id"), // Columna que referencia a Coleccion
+      inverseJoinColumns = @JoinColumn(name = "hecho_id") // Columna que referencia a Hecho
+  )
   private Set<Hecho> hechosConsensuados = new HashSet<>();
 
   // Constructor original (sin algoritmo --> para compatibilidad)

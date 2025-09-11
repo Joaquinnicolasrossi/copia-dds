@@ -1,13 +1,12 @@
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
-@Table(name = "fuente")
 public class FuenteDinamica extends Fuente {
+  @Transient
   RepoFuenteDinamica repoFuenteDinamica;
+  @Transient
   RepoSolicitudesRevision repoSolicitudesRevision;
 
   // TODO Mejorar excepciones podrian ser algo como NotFountException ,
@@ -17,6 +16,8 @@ public class FuenteDinamica extends Fuente {
     this.repoFuenteDinamica = repoFuenteDinamica;
     this.repoSolicitudesRevision = repoSolicitudesRevision;
   }
+
+  protected FuenteDinamica(){}
 
   @Override
   public List<Hecho> extraerHechos() {

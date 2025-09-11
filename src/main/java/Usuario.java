@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Usuario {
@@ -9,12 +10,15 @@ public class Usuario {
   @GeneratedValue
   private Long id;
 
+  @ManyToOne
   private FuenteDinamica fuente;
   public boolean estaRegistrado = false;
 
   public Usuario(FuenteDinamica fuente) {
     this.fuente = fuente;
   }
+
+  protected Usuario(){}
 
   public Long getId() {
     return id;

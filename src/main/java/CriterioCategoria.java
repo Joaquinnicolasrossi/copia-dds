@@ -1,4 +1,7 @@
-public class CriterioCategoria implements Criterio {
+import javax.persistence.Entity;
+
+@Entity
+public class CriterioCategoria extends Criterio {
   public String categoria;
 
   public CriterioCategoria(String categoria) {

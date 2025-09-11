@@ -1,6 +1,8 @@
+import javax.persistence.Entity;
 import java.time.LocalDate;
 
-public class CriterioFecha implements Criterio {
+@Entity
+public class CriterioFecha extends Criterio {
   public LocalDate fechaDesde;
   public LocalDate fechaHasta;
 
