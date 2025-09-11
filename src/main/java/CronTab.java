@@ -56,7 +56,7 @@ public class CronTab {
           RepoColecciones repoColecciones2 = new RepoColecciones(repoSolicitudes2);
 
           List<Long> idColecciones = repoColecciones2.getIdsColecciones();
-          recalcularEstadisticas(generador, idColecciones);
+          idColecciones.forEach(generador::generarTodas);
         } finally {
           // liberar recursos
           em.close();
@@ -83,13 +83,4 @@ public class CronTab {
     colecciones.forEach(Coleccion::recalcularConsensos);
   }
 
-  private static void recalcularEstadisticas(GeneradorEstadistica  generador , List<Long> idColecciones){
-    idColecciones.forEach(  coleccionId -> {
-      generador.generarCategoriaConMayorHechos(coleccionId);
-      generador.generarProvinciaConMayorHechos(coleccionId);
-      generador.generarProvinciasConMasHechosPorCategorias(coleccionId);
-      generador.generarHorasConMasHechosPorCategorias(coleccionId);
-      generador.generarCantidadSolicitudesSpam(coleccionId);
-    }  );
-  }
 }

@@ -15,7 +15,7 @@ class RepoEstadisticaTest {
   static void init() {
     // Para probar en memoria
     emf = Persistence.createEntityManagerFactory("testPU");
-    // Para probar en MySql
+    // Para probar en MySqle
     //emf = Persistence.createEntityManagerFactory("simple-persistence-unit");
   }
 

@@ -11,68 +11,66 @@ public class GeneradorEstadistica {
   }
 
   public void generarCategoriaConMayorHechos(Long coleccionId) {
-    Object[] fila = repo.categoriaConMayorHechos(coleccionId);
-    if (fila == null) return;
-
-    String categoria = (String) fila[0];
-    int cantidad = ((Number) fila[1]).intValue();
-
-    repo.guardarEstadistica(coleccionId, "CATEGORIA_MAYOR_HECHOS", categoria, cantidad);
+    EstadisticaRegistro registro = repo.categoriaConMayorHechos(coleccionId);
+    if (registro != null) {
+      repo.guardarEstadistica(registro);
+    }
   }
 
   public void generarProvinciaConMayorHechos(Long coleccionId) {
-    Object[] fila = repo.provinciaConMasHechos(coleccionId);
-    if (fila == null) return;
-
-    String provincia = (String) fila[0];
-    int cantidad = ((Number) fila[1]).intValue();
-
-    repo.guardarEstadistica(coleccionId, "PROVINCIA_MAYOR_HECHOS", provincia, cantidad);
+    EstadisticaRegistro registro = repo.provinciaConMasHechos(coleccionId);
+    if (registro != null) {
+      repo.guardarEstadistica(registro);
+    }
   }
 
   public void generarProvinciasConMasHechosPorCategorias(Long coleccionId) {
-    List<String> categorias = repo.categoriasPorColeccion(coleccionId);
+    List<EstadisticaRegistro> categorias = repo.categoriasPorColeccion(coleccionId);
 
-    for (String categoria : categorias) {
-      Object[] fila = repo.provinciaConMasHechosPorCategoria(coleccionId, categoria);
-      if (fila == null) continue;
+    for (EstadisticaRegistro categoriaRegistro : categorias) {
+      String categoria = categoriaRegistro.getValor();
 
-      String provincia = (String) fila[0];
-      int cantidad = ((Number) fila[1]).intValue();
-
-      repo.guardarEstadistica(
-          coleccionId,
-          // PAra poner por ejemplo PROVINCIA_MAS_HECHOS_ROBO_ARMADO
-          "PROVINCIA_MAS_HECHOS_" +
-              categoria.toUpperCase().replaceAll("\\s+", "_"),
-          provincia,
-          cantidad
-      );
+      EstadisticaRegistro registro = repo.provinciaConMasHechosPorCategoria(coleccionId, categoria);
+      if (registro != null) {
+        // ajustamos el tipo para diferenciar por categoría
+        registro.setTipo(
+            "PROVINCIA_MAS_HECHOS_" +
+                categoria.toUpperCase().replaceAll("\\s+", "_")
+        );
+        repo.guardarEstadistica(registro);
+      }
     }
   }
 
   public void generarHorasConMasHechosPorCategorias(Long coleccionId) {
-    List<String> categorias = repo.categoriasPorColeccion(coleccionId);
-    for (String categoria : categorias) {
-      Object[] fila = repo.horaConMasHechosPorCategoria(coleccionId, categoria);
-      if (fila == null) continue;
+    List<EstadisticaRegistro> categorias = repo.categoriasPorColeccion(coleccionId);
 
-      Integer hora = ((Number) fila[0]).intValue();
-      int cantidad = ((Number) fila[1]).intValue();
+    for (EstadisticaRegistro categoriaRegistro : categorias) {
+      String categoria = categoriaRegistro.getValor();
 
-      // diferenciamos el tipo por categoría para no pisar registros
-      repo.guardarEstadistica(
-          coleccionId,
-          "HORA_MAS_HECHOS_" + categoria.toUpperCase(),
-          hora.toString(),
-          cantidad
-      );
+      EstadisticaRegistro registro = repo.horaConMasHechosPorCategoria(coleccionId, categoria);
+      if (registro != null) {
+        // diferenciamos el tipo por categoría para no pisar registros
+        registro.setTipo("HORA_MAS_HECHOS_" + categoria.toUpperCase());
+        repo.guardarEstadistica(registro);
+      }
     }
   }
 
   public void generarCantidadSolicitudesSpam(Long coleccionId) {
-    Long cantidad = repo.cantidadSolicitudesSpam(coleccionId);
-    repo.guardarEstadistica(coleccionId, "SOLICITUDES_SPAM", "true", cantidad.intValue());
+    EstadisticaRegistro registro = repo.cantidadSolicitudesSpam(coleccionId);
+    if (registro != null) {
+      repo.guardarEstadistica(registro);
+    }
+  }
+
+  // Para CRON
+  public void generarTodas(Long coleccionId) {
+    generarCategoriaConMayorHechos(coleccionId);
+    generarProvinciaConMayorHechos(coleccionId);
+    generarProvinciasConMasHechosPorCategorias(coleccionId);
+    generarHorasConMasHechosPorCategorias(coleccionId);
+    generarCantidadSolicitudesSpam(coleccionId);
   }
 
 }
