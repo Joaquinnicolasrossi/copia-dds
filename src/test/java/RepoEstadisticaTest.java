@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.*;
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -39,57 +40,6 @@ class RepoEstadisticaTest {
     em.createNativeQuery("DELETE FROM fuente_dinamica").executeUpdate();
     em.createNativeQuery("DELETE FROM fuente").executeUpdate();
     em.getTransaction().commit();
-
-    em.getTransaction().begin();
-
-    // Fuente dinámica
-    FuenteDinamica fuente = new FuenteDinamica();
-    em.persist(fuente);
-
-    // Colección base con criterios y repoSolicitudes
-    Coleccion coleccion = crearColeccionBase(fuente);
-    em.persist(coleccion);
-
-    // Hechos asociados a la fuente
-    Hecho robo = new Hecho(
-        "Robo en almacén",
-        "Un grupo de delincuentes ingresó a un comercio y sustrajo mercadería.",
-        "Robo",
-        -34.61, -58.38,
-        LocalDate.of(2025, 6, 7),
-        LocalDate.now(),
-        Estado.PENDIENTE
-    );
-    robo.setFuenteOrigen(fuente);
-    em.persist(robo);
-
-    Hecho incendio = new Hecho(
-        "Incendio en zona rural",
-        "Se detectó un foco de incendio de gran magnitud en una zona forestal.",
-        "Incendio",
-        -34.6037, -58.3816,
-        LocalDate.of(2025, 6, 6),
-        LocalDate.now(),
-        Estado.PENDIENTE
-    );
-    incendio.setFuenteOrigen(fuente);
-    em.persist(incendio);
-
-    em.getTransaction().commit();
-  }
-
-  private Coleccion crearColeccionBase(Fuente fuente) {
-    CriterioCategoria criterio1 = new CriterioCategoria("Incendio Forestal");
-    LocalDate desde = LocalDate.of(2018, 8, 23);
-    LocalDate hasta = LocalDate.of(2018, 9, 25);
-    CriterioFecha criterio2 = new CriterioFecha(desde, hasta);
-
-    List<Criterio> criterios = List.of(criterio1, criterio2);
-
-    DetectorDeSpamFiltro deSpamFiltro = new DetectorDeSpamFiltro();
-    RepoSolicitudes repoSolicitudes = new RepoSolicitudes(deSpamFiltro);
-
-    return new Coleccion("Incendios test", "Hechos de prueba", fuente, criterios, repoSolicitudes);
   }
 
   @AfterEach
@@ -121,7 +71,7 @@ class RepoEstadisticaTest {
     registro.setTipo("CATEGORIA_MAYOR_HECHOS");
     registro.setValor("Robo");
     registro.setCantidad(5);
-    registro.setFechaActualizacion(java.time.LocalDateTime.now());
+    registro.setFecha_actualizacion(LocalDateTime.now());
 
     repo.guardarEstadistica(registro);
 
@@ -140,26 +90,40 @@ class RepoEstadisticaTest {
 
   @Test
   void testCantidadSolicitudesSpam() {
-    // 1) Obtener la colección creada en setUp y su fuente
-    Coleccion coleccion = em.createQuery("from Coleccion", Coleccion.class)
-        .setMaxResults(1)
-        .getSingleResult();
-    Long coleccionId = coleccion.getId();
+    // 1) Crear fuente y colección
+    em.getTransaction().begin();
+    FuenteDinamica fuente = new FuenteDinamica();
+    em.persist(fuente);
 
-    // 2) Crear un Hecho asociado a la MISMA fuente de la colección
-    Hecho hecho = crearHechoSimple();
-    hecho.setFuenteOrigen(coleccion.getFuente());
+    Coleccion coleccion = new Coleccion(
+        "Incendios test",
+        "Hechos de prueba",
+        fuente,
+        List.of(new CriterioCategoria("Incendio Forestal")),
+        new RepoSolicitudes(new DetectorDeSpamFiltro())
+    );
+    em.persist(coleccion);
+    em.getTransaction().commit();
 
-    // 3) Crear la solicitud marcada como spam (descripcion >= 500)
-    DetectorDeSpamFiltro detector = new DetectorDeSpamFiltro();
-    RepoSolicitudes repoSolicitudes = new RepoSolicitudes(detector);
+    // 2) Crear hecho asociado a la misma fuente
+    Hecho hecho = new Hecho(
+        "Robo en almacén",
+        "Un grupo de delincuentes ingresó a un comercio y sustrajo mercadería.",
+        "Robo",
+        -34.61, -58.38,
+        LocalDate.of(2025, 6, 7),
+        LocalDate.now(),
+        Estado.PENDIENTE
+    );
+    hecho.setFuenteOrigen(fuente);
+
+    // 3) Crear solicitud marcada como spam
     String descripcion = "x".repeat(500);
-
     Solicitud solicitud = new Solicitud(
         hecho,
         descripcion,
-        repoSolicitudes,
-        true // es_spam = true
+        new RepoSolicitudes(new DetectorDeSpamFiltro()),
+        true // es_spam
     );
 
     em.getTransaction().begin();
@@ -168,18 +132,13 @@ class RepoEstadisticaTest {
     em.getTransaction().commit();
     em.clear();
 
-    // 4) Llamar con el ID real de la colección
-    EstadisticaRegistro registro = repo.cantidadSolicitudesSpam(coleccionId);
+    // 4) Ejecutar query de estadística
+    EstadisticaRegistro registro = repo.cantidadSolicitudesSpam(coleccion.getId());
 
+    // 5) Assertions
     assertNotNull(registro);
     assertEquals("SPAM", registro.getValor());
     assertEquals(1, registro.getCantidad());
   }
-
-  private Hecho crearHechoSimple() {
-    return new Hecho("Incendio", "desc", "Incendio Forestal", -0.5, -0.5, LocalDate.now(), LocalDate.now(), Estado.PENDIENTE);
-  }
-
-
 
 }

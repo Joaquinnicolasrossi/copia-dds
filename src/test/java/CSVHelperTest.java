@@ -21,7 +21,7 @@ class CSVHelperTest {
     reg1.setValor("valorA");
     reg1.setCantidad(5);
     reg1.setVisiblePublico(true);
-    reg1.setFechaActualizacion(LocalDateTime.of(2025, 9, 11, 12, 30));
+    reg1.setFecha_actualizacion(LocalDateTime.of(2025, 9, 11, 12, 30));
 
     EstadisticaRegistro reg2 = new EstadisticaRegistro();
     reg2.setId(2L);
@@ -30,7 +30,7 @@ class CSVHelperTest {
     reg2.setValor("valorB");
     reg2.setCantidad(15);
     reg2.setVisiblePublico(false);
-    reg2.setFechaActualizacion(LocalDateTime.of(2025, 9, 11, 14, 0));
+    reg2.setFecha_actualizacion(LocalDateTime.of(2025, 9, 11, 14, 0));
 
     List<EstadisticaRegistro> registros = List.of(reg1, reg2);
 

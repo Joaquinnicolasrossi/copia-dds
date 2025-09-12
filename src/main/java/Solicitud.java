@@ -4,9 +4,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
-//@Table(name = "solicitud")
 @Entity
+@Table (name = "solicitud")
 public class Solicitud {
   @Id
   @GeneratedValue
@@ -17,7 +18,6 @@ public class Solicitud {
   @Column(name = "descripcion", columnDefinition = "TEXT")
   private String descripcion;
   public Boolean eliminado = false;
-  @Column(name = "es_spam")
   private Boolean esSpam = false;
 
   public Solicitud() {}

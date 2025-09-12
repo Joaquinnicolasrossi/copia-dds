@@ -35,7 +35,7 @@ public class RepoEstadistica {
     registro.setTipo("CATEGORIA_MAYOR_HECHOS");
     registro.setValor((String) fila[0]);
     registro.setCantidad(((Number) fila[1]).intValue());
-    registro.setFechaActualizacion(LocalDateTime.now());
+    registro.setFecha_actualizacion(LocalDateTime.now());
     registro.setVisiblePublico(true);
 
     return registro;
@@ -64,7 +64,7 @@ public class RepoEstadistica {
     registro.setTipo("PROVINCIA_MAYOR_HECHOS");
     registro.setValor((String) fila[0]);
     registro.setCantidad(((Number) fila[1]).intValue());
-    registro.setFechaActualizacion(LocalDateTime.now());
+    registro.setFecha_actualizacion(LocalDateTime.now());
     registro.setVisiblePublico(true);
 
     return registro;
@@ -95,7 +95,7 @@ public class RepoEstadistica {
     registro.setTipo("PROVINCIA_MAYOR_HECHOS_CATEGORIA");
     registro.setValor((String) fila[0]);
     registro.setCantidad(((Number) fila[1]).intValue());
-    registro.setFechaActualizacion(LocalDateTime.now());
+    registro.setFecha_actualizacion(LocalDateTime.now());
     registro.setVisiblePublico(true);
 
     return registro;
@@ -126,7 +126,7 @@ public class RepoEstadistica {
     registro.setTipo("HORA_MAS_HECHOS_CATEGORIA");
     registro.setValor(String.valueOf(((Number) fila[0]).intValue()));
     registro.setCantidad(((Number) fila[1]).intValue());
-    registro.setFechaActualizacion(LocalDateTime.now());
+    registro.setFecha_actualizacion(LocalDateTime.now());
     registro.setVisiblePublico(true);
 
     return registro;
@@ -139,7 +139,7 @@ public class RepoEstadistica {
                 "JOIN hecho h ON s.hecho_id = h.id " +
                 "JOIN coleccion c ON h.fuente_id = c.fuente_id " +
                 "WHERE c.id = ?1 " +
-                "AND s.es_spam = true")
+                "AND s.esSpam = true")
         .setParameter(1, coleccionId)
         .getResultList();
 
@@ -150,7 +150,7 @@ public class RepoEstadistica {
     registro.setTipo("CANTIDAD_SOLICITUDES_SPAM");
     registro.setValor("SPAM");
     registro.setCantidad(cantidad.intValue());
-    registro.setFechaActualizacion(LocalDateTime.now());
+    registro.setFecha_actualizacion(LocalDateTime.now());
     registro.setVisiblePublico(true);
 
     return registro;
@@ -207,7 +207,7 @@ public class RepoEstadistica {
       r.setTipo("CATEGORIA_EN_COLECCION");
       r.setValor(cat);
       r.setCantidad(1);
-      r.setFechaActualizacion(LocalDateTime.now());
+      r.setFecha_actualizacion(LocalDateTime.now());
       r.setVisiblePublico(true);
       return r;
     }).toList();
@@ -230,13 +230,13 @@ public class RepoEstadistica {
     // Mapear fecha
     Object fechaObj = fila[6];
     if (fechaObj instanceof java.sql.Timestamp ts) {
-      registro.setFechaActualizacion(ts.toLocalDateTime());
+      registro.setFecha_actualizacion(ts.toLocalDateTime());
     } else if (fechaObj instanceof java.util.Date d) {
-      registro.setFechaActualizacion(
+      registro.setFecha_actualizacion(
           d.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime()
       );
     } else {
-      registro.setFechaActualizacion(null);
+      registro.setFecha_actualizacion(null);
     }
 
     return registro;

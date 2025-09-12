@@ -46,7 +46,7 @@ public class CSVHelper {
             reg.getValor() != null ? reg.getValor() : "",
             reg.getCantidad() != null ? reg.getCantidad().toString() : "",
             reg.getVisiblePublico() != null ? reg.getVisiblePublico().toString() : "",
-            reg.getFechaActualizacion() != null ? reg.getFechaActualizacion().format(formatter) : ""
+            reg.getFecha_actualizacion() != null ? reg.getFecha_actualizacion().format(formatter) : ""
         };
         writer.writeNext(linea);
       }

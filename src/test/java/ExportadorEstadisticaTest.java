@@ -26,7 +26,7 @@ class ExportadorEstadisticasTest {
     reg.setValor("CategoriaX");
     reg.setCantidad(42);
     reg.setVisiblePublico(true);
-    reg.setFechaActualizacion(LocalDateTime.of(2025, 9, 11, 18, 0));
+    reg.setFecha_actualizacion(LocalDateTime.of(2025, 9, 11, 18, 0));
 
     when(mockRepo.buscarPorTipo("CATEGORIA_MAYOR_HECHOS"))
         .thenReturn(List.of(reg));

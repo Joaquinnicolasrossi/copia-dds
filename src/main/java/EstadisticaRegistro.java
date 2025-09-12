@@ -18,7 +18,8 @@ public class EstadisticaRegistro {
     private String valor;
     private Integer cantidad;
     private Boolean visiblePublico;
-    private LocalDateTime fechaActualizacion;
+    @Column(name = "fecha_actualizacion")
+    private LocalDateTime fecha_actualizacion;
 
     public EstadisticaRegistro() {
     }
@@ -39,12 +40,12 @@ public class EstadisticaRegistro {
         this.coleccionId = coleccionId;
     }
 
-    public LocalDateTime getFechaActualizacion() {
-        return fechaActualizacion;
+    public LocalDateTime getFecha_actualizacion() {
+        return fecha_actualizacion;
     }
 
-    public void setFechaActualizacion(LocalDateTime fechaActualizacion) {
-        this.fechaActualizacion = fechaActualizacion;
+    public void setFecha_actualizacion(LocalDateTime fecha_actualizacion) {
+        this.fecha_actualizacion = fecha_actualizacion;
     }
 
     public Long getId() {
