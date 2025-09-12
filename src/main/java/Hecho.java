@@ -29,6 +29,8 @@ public class Hecho {
   private String categoria;
   private Double latitud;
   private Double longitud;
+  @Embedded
+  private Ubicacion ubicacion;
   private LocalDate fecha;
   private LocalDate fechaCarga;
   @Enumerated(EnumType.STRING)
