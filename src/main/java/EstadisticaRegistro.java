@@ -18,7 +18,6 @@ public class EstadisticaRegistro {
     private String valor;
     private Integer cantidad;
     private Boolean visiblePublico;
-    @Column(name = "fecha_actualizacion", columnDefinition = "DATE")
     private LocalDateTime fechaActualizacion;
 
     public EstadisticaRegistro() {

@@ -1,19 +1,23 @@
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
-
+//@Table(name = "solicitud")
 @Entity
 public class Solicitud {
   @Id
   @GeneratedValue
   private Long id;
 
-  @ManyToOne
+  @ManyToOne  @JoinColumn(name = "hecho_id")
   public Hecho hecho;
+  @Column(name = "descripcion", columnDefinition = "TEXT")
   private String descripcion;
   public Boolean eliminado = false;
+  @Column(name = "es_spam")
   private Boolean esSpam = false;
 
   public Solicitud() {}

@@ -148,4 +148,8 @@ public class Coleccion {
         .filter(hecho -> algoritmoConsenso.estaConsensuado(hecho, fuenteAgregada))
         .collect(Collectors.toSet());
   }
+
+  public Long getId() {
+    return id;
+  }
 }

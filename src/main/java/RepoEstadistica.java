@@ -62,8 +62,8 @@ public class RepoEstadistica {
     EstadisticaRegistro registro = new EstadisticaRegistro();
     registro.setColeccionId(coleccionId);
     registro.setTipo("PROVINCIA_MAYOR_HECHOS");
-    registro.setValor((String) fila[0]);                  // provincia
-    registro.setCantidad(((Number) fila[1]).intValue());  // cantidad
+    registro.setValor((String) fila[0]);
+    registro.setCantidad(((Number) fila[1]).intValue());
     registro.setFechaActualizacion(LocalDateTime.now());
     registro.setVisiblePublico(true);
 
@@ -93,8 +93,8 @@ public class RepoEstadistica {
     EstadisticaRegistro registro = new EstadisticaRegistro();
     registro.setColeccionId(coleccionId);
     registro.setTipo("PROVINCIA_MAYOR_HECHOS_CATEGORIA");
-    registro.setValor((String) fila[0]);                  // provincia
-    registro.setCantidad(((Number) fila[1]).intValue());  // cantidad
+    registro.setValor((String) fila[0]);
+    registro.setCantidad(((Number) fila[1]).intValue());
     registro.setFechaActualizacion(LocalDateTime.now());
     registro.setVisiblePublico(true);
 
@@ -124,8 +124,8 @@ public class RepoEstadistica {
     EstadisticaRegistro registro = new EstadisticaRegistro();
     registro.setColeccionId(coleccionId);
     registro.setTipo("HORA_MAS_HECHOS_CATEGORIA");
-    registro.setValor(String.valueOf(((Number) fila[0]).intValue())); // hora en string
-    registro.setCantidad(((Number) fila[1]).intValue());              // cantidad
+    registro.setValor(String.valueOf(((Number) fila[0]).intValue()));
+    registro.setCantidad(((Number) fila[1]).intValue());
     registro.setFechaActualizacion(LocalDateTime.now());
     registro.setVisiblePublico(true);
 
@@ -151,6 +151,7 @@ public class RepoEstadistica {
     registro.setValor("SPAM");
     registro.setCantidad(cantidad.intValue());
     registro.setFechaActualizacion(LocalDateTime.now());
+    registro.setVisiblePublico(true);
 
     return registro;
   }
@@ -165,7 +166,7 @@ public class RepoEstadistica {
   // --------- LECTURA DE LA TABLA ESTADISTICA ---------
   public EstadisticaRegistro ultimaCategoriaConMasHechos(Long coleccionId) {
     List<Object[]> resultados = entityManager.createNativeQuery(
-            "SELECT e.id, e.coleccion_id, e.tipo, e.valor, e.cantidad, e.visible_publico, e.fecha_actualizacion " +
+            "SELECT e.id, e.coleccion_id, e.tipo, e.valor, e.cantidad, e.visiblePublico, e.fecha_actualizacion " +
                 "FROM estadistica e " +
                 "WHERE e.coleccion_id = ?1 " +
                 "AND e.tipo = 'CATEGORIA_MAYOR_HECHOS' " +
@@ -179,7 +180,7 @@ public class RepoEstadistica {
 
   public EstadisticaRegistro ultimaProvinciaConMasHechos(Long coleccionId) {
     List<Object[]> resultados = entityManager.createNativeQuery(
-            "SELECT e.id, e.coleccion_id, e.tipo, e.valor, e.cantidad, e.visible_publico, e.fecha_actualizacion " +
+            "SELECT e.id, e.coleccion_id, e.tipo, e.valor, e.cantidad, e.visiblePublico, e.fecha_actualizacion " +
                 "FROM estadistica e " +
                 "WHERE e.coleccion_id = ?1 " +
                 "AND e.tipo = 'PROVINCIA_MAYOR_HECHOS' " +
@@ -225,10 +226,22 @@ public class RepoEstadistica {
     registro.setValor((String) fila[3]);
     registro.setCantidad(fila[4] != null ? ((Number) fila[4]).intValue() : null);
     registro.setVisiblePublico(fila[5] != null ? (Boolean) fila[5] : null);
-    registro.setFechaActualizacion(fila[6] != null ? ((java.sql.Timestamp) fila[6]).toLocalDateTime() : null);
+
+    // Mapear fecha
+    Object fechaObj = fila[6];
+    if (fechaObj instanceof java.sql.Timestamp ts) {
+      registro.setFechaActualizacion(ts.toLocalDateTime());
+    } else if (fechaObj instanceof java.util.Date d) {
+      registro.setFechaActualizacion(
+          d.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime()
+      );
+    } else {
+      registro.setFechaActualizacion(null);
+    }
 
     return registro;
   }
+
 
   public List<EstadisticaRegistro> buscarPorTipo(String tipo) {
     TypedQuery<EstadisticaRegistro> query = entityManager.createQuery(

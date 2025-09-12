@@ -14,9 +14,10 @@ class RepoEstadisticaTest {
   @BeforeAll
   static void init() {
     // Para probar en memoria
-    emf = Persistence.createEntityManagerFactory("testPU");
+    //emf = Persistence.createEntityManagerFactory("testPU");
     // Para probar en MySqle
-    //emf = Persistence.createEntityManagerFactory("simple-persistence-unit");
+    emf = Persistence.createEntityManagerFactory("simple-persistence-unit");
+
   }
 
   @AfterAll
@@ -31,6 +32,7 @@ class RepoEstadisticaTest {
 
     // Se limpia la base de datos
     em.getTransaction().begin();
+    em.createNativeQuery("DELETE FROM solicitud").executeUpdate();
     em.createNativeQuery("DELETE FROM estadistica").executeUpdate();
     em.createNativeQuery("DELETE FROM hecho").executeUpdate();
     em.createNativeQuery("DELETE FROM coleccion").executeUpdate();
@@ -95,27 +97,89 @@ class RepoEstadisticaTest {
     if (em != null) em.close();
   }
 
+//  @Test
+//  void testCategoriaConMayorHechos() {
+//    EstadisticaRegistro fila = repo.categoriaConMayorHechos(1L);
+//    assertNotNull(fila);
+//    assertTrue(fila.getValor().equals("Robo") || fila.getValor().equals("Incendio"));
+//    assertEquals(1L, (fila.getCantidad()).longValue());
+//  }
+
   @Test
   void testCategoriaConMayorHechos() {
-    EstadisticaRegistro fila = repo.categoriaConMayorHechos(1L);
-    assertNotNull(fila);
-    assertTrue(fila.getValor().equals("Robo") || fila.getValor().equals("Incendio"));
-    assertEquals(1L, (fila.getCantidad()).longValue());
+    EstadisticaRegistro registro = repo.categoriaConMayorHechos(1L);
+    assertNotNull(registro);
+    assertTrue(registro.getValor().equals("Robo") || registro.getValor().equals("Incendio"));
+    assertEquals(1, registro.getCantidad());
   }
 
-//  @Disabled
-//  @Test
-//  void testGuardarYLeerEstadistica() {
-//    repo.guardarEstadistica(1L, "CATEGORIA_MAYOR_HECHOS", "Robo", 5);
-//    String ultima = repo.ultimaCategoriaConMasHechos(1L);
-//    assertEquals("Robo", ultima);
-//  }
-//
-//  @Disabled
-//  @Test
-//  void testCategoriasPorColeccion() {
-//    List<String> categorias = repo.categoriasPorColeccion(1L);
-//    assertTrue(categorias.contains("Robo"));
-//    assertTrue(categorias.contains("Incendio"));
-//  }
+
+  @Test
+  void testGuardarYLeerEstadistica() {
+    EstadisticaRegistro registro = new EstadisticaRegistro();
+    registro.setColeccionId(1L);
+    registro.setTipo("CATEGORIA_MAYOR_HECHOS");
+    registro.setValor("Robo");
+    registro.setCantidad(5);
+    registro.setFechaActualizacion(java.time.LocalDateTime.now());
+
+    repo.guardarEstadistica(registro);
+
+    EstadisticaRegistro ultima = repo.ultimaCategoriaConMasHechos(1L);
+    assertNotNull(ultima);
+    assertEquals("Robo", ultima.getValor());
+    assertEquals(5, ultima.getCantidad());
+  }
+
+  @Test
+  void testCategoriasPorColeccion() {
+    List<EstadisticaRegistro> categorias = repo.categoriasPorColeccion(1L);
+    assertTrue(categorias.stream().anyMatch(c -> c.getValor().equals("Robo")));
+    assertTrue(categorias.stream().anyMatch(c -> c.getValor().equals("Incendio")));
+  }
+
+  @Test
+  void testCantidadSolicitudesSpam() {
+    // 1) Obtener la colección creada en setUp y su fuente
+    Coleccion coleccion = em.createQuery("from Coleccion", Coleccion.class)
+        .setMaxResults(1)
+        .getSingleResult();
+    Long coleccionId = coleccion.getId();
+
+    // 2) Crear un Hecho asociado a la MISMA fuente de la colección
+    Hecho hecho = crearHechoSimple();
+    hecho.setFuenteOrigen(coleccion.getFuente());
+
+    // 3) Crear la solicitud marcada como spam (descripcion >= 500)
+    DetectorDeSpamFiltro detector = new DetectorDeSpamFiltro();
+    RepoSolicitudes repoSolicitudes = new RepoSolicitudes(detector);
+    String descripcion = "x".repeat(500);
+
+    Solicitud solicitud = new Solicitud(
+        hecho,
+        descripcion,
+        repoSolicitudes,
+        true // es_spam = true
+    );
+
+    em.getTransaction().begin();
+    em.persist(hecho);
+    em.persist(solicitud);
+    em.getTransaction().commit();
+    em.clear();
+
+    // 4) Llamar con el ID real de la colección
+    EstadisticaRegistro registro = repo.cantidadSolicitudesSpam(coleccionId);
+
+    assertNotNull(registro);
+    assertEquals("SPAM", registro.getValor());
+    assertEquals(1, registro.getCantidad());
+  }
+
+  private Hecho crearHechoSimple() {
+    return new Hecho("Incendio", "desc", "Incendio Forestal", -0.5, -0.5, LocalDate.now(), LocalDate.now(), Estado.PENDIENTE);
+  }
+
+
+
 }
