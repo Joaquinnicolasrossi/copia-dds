@@ -11,35 +11,9 @@ public class RepoEstadistica {
     this.entityManager = entityManager;
   }
 
-  // --------- QUERIES DE CÁLCULO ---------
-  public EstadisticaRegistro categoriaConMayorHechos(Long coleccionId) {
-    List<Object[]> resultados = entityManager.createNativeQuery(
-            "SELECT h.categoria, COUNT(*) AS cantidad " +
-                "FROM hecho h " +
-                "JOIN coleccion c ON c.fuente_id = h.fuente_id " +
-                "WHERE c.id = ?1 " +
-                "GROUP BY h.categoria " +
-                "ORDER BY cantidad DESC " +
-                "LIMIT 1")
-        .setParameter(1, coleccionId)
-        .getResultList();
+  // --------- QUERIES ---------
 
-    if (resultados.isEmpty()) {
-      return null;
-    }
-
-    Object[] fila = resultados.get(0);
-
-    EstadisticaRegistro registro = new EstadisticaRegistro();
-    registro.setColeccionId(coleccionId);
-    registro.setTipo("CATEGORIA_MAYOR_HECHOS");
-    registro.setValor((String) fila[0]);
-    registro.setCantidad(((Number) fila[1]).intValue());
-    registro.setFecha_actualizacion(LocalDateTime.now());
-    registro.setVisiblePublico(true);
-
-    return registro;
-  }
+  // 1) Provincia con mayor cantidad de hechos reportados
 
   public EstadisticaRegistro provinciaConMasHechos(Long coleccionId) {
     List<Object[]> resultados = entityManager.createNativeQuery(
@@ -70,6 +44,37 @@ public class RepoEstadistica {
     return registro;
   }
 
+  // 2) Categoria con mayor cantidad de hechos reportados
+  public EstadisticaRegistro categoriaConMayorHechos(Long coleccionId) {
+    List<Object[]> resultados = entityManager.createNativeQuery(
+            "SELECT h.categoria, COUNT(*) AS cantidad " +
+                "FROM hecho h " +
+                "JOIN coleccion c ON c.fuente_id = h.fuente_id " +
+                "WHERE c.id = ?1 " +
+                "GROUP BY h.categoria " +
+                "ORDER BY cantidad DESC " +
+                "LIMIT 1")
+        .setParameter(1, coleccionId)
+        .getResultList();
+
+    if (resultados.isEmpty()) {
+      return null;
+    }
+
+    Object[] fila = resultados.get(0);
+
+    EstadisticaRegistro registro = new EstadisticaRegistro();
+    registro.setColeccionId(coleccionId);
+    registro.setTipo("CATEGORIA_MAYOR_HECHOS");
+    registro.setValor((String) fila[0]);
+    registro.setCantidad(((Number) fila[1]).intValue());
+    registro.setFecha_actualizacion(LocalDateTime.now());
+    registro.setVisiblePublico(true);
+
+    return registro;
+  }
+
+  // 3) Provincia con mayor cantidad de hechos reportados de una cierta categoria
   public EstadisticaRegistro provinciaConMasHechosPorCategoria(Long coleccionId, String categoria) {
     List<Object[]> resultados = entityManager.createNativeQuery(
             "SELECT h.provincia, COUNT(*) AS cantidad " +
@@ -101,6 +106,7 @@ public class RepoEstadistica {
     return registro;
   }
 
+  // Hora del dia con mayor cantidad de hechos por categoria
   public EstadisticaRegistro horaConMasHechosPorCategoria(Long coleccionId, String categoria) {
     List<Object[]> resultados = entityManager.createNativeQuery(
             "SELECT EXTRACT(HOUR FROM h.fecha) as hora, COUNT(*) as cantidad " +
@@ -132,6 +138,7 @@ public class RepoEstadistica {
     return registro;
   }
 
+  // 5) Cantidad de solicitudes de eliminacion son spam
   public EstadisticaRegistro cantidadSolicitudesSpam(Long coleccionId) {
     List<Object> resultados = entityManager.createNativeQuery(
             "SELECT COUNT(*) " +
@@ -164,84 +171,16 @@ public class RepoEstadistica {
   }
 
   // --------- LECTURA DE LA TABLA ESTADISTICA ---------
-  public EstadisticaRegistro ultimaCategoriaConMasHechos(Long coleccionId) {
-    List<Object[]> resultados = entityManager.createNativeQuery(
-            "SELECT e.id, e.coleccion_id, e.tipo, e.valor, e.cantidad, e.visiblePublico, e.fecha_actualizacion " +
-                "FROM estadistica e " +
-                "WHERE e.coleccion_id = ?1 " +
-                "AND e.tipo = 'CATEGORIA_MAYOR_HECHOS' " +
-                "ORDER BY e.fecha_actualizacion DESC " +
-                "LIMIT 1")
-        .setParameter(1, coleccionId)
-        .getResultList();
-
-    return mapearARegistro(resultados);
-  }
-
-  public EstadisticaRegistro ultimaProvinciaConMasHechos(Long coleccionId) {
-    List<Object[]> resultados = entityManager.createNativeQuery(
-            "SELECT e.id, e.coleccion_id, e.tipo, e.valor, e.cantidad, e.visiblePublico, e.fecha_actualizacion " +
-                "FROM estadistica e " +
-                "WHERE e.coleccion_id = ?1 " +
-                "AND e.tipo = 'PROVINCIA_MAYOR_HECHOS' " +
-                "ORDER BY e.fecha_actualizacion DESC " +
-                "LIMIT 1")
-        .setParameter(1, coleccionId)
-        .getResultList();
-
-    return mapearARegistro(resultados);
-  }
-
-  public List<EstadisticaRegistro> categoriasPorColeccion(Long coleccionId) {
-    List<String> categorias = entityManager.createNativeQuery(
+  // Utilizada por GeneradorEstadistica usa para saber qué categorías existen en una colección
+  public List<String> categoriasPorColeccion(Long coleccionId) {
+    return entityManager.createNativeQuery(
             "SELECT DISTINCT h.categoria " +
                 "FROM hecho h " +
                 "JOIN coleccion c ON c.fuente_id = h.fuente_id " +
                 "WHERE c.id = ?1")
         .setParameter(1, coleccionId)
         .getResultList();
-
-    return categorias.stream().map(cat -> {
-      EstadisticaRegistro r = new EstadisticaRegistro();
-      r.setColeccionId(coleccionId);
-      r.setTipo("CATEGORIA_EN_COLECCION");
-      r.setValor(cat);
-      r.setCantidad(1);
-      r.setFecha_actualizacion(LocalDateTime.now());
-      r.setVisiblePublico(true);
-      return r;
-    }).toList();
   }
-
-  private EstadisticaRegistro mapearARegistro(List<Object[]> resultados) {
-    if (resultados.isEmpty()) {
-      return null;
-    }
-    Object[] fila = resultados.get(0);
-
-    EstadisticaRegistro registro = new EstadisticaRegistro();
-    registro.setId(((Number) fila[0]).longValue());
-    registro.setColeccionId(((Number) fila[1]).longValue());
-    registro.setTipo((String) fila[2]);
-    registro.setValor((String) fila[3]);
-    registro.setCantidad(fila[4] != null ? ((Number) fila[4]).intValue() : null);
-    registro.setVisiblePublico(fila[5] != null ? (Boolean) fila[5] : null);
-
-    // Mapear fecha
-    Object fechaObj = fila[6];
-    if (fechaObj instanceof java.sql.Timestamp ts) {
-      registro.setFecha_actualizacion(ts.toLocalDateTime());
-    } else if (fechaObj instanceof java.util.Date d) {
-      registro.setFecha_actualizacion(
-          d.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime()
-      );
-    } else {
-      registro.setFecha_actualizacion(null);
-    }
-
-    return registro;
-  }
-
 
   public List<EstadisticaRegistro> buscarPorTipo(String tipo) {
     TypedQuery<EstadisticaRegistro> query = entityManager.createQuery(

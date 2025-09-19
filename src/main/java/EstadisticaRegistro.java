@@ -20,7 +20,8 @@ public class EstadisticaRegistro {
     private Integer cantidad;
     private Boolean visiblePublico;
     @Column(name = "fecha_actualizacion")
-    @Convert(converter = LocalDateTimeConverter.class)    private LocalDateTime fecha_actualizacion;
+    @Convert(converter = LocalDateTimeConverter.class)
+    private LocalDateTime fecha_actualizacion;
 
     public EstadisticaRegistro() {
     }

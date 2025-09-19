@@ -25,11 +25,9 @@ public class GeneradorEstadistica {
   }
 
   public void generarProvinciasConMasHechosPorCategorias(Long coleccionId) {
-    List<EstadisticaRegistro> categorias = repo.categoriasPorColeccion(coleccionId);
+    List<String> categorias = repo.categoriasPorColeccion(coleccionId);
 
-    for (EstadisticaRegistro categoriaRegistro : categorias) {
-      String categoria = categoriaRegistro.getValor();
-
+    for (String categoria : categorias) {
       EstadisticaRegistro registro = repo.provinciaConMasHechosPorCategoria(coleccionId, categoria);
       if (registro != null) {
         // ajustamos el tipo para diferenciar por categoría
@@ -43,11 +41,9 @@ public class GeneradorEstadistica {
   }
 
   public void generarHorasConMasHechosPorCategorias(Long coleccionId) {
-    List<EstadisticaRegistro> categorias = repo.categoriasPorColeccion(coleccionId);
+    List<String> categorias = repo.categoriasPorColeccion(coleccionId);
 
-    for (EstadisticaRegistro categoriaRegistro : categorias) {
-      String categoria = categoriaRegistro.getValor();
-
+    for (String categoria : categorias) {
       EstadisticaRegistro registro = repo.horaConMasHechosPorCategoria(coleccionId, categoria);
       if (registro != null) {
         // diferenciamos el tipo por categoría para no pisar registros

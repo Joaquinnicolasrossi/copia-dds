@@ -15,7 +15,7 @@ class RepoEstadisticaTest {
   static void init() {
     // Para probar en memoria
     emf = Persistence.createEntityManagerFactory("testPU");
-    // Para probar en MySqle
+    // Para probar en MySql
     //emf = Persistence.createEntityManagerFactory("simple-persistence-unit");
 
   }
@@ -45,11 +45,14 @@ class RepoEstadisticaTest {
     registro.setValor("Robo");
     registro.setCantidad(5);
     registro.setFecha_actualizacion(LocalDateTime.now());
+    registro.setVisiblePublico(true);
 
     repo.guardarEstadistica(registro);
 
-    EstadisticaRegistro ultima = repo.ultimaCategoriaConMasHechos(1L);
-    assertNotNull(ultima);
+    List<EstadisticaRegistro> resultados = repo.buscarPorTipo("CATEGORIA_MAYOR_HECHOS");
+    assertFalse(resultados.isEmpty());
+
+    EstadisticaRegistro ultima = resultados.get(resultados.size() - 1);
     assertEquals("Robo", ultima.getValor());
     assertEquals(5, ultima.getCantidad());
   }
