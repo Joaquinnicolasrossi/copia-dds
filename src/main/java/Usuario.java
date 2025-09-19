@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -25,9 +26,9 @@ public class Usuario {
   }
 
   public void subirHecho(String titulo, String descripcion, String categoria,
-      double latitud, double longitud, LocalDate fecha) {
+      double latitud, double longitud, LocalDateTime fecha) {
     Hecho hecho = new Hecho(titulo, descripcion, categoria, latitud, longitud, fecha,
-        LocalDate.now(), Estado.PENDIENTE);
+        LocalDateTime.now(), Estado.PENDIENTE);
     if (estaRegistrado) {
       hecho.setUsuario(this);
     }

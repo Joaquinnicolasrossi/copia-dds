@@ -6,7 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -263,7 +263,7 @@ public class FuenteEstaticaIncendios extends Fuente {
 
     private Hecho construirHecho(String[] fila, String causaTexto, String descTexto) {
         String municipio = CSVHelper.getValue(fila, 9);
-        LocalDate fecha = CSVHelper.parseFecha(CSVHelper.getValue(fila, 2), null);
+        LocalDateTime fecha = CSVHelper.parseFecha(CSVHelper.getValue(fila, 2), null);
         double lat = CSVHelper.parseCoordenada(CSVHelper.getValue(fila, 3));
         double lng = CSVHelper.parseCoordenada(CSVHelper.getValue(fila, 4));
 
@@ -274,7 +274,7 @@ public class FuenteEstaticaIncendios extends Fuente {
                 lat,
                 lng,
                 fecha,
-                LocalDate.now(),
+                LocalDateTime.now(),
                 Estado.ACEPTADA);
     }
 }

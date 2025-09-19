@@ -1,4 +1,4 @@
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -77,8 +77,8 @@ public class RepoHechosTest {
         categoria,
         -34.0000,
         -34.0000,
-        LocalDate.now(),
-        LocalDate.now(),
+        LocalDateTime.now(),
+        LocalDateTime.now(),
         Estado.PENDIENTE
     );
   }

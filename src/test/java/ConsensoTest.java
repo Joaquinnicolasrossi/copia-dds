@@ -3,7 +3,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,8 +32,8 @@ class ConsensoTest {
         "Incendio",
         -31.4167,
         -64.1833,
-        LocalDate.of(2025, 6, 1),
-        LocalDate.now(),
+        LocalDateTime.of(2025, 6, 1,10,5),
+        LocalDateTime.now(),
         Estado.PENDIENTE
     );
 
@@ -43,8 +43,8 @@ class ConsensoTest {
         "Incendio",
         -31.4167,
         -64.1833,
-        LocalDate.of(2025, 6, 1),
-        LocalDate.now(),
+        LocalDateTime.of(2025, 6, 1,10,5),
+        LocalDateTime.now(),
         Estado.PENDIENTE
     );
 
@@ -54,8 +54,8 @@ class ConsensoTest {
         "Incendio",
         -30.0000,
         -60.0000,
-        LocalDate.of(2025, 6, 2),
-        LocalDate.now(),
+        LocalDateTime.of(2025, 6, 2,10,5),
+        LocalDateTime.now(),
         Estado.PENDIENTE
     );
 

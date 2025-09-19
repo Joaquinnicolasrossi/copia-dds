@@ -1,6 +1,6 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -21,8 +21,8 @@ public class NavegacionTest {
     FuenteEstaticaIncendios fuenteEstaticaIncendios = new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
 
     CriterioCategoria criterio1 = new CriterioCategoria("Incendio Forestal");
-    LocalDate desde = LocalDate.of(2018, 8, 23);
-    LocalDate hasta = LocalDate.of(2018, 9, 25);
+    LocalDateTime desde = LocalDateTime.of(2018, 8, 23,10,5);
+    LocalDateTime hasta = LocalDateTime.of(2018, 9, 25,10,5);
     CriterioFecha criterio2 = new CriterioFecha(desde, hasta);
     List<Criterio> criterios = List.of(criterio1, criterio2);
     DetectorDeSpamFiltro deSpamFiltro = new DetectorDeSpamFiltro();

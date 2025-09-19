@@ -1,6 +1,6 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -75,14 +75,14 @@ class RepoSolicitudesTest {
     assertEquals("La solicitud es spam", e.getMessage());
   }
   private Hecho crearHechoSimple() {
-    return new Hecho("Incendio", "desc", "Incendio Forestal", -0.5, -0.5, LocalDate.now(), LocalDate.now(), Estado.PENDIENTE);
+    return new Hecho("Incendio", "desc", "Incendio Forestal", -0.5, -0.5, LocalDateTime.now(), LocalDateTime.now(), Estado.PENDIENTE);
   }
 
   @Test
   void cantidadSolicitudesSpamCuentaCorrectamente() throws Exception {
     Hecho hecho1 = crearHechoSimple();
     Hecho hecho2 = new Hecho("Otro hecho", "descripcion de prueba ".repeat(30),
-        "Estafa", -0.5, -0.5, LocalDate.now(), LocalDate.now(), Estado.PENDIENTE);
+        "Estafa", -0.5, -0.5, LocalDateTime.now(), LocalDateTime.now(), Estado.PENDIENTE);
 
     // Solicitud válida
     String descripcionValida = "x".repeat(500);

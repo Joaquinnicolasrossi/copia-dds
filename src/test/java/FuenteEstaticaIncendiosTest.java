@@ -1,7 +1,7 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +25,7 @@ class FuenteEstaticaIncendiosTest {
     assertEquals("Incendio Forestal", primero.getCategoria());
     assertEquals(0.0, primero.getLatitud());
     assertEquals(0.0, primero.getLongitud());
-    assertEquals(LocalDate.of(1968, 1, 19), primero.getFecha());
+    assertEquals(LocalDateTime.of(1968, 1, 19,10,5), primero.getFecha());
 
   }
 

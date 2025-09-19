@@ -1,6 +1,6 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
 class SolicitudTest {
@@ -38,6 +38,6 @@ class SolicitudTest {
     assertTrue(repoSolicitudes.getSolicitudes().isEmpty());
   }
   private Hecho crearHechoSimple() {
-    return new Hecho("Incendio", "desc", "Incendio Forestal", -0.5, -0.5, LocalDate.now(), LocalDate.now(), Estado.PENDIENTE);
+    return new Hecho("Incendio", "desc", "Incendio Forestal", -0.5, -0.5, LocalDateTime.now(), LocalDateTime.now(), Estado.PENDIENTE);
   }
 }

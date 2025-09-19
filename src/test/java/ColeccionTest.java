@@ -1,7 +1,7 @@
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -11,8 +11,8 @@ class ColeccionTest {
     FuenteEstaticaIncendios fuenteEstaticaIncendios = new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
 
     CriterioCategoria criterio1 = new CriterioCategoria("Incendio Forestal");
-    LocalDate desde = LocalDate.of(2018, 8, 23);
-    LocalDate hasta = LocalDate.of(2018, 9, 25);
+    LocalDateTime desde = LocalDateTime.of(2018, 8, 23, 10,5);
+    LocalDateTime hasta = LocalDateTime.of(2018, 9, 25, 10, 5);
     CriterioFecha criterio2 = new CriterioFecha(desde, hasta);
     List<Criterio> criterios = List.of(criterio1, criterio2);
     DetectorDeSpamFiltro deSpamFiltro = new DetectorDeSpamFiltro();
@@ -32,8 +32,8 @@ class ColeccionTest {
         "Todos los hechos deben ser de la categoría 'Incendio Forestal'");
 
     assertTrue(hechos.stream().allMatch(h ->
-            !h.getFecha().isBefore(LocalDate.of(2018, 8, 23)) &&
-                !h.getFecha().isAfter(LocalDate.of(2018, 9, 25))),
+            !h.getFecha().isBefore(LocalDateTime.of(2018, 8, 23, 10 ,5)) &&
+                !h.getFecha().isAfter(LocalDateTime.of(2018, 9, 25, 10, 5))),
         "Todas las fechas deben estar entre 2018-08-23 y 2018-09-25");
 
 
@@ -44,8 +44,8 @@ class ColeccionTest {
     Coleccion coleccion = crearColeccionBase();
 
 
-    LocalDate filtroDesde = LocalDate.of(2018, 9, 1);
-    LocalDate filtroHasta = LocalDate.of(2018, 9, 15);
+    LocalDateTime filtroDesde = LocalDateTime.of(2018, 9, 1, 10, 5);
+    LocalDateTime filtroHasta = LocalDateTime.of(2018, 9, 15, 10 ,5);
     CriterioFecha filtro = new CriterioFecha(filtroDesde, filtroHasta);
 
     List<Hecho> hechosFiltrados = coleccion.mostrarHechosFiltrados(filtro);

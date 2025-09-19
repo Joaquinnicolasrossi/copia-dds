@@ -1,7 +1,7 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +24,7 @@ public class FuenteEstaticaVictimasTest {
     assertEquals("Accidente Vial", primero.getCategoria());
     assertEquals(-39, primero.getLatitud());
     assertEquals(-68, primero.getLongitud());
-    assertEquals(LocalDate.of(2017, 1, 27), primero.getFecha());
+    assertEquals(LocalDateTime.of(2017, 1, 27,10,5), primero.getFecha());
 
   }
 

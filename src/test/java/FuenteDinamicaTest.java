@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,8 +31,8 @@ public class FuenteDinamicaTest {
         "Incendio",
         -34.6037,
         -58.3816,
-        LocalDate.of(2025, 6, 6),
-        LocalDate.now(),
+        LocalDateTime.of(2025, 6, 6,10,5),
+        LocalDateTime.now(),
         Estado.PENDIENTE
     );
 
@@ -93,8 +93,8 @@ public class FuenteDinamicaTest {
         "Incendio",
         -34.6037,
         -58.3816,
-        LocalDate.of(2025, 6, 1),
-        LocalDate.now().minusDays(8),
+        LocalDateTime.of(2025, 6, 1,10,5),
+        LocalDateTime.now().minusDays(8),
         Estado.PENDIENTE
     );
     incendio.setUsuario(usuario);

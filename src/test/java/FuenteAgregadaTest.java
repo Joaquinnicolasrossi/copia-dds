@@ -2,7 +2,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,7 +45,7 @@ public class FuenteAgregadaTest {
   }
 
   private Hecho crearHechoSimple(String titulo, String descripcion, String categoria) {
-    return new Hecho(titulo, descripcion, categoria, -34.0000, -34.0000, LocalDate.now(), LocalDate.now(), Estado.PENDIENTE);
+    return new Hecho(titulo, descripcion, categoria, -34.0000, -34.0000, LocalDateTime.now(), LocalDateTime.now(), Estado.PENDIENTE);
   }
 }
 

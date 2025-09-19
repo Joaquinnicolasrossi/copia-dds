@@ -1,19 +1,19 @@
 import javax.persistence.Entity;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class CriterioFecha extends Criterio {
-  public LocalDate fechaDesde;
-  public LocalDate fechaHasta;
+  public LocalDateTime fechaDesde;
+  public LocalDateTime fechaHasta;
 
-  public CriterioFecha(LocalDate fechaDesde, LocalDate fechaHasta) {
+  public CriterioFecha(LocalDateTime fechaDesde, LocalDateTime fechaHasta) {
     this.fechaDesde = fechaDesde;
     this.fechaHasta = fechaHasta;
   }
 
   @Override
   public boolean seCumpleCriterio(Hecho hecho) {
-    LocalDate fechaHecho = hecho.getFecha();
+    LocalDateTime fechaHecho = hecho.getFecha();
     return fechaHecho.isBefore(fechaHasta) && fechaHecho.isAfter(fechaDesde);
   }
 }

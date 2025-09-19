@@ -1,5 +1,6 @@
 import java.time.LocalDateTime;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +20,7 @@ public class EstadisticaRegistro {
     private Integer cantidad;
     private Boolean visiblePublico;
     @Column(name = "fecha_actualizacion")
-    private LocalDateTime fecha_actualizacion;
+    @Convert(converter = LocalDateTimeConverter.class)    private LocalDateTime fecha_actualizacion;
 
     public EstadisticaRegistro() {
     }

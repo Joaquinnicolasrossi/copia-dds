@@ -1,7 +1,7 @@
 import com.opencsv.CSVWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -17,12 +17,12 @@ public class CSVHelper {
     return fila[index].trim();
   }
 
-  public static LocalDate parseFecha(String valor, java.time.format.DateTimeFormatter formatter) {
+  public static LocalDateTime parseFecha(String valor, java.time.format.DateTimeFormatter formatter) {
     if (valor == null || valor.isEmpty())
       return null;
     return (formatter == null)
-        ? LocalDate.parse(valor) // ISO-8601
-        : LocalDate.parse(valor, formatter);
+        ? LocalDateTime.parse(valor) // ISO-8601
+        : LocalDateTime.parse(valor, formatter);
   }
 
   public static double parseCoordenada(String valor) {

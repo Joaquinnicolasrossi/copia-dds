@@ -22,6 +22,7 @@ public class Coleccion {
   public String titulo;
   private String descripcion;
   @ManyToOne
+  @JoinColumn(name = "fuente_id")
   public Fuente fuente;
   @OneToMany(mappedBy = "coleccion")
   public List<Criterio> criterios;

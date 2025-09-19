@@ -9,7 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ public class FuenteEstaticaVictimas extends Fuente {
         String calle = CSVHelper.getValue(fila, 16);
         String hora = CSVHelper.getValue(fila, 15);
 
-        LocalDate fecha = CSVHelper.parseFecha(CSVHelper.getValue(fila, 14), formatter);
+        LocalDateTime fecha = CSVHelper.parseFecha(CSVHelper.getValue(fila, 14), formatter);
 
         double lat = CSVHelper.parseCoordenada(CSVHelper.getValue(fila, 10));
         double lng = CSVHelper.parseCoordenada(CSVHelper.getValue(fila, 11));
@@ -62,7 +62,7 @@ public class FuenteEstaticaVictimas extends Fuente {
             lat,
             lng,
             fecha,
-            LocalDate.now(),
+            LocalDateTime.now(),
             Estado.ACEPTADA);
 
         lista.add(hecho);

@@ -1,6 +1,7 @@
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -10,12 +11,12 @@ import javax.persistence.Transient;
 @Table (name = "solicitud")
 public class Solicitud {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @ManyToOne  @JoinColumn(name = "hecho_id")
   public Hecho hecho;
-  @Column(name = "descripcion", columnDefinition = "TEXT")
+  @Column(name = "descripcion", length = 2000)
   private String descripcion;
   public Boolean eliminado = false;
   private Boolean esSpam = false;

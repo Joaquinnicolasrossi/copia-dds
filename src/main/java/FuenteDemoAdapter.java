@@ -1,5 +1,4 @@
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,12 +63,12 @@ public class FuenteDemoAdapter extends Fuente {
     Object longObj = raw.get("longitud");
     builder.setLongitud((double) longObj);
 
-    // asumo java.util.LocalDate
+    // asumo java.util.LocalDateTime
     Object fechaRaw = raw.get("fecha");
-    LocalDate fechaHecho = (LocalDate) fechaRaw;
+    LocalDateTime fechaHecho = (LocalDateTime) fechaRaw;
     builder.setFecha(fechaHecho);
 
-    builder.setFechaCarga(LocalDate.now());
+    builder.setFechaCarga(LocalDateTime.now());
 
     Object estadoObj = raw.get("estado");
     if (estadoObj instanceof String) {

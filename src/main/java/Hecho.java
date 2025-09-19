@@ -1,7 +1,8 @@
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -29,10 +30,16 @@ public class Hecho {
   private String categoria;
   private Double latitud;
   private Double longitud;
-  @Embedded
-  private Ubicacion ubicacion;
-  private LocalDate fecha;
-  private LocalDate fechaCarga;
+  //@Embedded
+  //private Ubicacion ubicacion;
+  @Column(name = "provincia")
+  private String provincia;
+  @Column(name = "fecha")
+  @Convert(converter = LocalDateTimeConverter.class)
+  private LocalDateTime fecha;
+  @Column(name = "fechaCarga")
+  @Convert(converter = LocalDateTimeConverter.class)
+  private LocalDateTime fechaCarga;
   @Enumerated(EnumType.STRING)
   private Estado estado;
   @Transient
@@ -45,7 +52,7 @@ public class Hecho {
   }
 
   public Hecho(String titulo, String descripcion, String categoria, Double latitud,
-      Double longitud, LocalDate fecha, LocalDate fechaCarga, Estado estado) {
+      Double longitud, LocalDateTime fecha, LocalDateTime fechaCarga, Estado estado) {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.categoria = categoria;
@@ -80,11 +87,11 @@ public class Hecho {
     return longitud;
   }
 
-  public LocalDate getFecha() {
+  public LocalDateTime getFecha() {
     return fecha;
   }
 
-  public LocalDate getFechaCarga() {
+  public LocalDateTime getFechaCarga() {
     return fechaCarga;
   }
 
@@ -101,7 +108,7 @@ public class Hecho {
   }
 
   public boolean estaDentroDePlazoDeEdicion() {
-    return fechaCarga != null && fechaCarga.isAfter(LocalDate.now().minusDays(7));
+    return fechaCarga != null && fechaCarga.isAfter(LocalDateTime.now().minusDays(7));
   }
 
   public boolean perteneceA(Usuario usuario) {
@@ -130,8 +137,8 @@ public class Hecho {
     private String categoria;
     private Double latitud;
     private Double longitud;
-    private LocalDate fecha;
-    private LocalDate fechaCarga;
+    private LocalDateTime fecha;
+    private LocalDateTime fechaCarga;
     private Estado estado;
 
     public HechoBuilder setTitulo(String titulo) {
@@ -159,12 +166,12 @@ public class Hecho {
       return this;
     }
 
-    public HechoBuilder setFecha(LocalDate fecha) {
+    public HechoBuilder setFecha(LocalDateTime fecha) {
       this.fecha = fecha;
       return this;
     }
 
-    public HechoBuilder setFechaCarga(LocalDate fechaCarga) {
+    public HechoBuilder setFechaCarga(LocalDateTime fechaCarga) {
       this.fechaCarga = fechaCarga;
       return this;
     }
@@ -197,6 +204,23 @@ public class Hecho {
         .setFechaCarga(original.getFechaCarga())
         .setEstado(original.getEstado());
     return combinado.build();
+  }
+
+  public String getProvincia() {
+    return provincia;
+  }
+
+  public void setProvincia(String provincia) {
+    if (provincia == null || provincia.isBlank()) {
+      this.provincia = null;
+      return;
+    }
+
+    // PAsamos a minùsculas
+    String lower = provincia.toLowerCase();
+
+    // Capitalizar la primera letra
+    this.provincia = Character.toUpperCase(lower.charAt(0)) + lower.substring(1);
   }
 
 }

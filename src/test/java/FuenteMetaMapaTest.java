@@ -2,7 +2,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +49,7 @@ public class FuenteMetaMapaTest {
   @Test
   public void seExtraenHechosDeMetaMapa() throws RuntimeException {
     List<Hecho> hechos = fuenteMetaMapa.extraerHechos();
-    List<Hecho> hechosEsperados = List.of(new Hecho("TituloA", "DescripcionA", "CategoriaA", -34.6037, -34.6037, LocalDate.of(2025, 5, 28), LocalDate.of(2025, 5, 28), Estado.PENDIENTE));
+    List<Hecho> hechosEsperados = List.of(new Hecho("TituloA", "DescripcionA", "CategoriaA", -34.6037, -34.6037, LocalDateTime.of(2025, 5, 28,10,5), LocalDateTime.of(2025, 5, 28,10,5), Estado.PENDIENTE));
 
     assertEquals(hechosEsperados.get(0).getTitulo(), hechos.get(0).getTitulo());
   }
