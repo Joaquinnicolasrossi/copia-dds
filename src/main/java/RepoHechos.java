@@ -1,27 +1,21 @@
 import java.util.List;
-import javax.persistence.EntityManager;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
-public class RepoHechos {
-  private EntityManager entityManager;
-
-  public void setEntityManager(EntityManager entityManager) {
-    this.entityManager = entityManager;
-  }
+public class RepoHechos implements WithSimplePersistenceUnit {
 
   public void guardarHechos(List<Hecho> hechos) {
-    entityManager.getTransaction().begin();
-    hechos.forEach(hecho -> entityManager.persist(hecho));
-    entityManager.getTransaction().commit();
+    hechos.forEach(hecho -> entityManager().persist(hecho));
   }
 
   public List<Hecho> obtenerTodosLosHechos() {
-    return entityManager.createNativeQuery("SELECT * FROM hecho", Hecho.class)
+    return entityManager()
+        .createQuery("from Hecho", Hecho.class)
         .getResultList();
   }
 
   public List<Fuente> obtenerTodasLasFuentes() {
-    return entityManager.createNativeQuery("SELECT DISTINCT f.* FROM fuente f " +
-        "INNER JOIN hecho h ON h.fuente_origen_id = f.id", Fuente.class)
+    return entityManager()
+        .createQuery("select distinct f from Fuente f join Hecho h", Fuente.class)
         .getResultList();
   }
 
@@ -32,14 +26,15 @@ public class RepoHechos {
   }
 
   public List<Hecho> obtenerHechosPorFuente(Fuente fuente) {
-    return entityManager.createNativeQuery("SELECT h.* FROM hecho h" +
-        "WHERE h.FuenteOrigen =  ?", Hecho.class)
-        .setParameter(1, fuente.getId())
+    return entityManager()
+        .createQuery("select h from Hecho h join Fuente f where h.fuente_origen = :fuente", Hecho.class)
+        .setParameter("fuente", fuente)
         .getResultList();
   }
 
+  @SuppressWarnings("unchecked")
   public List<Hecho> buscarFullText(String texto) {
-    return entityManager.createNativeQuery(
+    return entityManager().createNativeQuery(
         "SELECT * FROM hecho WHERE MATCH(titulo, descripcion) AGAINST (? IN NATURAL LANGUAGE MODE)",
         Hecho.class).setParameter(1, texto)
         .getResultList();

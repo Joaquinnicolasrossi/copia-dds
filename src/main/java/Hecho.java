@@ -17,13 +17,13 @@ import javax.persistence.Transient;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-@Table(name = "hecho")
+@Table(name = "Hecho")
 public class Hecho {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @ManyToOne
-  @JoinColumn(name = "fuente_id")
+  @JoinColumn(name = "fuente_origen")
   private Fuente fuenteOrigen;
   private String titulo;
   private String descripcion;

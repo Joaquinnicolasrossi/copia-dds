@@ -19,7 +19,6 @@ public class CronTab {
         EntityManager em = emf.createEntityManager();
 
         RepoHechos repo = new RepoHechos();
-        repo.setEntityManager(em);
 
         FuenteDemoAdapter fuenteDemo = new FuenteDemoAdapter(
             new URL("https://api.demo/estado"), new ConexionGenerica(), LocalDateTime.now(), repo);
