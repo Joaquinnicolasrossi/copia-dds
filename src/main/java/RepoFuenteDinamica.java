@@ -1,13 +1,11 @@
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RepoFuenteDinamica {
-  List<Hecho> hechos = new ArrayList<>();
 
-  public Hecho save(Hecho hecho) {
-    hechos.add(hecho);
-    return hecho;
-  }
+public class RepoFuenteDinamica implements WithSimplePersistenceUnit {
+
+  List<Hecho> hechos = new ArrayList<>();
 
   public List<Hecho> getHechos() {
     return new ArrayList<>(hechos);
@@ -29,35 +27,41 @@ public class RepoFuenteDinamica {
   public void rechazar(Hecho hecho) {
     hechos.remove(hecho);
   }
-  // esto era para probar algo , despues lo borro
-  // public Hecho save(Hecho hecho) {
-  // entityManager.getTransaction().begin();
-  // entityManager.persist(hecho);
-  // entityManager.getTransaction().commit();
-  // return hecho;
-  // }
-  //
-  // public List<Hecho> getHechos() {
-  // return entityManager.createQuery("Select from hecho",
-  // Hecho.class).getResultList();
-  // }
-  //
-  // public Hecho findById(long hechoid) {
-  // return entityManager.createQuery(
-  // "SELECT h FROM Hecho h WHERE h.id = :hechoid", Hecho.class)
-  // .setParameter("hechoid", hechoid).getSingleResult();
-  // }
-  //
-  //
-  // public void saveUpdate(Hecho hechoOriginal, Hecho.HechoBuilder hechoBuilder)
-  // {
-  // entityManager.getTransaction().begin();
-  //
-  // Hecho actualizado = hechoOriginal.actualizarHecho(hechoOriginal,
-  // hechoBuilder);
-  // entityManager.merge(actualizado);
-  //
-  // entityManager.getTransaction().commit();
-  //
-  // }
+
+   public Hecho save(Hecho hecho) {
+   hechos.add(hecho);
+   return hecho;
+   }
+
+   //metodos para persistir en mysql
+  public Hecho save_(Hecho hecho) {
+    entityManager().getTransaction().begin();
+    entityManager().persist(hecho);
+    entityManager().getTransaction().commit();
+    return hecho;
+  }
+
+   public List<Hecho> getHechos_() {
+   return entityManager().createQuery("Select from hecho",
+   Hecho.class).getResultList();
+   }
+
+   public Hecho findById(long hechoid) {
+   return entityManager().createQuery(
+   "SELECT h FROM Hecho h WHERE h.id = :hechoid", Hecho.class)
+   .setParameter("hechoid", hechoid).getSingleResult();
+   }
+
+
+   public void saveUpdate_(Hecho hechoOriginal, Hecho.HechoBuilder hechoBuilder)
+   {
+   entityManager().getTransaction().begin();
+
+   Hecho actualizado = hechoOriginal.actualizarHecho(hechoOriginal,
+   hechoBuilder);
+   entityManager().merge(actualizado);
+
+   entityManager().getTransaction().commit();
+
+   }
 }

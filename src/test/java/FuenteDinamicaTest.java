@@ -136,6 +136,7 @@ public class FuenteDinamicaTest {
     assertEquals(1,repoFuenteDinamica.getHechos().size());
     assertEquals(0, repoSolicitudesRevision.getRevisiones().size());
   }
+
 @Test
   public void Revision_Hecho_Rechazado() throws Exception {
     Rechazar rechazar = new Rechazar(repoFuenteDinamica);
@@ -145,6 +146,13 @@ public class FuenteDinamicaTest {
   assertEquals(0, repoSolicitudesRevision.getRevisiones().size());
   assertEquals("RECHAZADA", incendio.getEstado().name());
 }
+
+  //test para subir un hecho y persistr en mysql
+  @Test
+  public void subirHecho () throws Exception {
+    Aceptar aceptar = new Aceptar(repoFuenteDinamica);
+    fuenteDinamica.revisarSolicitud(incendio,aceptar);
+  }
 
 }
 
