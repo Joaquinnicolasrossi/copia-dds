@@ -1,25 +1,28 @@
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RepoSolicitudesRevision {
-  List<SolicitudRevision> revisiones = new ArrayList<>();
+public class RepoSolicitudesRevision implements WithSimplePersistenceUnit {
 
   public void nuevaSolicitud(Hecho hecho) {
-    revisiones.add(new SolicitudRevision(hecho));
+    entityManager().persist(hecho);
   }
 
   public void eliminarSolcitud(SolicitudRevision solicitudRevision) {
-    revisiones.remove(solicitudRevision);
+    entityManager().remove(solicitudRevision);
   }
 
   public SolicitudRevision getSolicitudPorHecho(Hecho hecho) {
-    return revisiones.stream()
-        .filter(r -> r.getHecho().getTitulo().equals(hecho.getTitulo()))
-        .findFirst()
-        .orElse(null);
+    return entityManager()
+        .createQuery("from SolicitudRevision s where s.hecho = :hecho", SolicitudRevision.class)
+        .setParameter("hecho", hecho)
+        .setMaxResults(1)
+        .getSingleResult();
   }
 
   public List<SolicitudRevision> getRevisiones() {
-    return new ArrayList<>(revisiones);
+    return entityManager()
+        .createQuery("from SolicitudRevision", SolicitudRevision.class)
+        .getResultList();
   }
 }

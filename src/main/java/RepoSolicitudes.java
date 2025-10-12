@@ -1,38 +1,44 @@
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RepoSolicitudes {
-  private final List<Solicitud> solicitudes = new ArrayList<>();
+public class RepoSolicitudes implements WithSimplePersistenceUnit {
   private DetectorDeSpam detectorDeSpam;
 
   public RepoSolicitudes(DetectorDeSpam detectorDeSpam) {
     this.detectorDeSpam = detectorDeSpam;
   }
 
-  public void eliminarSolicitud(Solicitud solicitud) {
-    solicitudes.remove(solicitud);
-  }
-
   public void nuevaSolicitud(Hecho hecho, String descripcion) throws Exception {
     boolean spam = detectorDeSpam.esSpam(descripcion);
-
     Solicitud nueva = new Solicitud(hecho, descripcion, this, spam);
+    entityManager().persist(nueva);
+  }
 
-    solicitudes.add(nueva);
+  public void eliminarSolicitud(Solicitud solicitud) {
+    entityManager().remove(solicitud);
   }
 
   public List<Solicitud> getSolicitudes() {
-    return new ArrayList<>(solicitudes);
+    return entityManager()
+        .createQuery("from Solicitud", Solicitud.class)
+        .getResultList();
   }
 
   public Boolean estaEliminado(Hecho hecho) {
-    return solicitudes.stream()
-        .anyMatch(solicitud -> solicitud.hechoEliminado(hecho));
+     Solicitud solicitud = entityManager()
+         .createQuery("from Solicitud s where s.eliminado = true and s.hecho = :hecho",
+             Solicitud.class)
+         .setParameter("hecho", hecho)
+         .setMaxResults(1)
+         .getSingleResult();
+
+     return solicitud != null;
   }
 
-  public long cantidadSolicitudesSpam() {
-    return solicitudes.stream()
-        .filter(Solicitud::esSpam)
-        .count();
+  public Long cantidadSolicitudesSpam() {
+    return entityManager()
+        .createQuery("select count(s) from Solicitud s where s.esSpam = true", Long.class)
+        .getSingleResult();
   }
 }
