@@ -1,0 +1,7 @@
+.navbar {
+    display:flex;
+    justify-content: space-beetween;
+    aling-items:center;
+    background-color: #6699ff;
+    color: ffffcc;
+}
