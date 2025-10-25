@@ -1,4 +1,5 @@
 import io.javalin.http.Context;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,7 @@ public class HechoController {
       String titulo = ctx.formParam("titulo");
       String descripcion = ctx.formParam("descripcion");
       String categoria = ctx.formParam("categoria");
+      LocalDateTime fecha = LocalDateTime.parse(ctx.formParam("fecha"));
       Double latitud = Double.valueOf(ctx.formParam("latitud"));
       Double longitud = Double.valueOf(ctx.formParam("longitud"));
 
@@ -23,6 +25,7 @@ public class HechoController {
           .setCategoria(categoria)
           .setLatitud(latitud)
           .setLongitud(longitud)
+          .setFecha(fecha)
           .setFechaCarga(LocalDateTime.now())
           .setEstado(Estado.PENDIENTE)
           .build();
