@@ -6,12 +6,14 @@ import java.util.Map;
 
 public class HechoController {
   private final RepoHechos repoHechos;
+
   public HechoController(RepoHechos repoHechos) {
     this.repoHechos = repoHechos;
   }
 
   public Map<String, Object> crear(Context ctx) {
-
+    Map model = new HashMap<>();
+    try {
       String titulo = ctx.formParam("titulo");
       String descripcion = ctx.formParam("descripcion");
       String categoria = ctx.formParam("categoria");
@@ -31,10 +33,17 @@ public class HechoController {
           .build();
 
       repoHechos.guardarHecho(hecho);
-
-      Map model = new HashMap<>();
       model.put("type", "success");
       model.put("message", "Hecho creado correctamente.");
       return model;
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      model.put("type", "danger");
+      model.put("message", "Error interno: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+      return model;
     }
+
+
+  }
 }

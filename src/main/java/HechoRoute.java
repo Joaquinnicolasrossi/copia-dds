@@ -1,4 +1,5 @@
 import io.javalin.Javalin;
+import java.util.Map;
 
 public class HechoRoute implements Router {
   private final HechoController controller;
@@ -8,6 +9,9 @@ public class HechoRoute implements Router {
   }
   public void configure(Javalin app) {
     app.get("/hechos/nuevo", ctx->ctx.render("hecho-form.hbs"));
-    app.post("/hechos", ctx -> ctx.render("alert.hbs", controller.crear(ctx)));
+    app.post("/hechos", ctx -> {
+      Map<String, Object> model = controller.crear(ctx);
+      ctx.render("alert.hbs", model);
+    });
   }
 }
