@@ -4,7 +4,9 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 public class RepoHechos implements WithSimplePersistenceUnit {
 
   public void guardarHecho(Hecho hecho) {
+    entityManager().getTransaction().begin();
     entityManager().persist(hecho);
+    entityManager().getTransaction().commit();
   }
   public void guardarHechos(List<Hecho> hechos) {
     hechos.forEach(hecho -> entityManager().persist(hecho));

@@ -45,6 +45,7 @@ public class RepoEstadistica {
   }
 
   // 2) Categoria con mayor cantidad de hechos reportados
+
   public EstadisticaRegistro categoriaConMayorHechos(Long coleccionId) {
     List<Object[]> resultados = entityManager.createNativeQuery(
             "SELECT h.categoria, COUNT(*) AS cantidad " +
@@ -75,6 +76,7 @@ public class RepoEstadistica {
   }
 
   // 3) Provincia con mayor cantidad de hechos reportados de una cierta categoria
+
   public EstadisticaRegistro provinciaConMasHechosPorCategoria(Long coleccionId, String categoria) {
     List<Object[]> resultados = entityManager.createNativeQuery(
             "SELECT h.provincia, COUNT(*) AS cantidad " +
@@ -84,7 +86,7 @@ public class RepoEstadistica {
                 "AND h.categoria = ?2 " +
                 "GROUP BY h.provincia " +
                 "ORDER BY cantidad DESC " +
-                "LIMIT 1")
+                "LIMIT 1") // verificar limit 1
         .setParameter(1, coleccionId)
         .setParameter(2, categoria)
         .getResultList();
@@ -106,7 +108,8 @@ public class RepoEstadistica {
     return registro;
   }
 
-  // Hora del dia con mayor cantidad de hechos por categoria
+  // 4) Hora del dia con mayor cantidad de hechos por categoria
+
   public EstadisticaRegistro horaConMasHechosPorCategoria(Long coleccionId, String categoria) {
     List<Object[]> resultados = entityManager.createNativeQuery(
             "SELECT EXTRACT(HOUR FROM h.fecha) as hora, COUNT(*) as cantidad " +

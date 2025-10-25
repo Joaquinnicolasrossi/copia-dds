@@ -8,25 +8,30 @@ public class HechoController {
   public HechoController(RepoHechos repoHechos) {
     this.repoHechos = repoHechos;
   }
+
   public Map<String, Object> crear(Context ctx) {
 
-    Hecho hechoRequest = ctx.bodyAsClass(Hecho.class);
-    Hecho hecho = new Hecho.HechoBuilder()
-        .setTitulo(hechoRequest.getTitulo())
-        .setDescripcion(hechoRequest.getDescripcion())
-        .setCategoria(hechoRequest.getCategoria())
-        .setLatitud(hechoRequest.getLatitud())
-        .setLongitud(hechoRequest.getLongitud())
-        .setFecha(hechoRequest.getFecha())
-        .setFechaCarga(LocalDateTime.now())
-        .setEstado(Estado.PENDIENTE)
-        .build();
+      String titulo = ctx.formParam("titulo");
+      String descripcion = ctx.formParam("descripcion");
+      String categoria = ctx.formParam("categoria");
+      Double latitud = Double.valueOf(ctx.formParam("latitud"));
+      Double longitud = Double.valueOf(ctx.formParam("longitud"));
 
-    repoHechos.guardarHecho(hecho);
+      Hecho hecho = new Hecho.HechoBuilder()
+          .setTitulo(titulo)
+          .setDescripcion(descripcion)
+          .setCategoria(categoria)
+          .setLatitud(latitud)
+          .setLongitud(longitud)
+          .setFechaCarga(LocalDateTime.now())
+          .setEstado(Estado.PENDIENTE)
+          .build();
 
-    Map model = new HashMap<>();
-    model.put("type", "success");
-    model.put("message", "Hecho creado correctamente.");
-    return model;
-  }
+      repoHechos.guardarHecho(hecho);
+
+      Map model = new HashMap<>();
+      model.put("type", "success");
+      model.put("message", "Hecho creado correctamente.");
+      return model;
+    }
 }
