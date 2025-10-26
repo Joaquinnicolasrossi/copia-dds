@@ -1,7 +1,9 @@
 import io.javalin.http.Context;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HechoController {
@@ -43,7 +45,27 @@ public class HechoController {
       model.put("message", "Error interno: " + e.getClass().getSimpleName() + " - " + e.getMessage());
       return model;
     }
+  }
 
-
+  public Map<String, Object> ubicarHechos(Context ctx) {
+    Map<String, Object> model = new HashMap<>();
+    try {
+      List<Hecho> hechos = repoHechos.obtenerTodosLosHechos();
+      if (hechos.isEmpty()) {
+        hechos = Collections.emptyList();
+      }
+      List<Map<String, Object>> hechosUbicados = hechos.stream().map(hecho -> {
+        Map<String, Object> data = new HashMap<>();
+        data.put("latitud", hecho.getLatitud());
+        data.put("longitud", hecho.getLongitud());
+        data.put("descripcion", hecho.getTitulo());
+        return data;
+      }).toList();
+      model.put("hechos", hechosUbicados);
+    } catch (Exception e) {
+      e.printStackTrace();
+      model.put("hechos", Collections.emptyList());
+    }
+    return model;
   }
 }
