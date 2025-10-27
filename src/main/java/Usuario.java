@@ -10,7 +10,6 @@ public class Usuario {
   @Id
   @GeneratedValue
   private Long id;
-
   @ManyToOne
   private FuenteDinamica fuente;
   public boolean estaRegistrado = false;

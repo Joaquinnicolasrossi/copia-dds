@@ -45,7 +45,7 @@ public class Hecho {
   private LocalDateTime fechaCarga;
   @Enumerated(EnumType.STRING)
   private Estado estado;
-  @Transient
+  @ManyToOne
   private Usuario usuario = null;
   @OneToMany(mappedBy = "hecho", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Multimedia> multimedia = new ArrayList<>();

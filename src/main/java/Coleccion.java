@@ -30,8 +30,8 @@ public class Coleccion {
   private RepoHechos repoHechos;
   @Transient
   private RepoSolicitudes solicitudes;
-  @Transient
-  private AlgoritmoConsenso algoritmoConsenso;
+  @ManyToOne
+  private Consenso algoritmoConsenso;
   // Guardo los hechosConsensuados en una lista para eficiencia
   @ManyToMany
   @JoinTable(
@@ -56,7 +56,7 @@ public class Coleccion {
   // Constructor nuevo con algoritmo de consenso
   public Coleccion(String titulo, String descripcion,
       Fuente fuente, List<Criterio> criterios,
-      RepoSolicitudes solicitudes, AlgoritmoConsenso algoritmoConsenso, RepoHechos repoHechos) {
+      RepoSolicitudes solicitudes, Consenso algoritmoConsenso, RepoHechos repoHechos) {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.fuente = fuente;
@@ -114,11 +114,11 @@ public class Coleccion {
       throw new RuntimeException("Modo de navegacion no valido");
   }
 
-  public AlgoritmoConsenso getAlgoritmoConsenso() {
+  public Consenso getAlgoritmoConsenso() {
     return algoritmoConsenso;
   }
 
-  public void setAlgoritmoConsenso(AlgoritmoConsenso algoritmo) {
+  public void setAlgoritmoConsenso(Consenso algoritmo) {
     this.algoritmoConsenso = algoritmo;
   }
 
