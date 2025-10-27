@@ -10,7 +10,8 @@ public class Server {
     });
 
     RepoHechos repoHechos = new RepoHechos();
-    HechoController hechoController = new HechoController(repoHechos);
+    RepoMultimedia repoMultimedia = new RepoMultimedia();
+    HechoController hechoController = new HechoController(repoHechos, repoMultimedia);
 
     List<Router> routers = List.of(
         new HechoRoute(hechoController),
