@@ -1,18 +1,46 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "usuario")
 public class Usuario {
   @Id
   @GeneratedValue
   private Long id;
-  @ManyToOne
-  private FuenteDinamica fuente;
+  @Column
+  private String nombre;
+  private String email;
+  private String contrasena;
+  private TipoUsuario tipoUsuario;
   public boolean estaRegistrado = false;
+  @ManyToOne
+  @JoinColumn(name = "fuente_id", nullable = true)
+  private FuenteDinamica fuente;
+
+  public void setTipoUsuario(TipoUsuario tipoUsuario) {
+    this.tipoUsuario = tipoUsuario;
+  }
+
+  public String getContrasena() {
+    return contrasena;
+  }
+
+  public String getNombre() {
+    return nombre;
+  }
+
+  public Usuario(String contrasena, String email, String nombre) {
+    this.contrasena = contrasena;
+    this.email = email;
+    this.nombre = nombre;
+  }
 
   public Usuario(FuenteDinamica fuente) {
     this.fuente = fuente;

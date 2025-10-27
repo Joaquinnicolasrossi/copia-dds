@@ -12,9 +12,11 @@ public class Server {
     RepoHechos repoHechos = new RepoHechos();
     RepoMultimedia repoMultimedia = new RepoMultimedia();
     HechoController hechoController = new HechoController(repoHechos, repoMultimedia);
-
+    RepoUsuario repoUsuario = new RepoUsuario();
+    UsuarioController usuarioController = new UsuarioController(repoUsuario);
     List<Router> routers = List.of(
         new HechoRoute(hechoController),
+        new UsuarioRoute(usuarioController),
         new HomeRoute()
     );
 
