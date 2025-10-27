@@ -1,6 +1,8 @@
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embedded;
@@ -12,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -44,8 +47,8 @@ public class Hecho {
   private Estado estado;
   @Transient
   private Usuario usuario = null;
-  @Transient
-  private List<ContenidoMultimedia> contenidoMultimedia;
+  @OneToMany(mappedBy = "hecho", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Multimedia> multimedia = new ArrayList<>();
 
   public Hecho() {
 
@@ -99,12 +102,21 @@ public class Hecho {
     return estado;
   }
 
+  public List<Multimedia> getMultimedia() {
+    return multimedia;
+  }
+
   public void setFuenteOrigen(Fuente fuenteOrigen) {
     this.fuenteOrigen = fuenteOrigen;
   }
 
   public void setUsuario(Usuario usuario) {
     this.usuario = usuario;
+  }
+
+  public void setMultimedia(List<Multimedia> multimedia) {
+    this.multimedia = multimedia;
+    multimedia.forEach(m -> m.setHecho(this));
   }
 
   public boolean estaDentroDePlazoDeEdicion() {

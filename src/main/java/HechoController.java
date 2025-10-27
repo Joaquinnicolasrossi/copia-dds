@@ -1,6 +1,8 @@
 import io.javalin.http.Context;
+import io.javalin.http.UploadedFile;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -8,9 +10,11 @@ import java.util.Map;
 
 public class HechoController {
   private final RepoHechos repoHechos;
+  private final RepoMultimedia repoMultimedia;
 
-  public HechoController(RepoHechos repoHechos) {
+  public HechoController(RepoHechos repoHechos, RepoMultimedia repoMultimedia) {
     this.repoHechos = repoHechos;
+    this.repoMultimedia = repoMultimedia;
   }
 
   public Map<String, Object> crear(Context ctx) {
@@ -22,6 +26,25 @@ public class HechoController {
       LocalDateTime fecha = LocalDateTime.parse(ctx.formParam("fecha"));
       Double latitud = Double.valueOf(ctx.formParam("latitud"));
       Double longitud = Double.valueOf(ctx.formParam("longitud"));
+      List<UploadedFile> archivos = ctx.uploadedFiles("multimedia");
+
+      if(!(this.validarCantidadArchivos(archivos) || this.validarTamanioArchivos(archivos))){
+        model.put("type", "error");
+        model.put("message", "Error: los archivos exceden los limites");
+        return model;
+      };
+      List<Multimedia> archivosMultimedia = new ArrayList<>();
+      archivos.forEach(a -> {
+          Multimedia multimedia = new Multimedia();
+          multimedia.setTipo(a.contentType());
+          multimedia.setTamanio(a.size());
+          multimedia.setUrl("uploads/" + a.filename());
+
+          archivosMultimedia.add(multimedia);
+
+      });
+
+      archivosMultimedia.forEach(repoMultimedia::crearMultimedia);
 
       Hecho hecho = new Hecho.HechoBuilder()
           .setTitulo(titulo)
@@ -33,6 +56,8 @@ public class HechoController {
           .setFechaCarga(LocalDateTime.now())
           .setEstado(Estado.PENDIENTE)
           .build();
+
+      hecho.setMultimedia(archivosMultimedia);
 
       repoHechos.guardarHecho(hecho);
       model.put("type", "success");
@@ -67,5 +92,19 @@ public class HechoController {
       model.put("hechos", Collections.emptyList());
     }
     return model;
+  }
+
+  private boolean validarCantidadArchivos(List<UploadedFile> archivos) {
+    int cantidadMaxima = 5;
+    return archivos.size() > cantidadMaxima;
+  }
+
+  private boolean validarTamanioArchivos(List<UploadedFile> archivos) {
+    long tamanioMaximo = 1024*1024;
+    long totalBytes = archivos.stream()
+        .mapToLong(UploadedFile::size)
+        .sum();
+
+    return totalBytes <= tamanioMaximo;
   }
 }

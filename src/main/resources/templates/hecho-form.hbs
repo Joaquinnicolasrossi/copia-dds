@@ -1,6 +1,6 @@
 {{#partial "contenido"}}
     <h1> Crear Hecho </h1>
-    <form class="hecho-form" action="/hechos" method="post">
+    <form class="hecho-form" action="/hechos" method="post" enctype="multipart/form-data">
         <div>
             <label>Titulo</label>
             <input type="text" name="titulo" required>
@@ -24,6 +24,11 @@
         <div>
             <label>Longitud</label>
             <input type="number" name="longitud" required>
+        </div>
+        <div>
+            <label>Multimedia</label>
+            <input type="media" name="multimedia" accept="image/jpeg, video/mp4" multiple>
+            <small class="info-media">Máximo 5 archivos. Tamaño total permitido: 1 MB.</small>
         </div>
         <button type="submit">Crear</button>
     </form>
