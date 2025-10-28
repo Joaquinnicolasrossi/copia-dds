@@ -12,4 +12,5 @@ public class CriterioCategoria extends Criterio {
   public boolean seCumpleCriterio(Hecho hecho) {
     return categoria.equals(hecho.getCategoria());
   }
+
 }

@@ -14,9 +14,12 @@ public class Server {
     HechoController hechoController = new HechoController(repoHechos, repoMultimedia);
     RepoUsuario repoUsuario = new RepoUsuario();
     UsuarioController usuarioController = new UsuarioController(repoUsuario);
+    ColeccionController coleccionController = new ColeccionController();
+
     List<Router> routers = List.of(
         new HechoRoute(hechoController),
         new UsuarioRoute(usuarioController),
+        new ColeccionRoute(coleccionController),
         new HomeRoute()
     );
 

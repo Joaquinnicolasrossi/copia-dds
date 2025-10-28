@@ -1,12 +1,12 @@
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-public class RepoColecciones {
+public class RepoColecciones implements WithSimplePersistenceUnit {
   private final RepoSolicitudes repoSolicitudes;
-  @PersistenceContext
-  EntityManager entityManager;
 
   public RepoColecciones(RepoSolicitudes repoSolicitudes) {
     this.repoSolicitudes = repoSolicitudes;
@@ -15,18 +15,16 @@ public class RepoColecciones {
   public void crearColeccion(String titulo, String descripcion, FuenteEstaticaIncendios fuente,
       List<Criterio> criterios) {
     Coleccion coleccion = new Coleccion(titulo, descripcion, fuente, criterios, repoSolicitudes);
-    entityManager.getTransaction().begin();
-    entityManager.persist(coleccion);
-    entityManager.getTransaction().commit();
+    withTransaction( () -> entityManager().persist(coleccion));
   }
 
   public List<Coleccion> getColecciones() {
-    return entityManager.createNativeQuery("SELECT * FROM Coleccion", Coleccion.class)
+    return entityManager().createNativeQuery("SELECT * FROM Coleccion", Coleccion.class)
         .getResultList();
   };
 
   public List<Long> getIdsColecciones() {
-    List<?> resultados = entityManager.createNativeQuery(
+    List<?> resultados = entityManager().createNativeQuery(
         "SELECT id FROM coleccion")
         .getResultList();
 

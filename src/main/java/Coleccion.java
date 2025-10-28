@@ -2,6 +2,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ public class Coleccion {
   private Long id;
   public String titulo;
   private String descripcion;
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "fuente_id")
   public Fuente fuente;
   @OneToMany(mappedBy = "coleccion")
@@ -77,6 +78,12 @@ public class Coleccion {
   public String getDescripcion() {
     return descripcion;
   }
+
+  public void setTitulo(String titulo) { this.titulo = titulo; }
+
+  public void setFuente(Fuente fuente) { this.fuente = fuente; }
+
+  public void setDescripcion(String descripcion) { this.descripcion = descripcion;  }
 
   public List<Hecho> mostrarHechos() {
     return fuente.extraerHechos().stream()
