@@ -1,11 +1,13 @@
 import java.util.List;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+import javax.persistence.NoResultException;
 
 public class RepoHechos implements WithSimplePersistenceUnit {
 
   public void guardarHecho(Hecho hecho) {
     entityManager().persist(hecho);
   }
+
   public void guardarHechos(List<Hecho> hechos) {
     hechos.forEach(hecho -> entityManager().persist(hecho));
   }
@@ -38,8 +40,19 @@ public class RepoHechos implements WithSimplePersistenceUnit {
   @SuppressWarnings("unchecked")
   public List<Hecho> buscarFullText(String texto) {
     return entityManager().createNativeQuery(
-        "SELECT * FROM hecho WHERE MATCH(titulo, descripcion) AGAINST (? IN NATURAL LANGUAGE MODE)",
-        Hecho.class).setParameter(1, texto)
+            "SELECT * FROM hecho WHERE MATCH(titulo, descripcion) AGAINST (? IN NATURAL LANGUAGE MODE)",
+            Hecho.class).setParameter(1, texto)
         .getResultList();
+  }
+
+  public Hecho obtenerPorId(Long id) {
+    try {
+      return entityManager()
+          .createQuery("from Hecho where id = :id", Hecho.class)
+          .setParameter("id", id)
+          .getSingleResult();
+    } catch (NoResultException e) {
+      return null;
+    }
   }
 }

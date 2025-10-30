@@ -15,11 +15,14 @@ public class Server {
     RepoUsuario repoUsuario = new RepoUsuario();
     UsuarioController usuarioController = new UsuarioController(repoUsuario);
     ColeccionController coleccionController = new ColeccionController();
+    RepoSolicitudes repoSolicitudes = new RepoSolicitudes(new DetectorDeSpamFiltro());
+    SolicitudController solicitudController = new SolicitudController(repoSolicitudes, repoHechos);
 
     List<Router> routers = List.of(
         new HechoRoute(hechoController),
         new UsuarioRoute(usuarioController),
         new ColeccionRoute(coleccionController),
+        new SolicitudRoute(solicitudController),
         new HomeRoute()
     );
 
