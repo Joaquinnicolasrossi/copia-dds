@@ -31,15 +31,15 @@ public class UsuarioController {
     var usuario = repoUsuario.findByUser(email);
 
     if (usuario == null) {
-      ctx.sessionAttribute("error", "Usuario o contraseña incorrectos");
-      ctx.redirect("/login");
+      ctx.sessionAttribute("error", "usuario no encontrado");
+      ctx.redirect("/usuario/formIniciarSesion");
       return;
     }
 
 
     if (!usuario.getContrasena().equals(contrasena)) {
-      ctx.sessionAttribute("error", "Usuario o contraseña incorrectos");
-      ctx.redirect("/login");
+      ctx.sessionAttribute("error", " contraseña incorrecta");
+      ctx.redirect("/usuario/formIniciarSesion");
       return;
     }
 
@@ -58,6 +58,10 @@ public class UsuarioController {
   }
 
   public void mostrarFormularioIniciarSesion(Context ctx) {
+    String error = ctx.sessionAttribute("error");
+    ctx.sessionAttribute("error", null); // limpiar después de mostrar
+    Map<String, Object> model = new HashMap<>();
+    model.put("error", error);
     ctx.render("inicarSesion-form.hbs", new HashMap<>());
   }
 }

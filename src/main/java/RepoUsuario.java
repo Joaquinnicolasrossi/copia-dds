@@ -1,4 +1,5 @@
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+import java.util.List;
 
 class RepoUsuario implements WithSimplePersistenceUnit {
 
@@ -10,9 +11,12 @@ class RepoUsuario implements WithSimplePersistenceUnit {
 
 
   public Usuario findByUser(String email) {
-    return entityManager().createQuery("select u from usuario u where email = :amail",Usuario.class).
-        setParameter("email",email).
-        getSingleResult();
+    List<Usuario> usuarios = entityManager()
+        .createQuery("select u from Usuario u where u.email = :email", Usuario.class)
+        .setParameter("email", email)
+        .getResultList();
+
+    return usuarios.isEmpty() ? null : usuarios.get(0);
   }
 
 
