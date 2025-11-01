@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MetaMapa / Administrador</title>
+    <link rel="stylesheet" href="/assets/main.css">
+</head>
+<body>
+<div class="container">
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/home-administrador">MetaMapa</a>
+        </div>
+        <ul class="navbar-menu">
+            <li><a href="/solicitudes">Solicitudes</a></li>
+            <li class="dropdown">
+                <a href="#">Colecciones</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/colecciones">Administrar</a></li>
+                    <li><a href="/colecciones/nuevo">Crear</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<div class="render-container">
+    {{#block "contenido"}}
+    {{/block}}
+</div>
+</body>
+</html>

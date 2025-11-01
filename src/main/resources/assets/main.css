@@ -42,6 +42,39 @@
     background-color: #3366cc;
     border-radius: 5px;
 }
+
+.navbar-menu .dropdown {
+  position: relative;
+}
+
+.navbar-menu .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  background-color: #f4f4f4;
+  min-width: 80px;
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.navbar-menu .dropdown-menu li a {
+  display: block;
+  padding: 10px;
+  color: #6699ff;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.navbar-menu .dropdown-menu li a:hover {
+  background-color: #3366cc;
+  color: #f4f4f4;
+}
+
+.navbar-menu .dropdown:hover .dropdown-menu {
+  display: block;
+}
+
 body {
     margin: 0;
 }

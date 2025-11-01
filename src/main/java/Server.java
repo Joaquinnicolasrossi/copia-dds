@@ -19,11 +19,13 @@ public class Server {
     SolicitudController solicitudController = new SolicitudController(repoSolicitudes, repoHechos);
 
     List<Router> routers = List.of(
+        new AdminRoute(),
         new HechoRoute(hechoController),
         new UsuarioRoute(usuarioController),
         new ColeccionRoute(coleccionController),
         new SolicitudRoute(solicitudController),
         new HomeRoute()
+
     );
 
     for (Router router : routers) {
