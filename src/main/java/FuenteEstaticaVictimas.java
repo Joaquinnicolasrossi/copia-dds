@@ -13,9 +13,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
+@DiscriminatorValue("ESTATICA_VICTIMAS")
 public class FuenteEstaticaVictimas extends Fuente {
 
   private String rutaCsv;

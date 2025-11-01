@@ -9,11 +9,35 @@
                 <textarea name="descripcion" required></textarea><br>
 
                 <label>Tipo de fuente</label>
-                <select name="tipoFuente" required>
-                    <option value="ESTATICA">Estática</option>
-                    <option value="DINAMICA">Dinámica</option>
-                    <option value="PROXY">Proxy</option>
-                </select>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="tipoFuente" value="estatica" checked required>
+                            <span class="dot"></span> Estática
+                        </label>
+
+                        <label>
+                            <input type="radio" name="tipoFuente" value="dinamica">
+                            <span class="dot"></span> Dinámica
+                        </label>
+
+                        <label>
+                            <input type="radio" name="tipoFuente" value="metamapa">
+                            <span class="dot"></span> Metamapa
+                        </label>
+                    </div>
+
+                <label>Categoria (opcional)</label>
+                <input type="text" id="criterioCategoria" name="criterioCategoria" placeholder="Ej: Incendio forestal..">
+
+                <label>Provincia (opcional)</label>
+                <input type="text" id="criterioCategoria" name="criterioCategoria" placeholder="Ej: Incendio forestal..">
+
+                <label for="fechaInicio">Fecha desde:</label>
+                <input type="date" id="fechaInicio" name="fechaInicio">
+
+                <label for="fechaFin">Fecha hasta:</label>
+                <input type="date" id="fechaFin" name="fechaFin">
+
                 <button type="submit">Crear colección</button>
             </form>
         </div>

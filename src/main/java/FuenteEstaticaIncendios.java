@@ -11,9 +11,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
+@DiscriminatorValue("ESTATICA_INCENDIOS")
 public class FuenteEstaticaIncendios extends Fuente {
 
     private String rutaCsv;

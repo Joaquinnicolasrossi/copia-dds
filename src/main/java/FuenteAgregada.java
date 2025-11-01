@@ -1,16 +1,24 @@
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 
+@Entity
+@DiscriminatorValue("Agregada")
 public class FuenteAgregada extends Fuente {
-  private final List<Fuente> fuentes;
-  private final RepoHechos repositorio; // copia local
+  @Transient
+  private List<Fuente> fuentes;
+  @Transient
+  private RepoHechos repositorio; // copia local
 
   public FuenteAgregada(List<Fuente> fuentes, RepoHechos repositorio) {
     this.fuentes = fuentes;
     this.repositorio = repositorio;
   }
 
+  public FuenteAgregada(){}
   @Override
   public List<Hecho> extraerHechos() {
     return fuentes.stream()

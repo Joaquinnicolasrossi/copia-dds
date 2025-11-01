@@ -12,7 +12,8 @@ public class RepoColecciones implements WithSimplePersistenceUnit {
     this.repoSolicitudes = repoSolicitudes;
   }
 
-  public void crearColeccion(String titulo, String descripcion, FuenteEstaticaIncendios fuente,
+  //public void crearColeccion(String titulo, String descripcion, FuenteEstaticaIncendios fuente,
+  public void crearColeccion(String titulo, String descripcion, Fuente fuente,
       List<Criterio> criterios) {
     Coleccion coleccion = new Coleccion(titulo, descripcion, fuente, criterios, repoSolicitudes);
     withTransaction( () -> entityManager().persist(coleccion));

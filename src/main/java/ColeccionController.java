@@ -1,4 +1,5 @@
 import io.javalin.http.Context;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,10 +21,11 @@ public class ColeccionController  {
 
     String titulo = ctx.formParam("titulo");
     String descripcion = ctx.formParam("descripcion");
-    String criterioCategoria = ctx.formParam("criterioCategoria");
-    String fuenteId = ctx.formParam("fuenteId");
     String tipoFuente = ctx.formParam("tipoFuente");
-    String criterioFuente = ctx.formParam("criterioFuente");
+    String categoria = ctx.formParam("categoria");
+    String provincia = ctx.formParam("provincia");
+    String fechaDesde = ctx.formParam("fechaDesde");
+    String fechaHasta = ctx.formParam("fechaHasta");
 
     if (titulo == null || titulo.isBlank() || descripcion == null || descripcion.isBlank()) {
       model.put("type", "error");
@@ -37,15 +39,17 @@ public class ColeccionController  {
       return model;
     }
 
+    Fuente fuente = null;
+
     switch (tipoFuente) {
-      case "ESTATICA":
-        //fuente = new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
+      case "estatica":
+        fuente = new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
         break;
-      case "DINAMICA":
-        //fuente = repoFuenteDinamica.crearFuenteDinamica();
+      case "dinamica":
+        //fuente = repoFuenteDinamica.();
         break;
-      case "PROXY":
-        //fuente = new FuenteProxy();
+      case "metamapa":
+        //fuente = new FuenteMetaMapa();
         break;
       default:
         model.put("type", "error");
@@ -53,17 +57,19 @@ public class ColeccionController  {
         return model;
     }
 
-    FuenteEstaticaIncendios fuenteEstaticaIncendios = new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
+    List<Criterio> criterios = new ArrayList<>();
 
-    List<Criterio> criterios = new java.util.ArrayList<>();
-
-    if (criterioCategoria != null && !criterioCategoria.isBlank()) {
-
-      CriterioCategoria cat = new CriterioCategoria(criterioCategoria);
-      criterios.add(cat);
+    if (categoria != null && !categoria.isBlank()) {
+      criterios.add(new CriterioCategoria((categoria)));
     }
+    //if (provincia != null && !provincia.isBlank()) {
+    //  criterios.add(new CriterioProvincia(provincia));
+    //}
+    //if (fechaDesde != null && !fechaDesde.isBlank()) {
+    //  criterios.add(new CriterioFecha(fechaDesde, fechaHasta));
+    //}
 
-    repoColecciones.crearColeccion(titulo, descripcion, fuenteEstaticaIncendios, criterios);
+    repoColecciones.crearColeccion(titulo, descripcion, fuente, criterios);
 
     model.put("type", "success");
     model.put("message", "Colección creada correctamente.");
@@ -71,18 +77,18 @@ public class ColeccionController  {
 
   }
 
-  public Map<String, Object> modeloBase(Context ctx) {
-    Map<String, Object> model = new HashMap<>();
-    model.put("usuarioActual", ctx.attribute("usuarioActual"));
-    model.put("nombre", ctx.attribute("nombre"));
-    return model;
-  }
-
   public Map<String, Object> listar(Context ctx){
     Map<String, Object> model = new HashMap<>();
     List<Coleccion> colecciones = repoColecciones.getColecciones();
 
     model.put("colecciones", colecciones);
+    return model;
+  }
+
+  public Map<String, Object> modeloBase(Context ctx) {
+    Map<String, Object> model = new HashMap<>();
+    model.put("usuarioActual", ctx.attribute("usuarioActual"));
+    model.put("nombre", ctx.attribute("nombre"));
     return model;
   }
 

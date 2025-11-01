@@ -1,7 +1,9 @@
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.time.LocalDateTime;
 
 @Entity
+@DiscriminatorValue("FECHA")
 public class CriterioFecha extends Criterio {
   public LocalDateTime fechaDesde;
   public LocalDateTime fechaHasta;
@@ -10,6 +12,8 @@ public class CriterioFecha extends Criterio {
     this.fechaDesde = fechaDesde;
     this.fechaHasta = fechaHasta;
   }
+
+  public CriterioFecha() {}
 
   @Override
   public boolean seCumpleCriterio(Hecho hecho) {

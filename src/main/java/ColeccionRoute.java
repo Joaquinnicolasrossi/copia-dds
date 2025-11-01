@@ -9,6 +9,8 @@ public class ColeccionRoute implements Router {
   }
   public void configure(Javalin app) {
     app.get("/colecciones/nuevo", ctx->ctx.render("coleccion-form.hbs"));
+
+    // Crear
     app.post("/colecciones", ctx -> {
       Map<String, Object> model = controller.crear(ctx);
       if("success".equals(model.get("type"))){

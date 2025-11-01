@@ -3,14 +3,16 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 @Entity
+@DiscriminatorValue("DemoAdapter")
 public class FuenteDemoAdapter extends Fuente {
   @Transient
-  private final Conexion clienteExterno;
-  private final URL urlExterna;
+  private Conexion clienteExterno;
+  private URL urlExterna;
   private LocalDateTime ultimaConsulta;
   @Transient
   private RepoHechos repositorio;
@@ -24,6 +26,8 @@ public class FuenteDemoAdapter extends Fuente {
       this.ultimaConsulta = ultimaConsultaInicial;
     }
   }
+
+  public FuenteDemoAdapter(){}
 
   @Override
   public List<Hecho> extraerHechos() {
