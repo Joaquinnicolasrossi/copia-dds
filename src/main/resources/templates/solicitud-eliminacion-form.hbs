@@ -1,0 +1,14 @@
+{{#partial "contenido"}}
+    <div class="form-container">
+        <h1> Solicitar Eliminacion Hecho # {{hecho-id}} </h1>
+        <form class="solicitud-eliminacion-form" action="/hechos" method="post" enctype="multipart/form-data">
+            <div>
+                <label>Motivo</label>
+                <textarea name="descripcion" required></textarea>
+            </div>
+            <button type="submit">Solicitar eliminación</button>
+        </form>
+    </div>
+{{/partial}}
+
+{{>templates/layout}}
