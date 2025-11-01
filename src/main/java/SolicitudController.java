@@ -2,7 +2,7 @@ import io.javalin.http.Context;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SolicitudController implements Router {
+public class SolicitudController {
   private final RepoSolicitudes repoSolicitudes;
   private final RepoHechos repoHechos;
 

@@ -1,4 +1,5 @@
 import io.javalin.Javalin;
+import java.util.HashMap;
 import java.util.Map;
 
 public class HechoRoute implements Router {
@@ -14,5 +15,10 @@ public class HechoRoute implements Router {
       ctx.render("alert.hbs", model);
     });
     app.get("/hechos/mapa", ctx -> ctx.render("mapa.hbs", controller.ubicarHechos(ctx)));
+    app.get("/hechos/{id}/solicitar-eliminacion", ctx-> {
+      Map<String, Object> model = new HashMap<>();
+      model.put("hecho-id", ctx.pathParam("id"));
+      ctx.render("solicitud-eliminacion-form.hbs", model);
+    });
   }
 }

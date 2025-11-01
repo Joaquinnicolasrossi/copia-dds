@@ -1,14 +1,16 @@
 {{#partial "contenido"}}
-    <h1> Crear Coleccion </h1>
-    <form class="hecho-form" action="/colecciones" method="post" enctype="multipart/form-data">
-          <label>Título:</label>
-          <input type="text" name="titulo" required><br>
+    <div class="form-container">
+        <h1> Crear Coleccion </h1>
+        <form class="hecho-form" action="/colecciones" method="post" enctype="multipart/form-data">
+              <label>Título:</label>
+              <input type="text" name="titulo" required><br>
 
-          <label>Descripción:</label>
-          <textarea name="descripcion" required></textarea><br>
+              <label>Descripción:</label>
+              <textarea name="descripcion" required></textarea><br>
 
-          <button type="submit">Crear colección</button>
-    </form>
+              <button type="submit">Crear colección</button>
+        </form>
+    </div>
 {{/partial}}
 
 {{>templates/layout}}

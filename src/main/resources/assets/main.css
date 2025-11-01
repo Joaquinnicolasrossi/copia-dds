@@ -1,7 +1,8 @@
 *{
   padding :0;
   margin:0;
-  border-box:size;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 .navbar {
     background-color: #6699ff;
@@ -9,6 +10,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 60px;
+    width: 100%;
+    left: 0;
+    z-index: 1000;
 }
 
 .navbar .logo a {
@@ -36,4 +41,132 @@
 .navbar-menu li a:hover {
     background-color: #3366cc;
     border-radius: 5px;
+}
+body {
+    margin: 0;
+}
+.render-container {
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 80px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/*Forms*/
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.form-container h1 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-container form {
+    width: 100%;
+}
+.form-container input, .form-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-container .file-input-wrapper {
+  width: 100%;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  cursor: pointer;
+}
+
+
+.form-container .file-input-wrapper input[type="file"] {
+  display: none;
+}
+
+.form-container input[type="file"]::file-selector-button {
+  padding: 5px 10px;
+  background-color: #6699ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+}
+
+.form-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #6699ff;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+    background-color: #3366cc;
+}
+
+.solicitud-eliminacion-form button {
+    background-color: #fc3728
+}
+
+.solicitud-eliminacion-form button:hover {
+    background-color: #fa7166
+}
+
+/*Mapa*/
+.mapa {
+    width: 100%;
+    height: 400px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 20px auto;
+}
+
+.mapa-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 1000px;
+}
+.mapa-container h1 {
+    margin-bottom: 20px;
+    text-align: center;
 }

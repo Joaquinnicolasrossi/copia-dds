@@ -1,25 +1,25 @@
 {{#partial "contenido"}}
-    <h1> Mapa de Hechos </h1>
+    <div class="mapa-container">
+        <h1> Mapa de Hechos </h1>
+        <div id="map" class="mapa"></div>
+        <script>
+            var map = L.map('map').setView([-34.60, -58.38], 11);
 
-    <div id="map" style="height: 500px; width: 100%;"></div>
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              maxZoom: 19
+            }).addTo(map);
 
-    <script>
-        var map = L.map('map').setView([-34.60, -58.38], 11);
+            var hechos = [
+            {{#each hechos}}
+                { lat: {{latitud}}, lon: {{longitud}}, titulo: "{{titulo}}" }{{#unless @last}},{{/unless}}
+            {{/each}}
+            ];
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19
-        }).addTo(map);
-
-        var hechos = [
-        {{#each hechos}}
-            { lat: {{latitud}}, lon: {{longitud}}, titulo: "{{titulo}}" }{{#unless @last}},{{/unless}}
-        {{/each}}
-        ];
-
-        hechos.forEach(h => {
-          L.marker([h.lat, h.lon]).addTo(map).bindPopup(h.titulo);
-        });
-    </script>
+            hechos.forEach(h => {
+              L.marker([h.lat, h.lon]).addTo(map).bindPopup(h.titulo);
+            });
+        </script>
+    </div>
 {{/partial}}
 
 {{>templates/layout}}
