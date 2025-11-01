@@ -44,12 +44,20 @@ public class UsuarioController {
     }
 
     ctx.sessionAttribute("usuarioActual", usuario);
-    ctx.redirect("/");
+    ctx.sessionAttribute("nombre", usuario.getNombre());
+    ctx.sessionAttribute("tipoUsuario", usuario.getTipoUsuario());
 
+    if (usuario.getTipoUsuario() == TipoUsuario.ADMINISTRADOR) {
+      Map<String, Object> model = new HashMap<>();
+      model.put("nombre", usuario.getNombre());
+      model.put("rol", "Administrador");
+      ctx.render("home-admin.hbs", model);
+    } else {
+      ctx.redirect("/");
+    }
   }
 
   public void logout(Context ctx) {
-
   }
 
 

@@ -2,6 +2,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -18,6 +20,8 @@ public class Usuario {
   private String nombre;
   private String email;
   private String contrasena;
+  @Enumerated(EnumType.STRING)
+  @Column(name = "tipoUsuario")
   private TipoUsuario tipoUsuario;
   public boolean estaRegistrado = false;
   @ManyToOne
@@ -27,6 +31,8 @@ public class Usuario {
   public void setTipoUsuario(TipoUsuario tipoUsuario) {
     this.tipoUsuario = tipoUsuario;
   }
+
+  public TipoUsuario getTipoUsuario() {return tipoUsuario;}
 
   public String getContrasena() {
     return contrasena;
