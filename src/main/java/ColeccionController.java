@@ -22,11 +22,35 @@ public class ColeccionController  {
     String descripcion = ctx.formParam("descripcion");
     String criterioCategoria = ctx.formParam("criterioCategoria");
     String fuenteId = ctx.formParam("fuenteId");
+    String tipoFuente = ctx.formParam("tipoFuente");
+    String criterioFuente = ctx.formParam("criterioFuente");
 
     if (titulo == null || titulo.isBlank() || descripcion == null || descripcion.isBlank()) {
       model.put("type", "error");
       model.put("message", "El título y la descripción son obligatorios.");
       return model;
+    }
+
+    if (tipoFuente == null){
+      model.put("type", "error");
+      model.put("message", "Seleccionar una fuente es boligatorio");
+      return model;
+    }
+
+    switch (tipoFuente) {
+      case "ESTATICA":
+        //fuente = new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
+        break;
+      case "DINAMICA":
+        //fuente = repoFuenteDinamica.crearFuenteDinamica();
+        break;
+      case "PROXY":
+        //fuente = new FuenteProxy();
+        break;
+      default:
+        model.put("type", "error");
+        model.put("message", "Tipo de fuente desconocido: " + tipoFuente);
+        return model;
     }
 
     FuenteEstaticaIncendios fuenteEstaticaIncendios = new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
@@ -53,4 +77,13 @@ public class ColeccionController  {
     model.put("nombre", ctx.attribute("nombre"));
     return model;
   }
+
+  public Map<String, Object> listar(Context ctx){
+    Map<String, Object> model = new HashMap<>();
+    List<Coleccion> colecciones = repoColecciones.getColecciones();
+
+    model.put("colecciones", colecciones);
+    return model;
+  }
+
 }

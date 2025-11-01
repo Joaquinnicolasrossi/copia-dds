@@ -1,16 +1,22 @@
 {{#partial "contenido"}}
-    <div class="form-container">
-        <h1> Crear Coleccion </h1>
-        <form class="hecho-form" action="/colecciones" method="post" enctype="multipart/form-data">
-              <label>Título:</label>
-              <input type="text" name="titulo" required><br>
+        <div class="form-container">
+            <h1> Crear Coleccion </h1>
+            <form class="hecho-form" action="/colecciones" method="post" enctype="multipart/form-data">
+                <label>Título:</label>
+                <input type="text" name="titulo" required><br>
 
-              <label>Descripción:</label>
-              <textarea name="descripcion" required></textarea><br>
+                <label>Descripción:</label>
+                <textarea name="descripcion" required></textarea><br>
 
-              <button type="submit">Crear colección</button>
-        </form>
-    </div>
-{{/partial}}
+                <label>Tipo de fuente</label>
+                <select name="tipoFuente" required>
+                    <option value="ESTATICA">Estática</option>
+                    <option value="DINAMICA">Dinámica</option>
+                    <option value="PROXY">Proxy</option>
+                </select>
+                <button type="submit">Crear colección</button>
+            </form>
+        </div>
+    {{/partial}}
 
 {{>templates/layout-administrador}}

@@ -16,7 +16,7 @@ import javax.persistence.Entity;
 @Entity
 public class FuenteEstaticaIncendios extends Fuente {
 
-    private final String rutaCsv;
+    private String rutaCsv;
 
     // Mapas estáticos para traducir IDs de causa y causa_desc a texto
     private static final Map<String, String> CAUSA_MAP = new HashMap<>();
@@ -219,7 +219,7 @@ public class FuenteEstaticaIncendios extends Fuente {
                 "423",
                 "venganzas por multas impuestas");
     }
-
+    public FuenteEstaticaIncendios(){}
     public FuenteEstaticaIncendios(String rutaCsv) {
         this.rutaCsv = rutaCsv;
     }

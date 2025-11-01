@@ -11,8 +11,17 @@ public class ColeccionRoute implements Router {
     app.get("/colecciones/nuevo", ctx->ctx.render("coleccion-form.hbs"));
     app.post("/colecciones", ctx -> {
       Map<String, Object> model = controller.crear(ctx);
+      if("success".equals(model.get("type"))){
+        ctx.redirect("/home-administrador");
+      }
       ctx.render("alert.hbs", model);
     });
+
+    // Listar
+    app.get("/colecciones", ctx ->
+      {Map<String, Object> model = controller.listar(ctx);
+      ctx.render("coleccion-list.hbs", model);} );
+
     //app.get("/collecciones/mapa", ctx -> ctx.render("mapa.hbs", controller.ubicarHechos(ctx)));
   }
 }

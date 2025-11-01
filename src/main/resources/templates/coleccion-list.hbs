@@ -1,0 +1,33 @@
+{{#partial "contenido"}}
+
+  <div class="coleccion-lista">
+      <h1> Listado de colecciones</h1>
+
+        {{#if colecciones}}
+        <table class="tabla-colecciones">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tìtulo</th>
+                    <th>Descripciòn</th>
+                    <th>Tipo de Fuente</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each colecciones}}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td>{{titulo}}</td>
+                        <td>{{descripcion}}</td>
+                        <td>{{fuente.tipo}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{else}}
+            <p>No hay colecciones creadas</p>
+        {{/if}}
+  </div>
+{{/partial}}
+
+{{>templates/layout-administrador}}
