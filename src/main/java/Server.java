@@ -18,6 +18,11 @@ public class Server {
     RepoSolicitudes repoSolicitudes = new RepoSolicitudes(new DetectorDeSpamFiltro());
     SolicitudController solicitudController = new SolicitudController(repoSolicitudes, repoHechos);
 
+    app.before(ctx -> {
+      Usuario usuario = ctx.sessionAttribute("usuarioActual");
+      ctx.attribute("usuarioActual", usuario);
+    });
+
     List<Router> routers = List.of(
         new AdminRoute(),
         new HechoRoute(hechoController),
@@ -31,6 +36,7 @@ public class Server {
     for (Router router : routers) {
       router.configure(app);
     }
+
 
 
     app.start(7000);

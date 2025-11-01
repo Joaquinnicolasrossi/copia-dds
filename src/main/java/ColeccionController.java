@@ -16,7 +16,7 @@ public class ColeccionController  {
   }
 
   public Map<String, Object> crear(Context ctx){
-    Map<String, Object> model = new HashMap<>();
+    Map<String, Object> model = modeloBase(ctx);
 
     String titulo = ctx.formParam("titulo");
     String descripcion = ctx.formParam("descripcion");
@@ -45,5 +45,12 @@ public class ColeccionController  {
     model.put("message", "Colección creada correctamente.");
     return model;
 
+  }
+
+  public Map<String, Object> modeloBase(Context ctx) {
+    Map<String, Object> model = new HashMap<>();
+    model.put("usuarioActual", ctx.attribute("usuarioActual"));
+    model.put("nombre", ctx.attribute("nombre"));
+    return model;
   }
 }

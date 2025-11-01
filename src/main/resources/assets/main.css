@@ -27,7 +27,7 @@
     list-style: none;
     display: flex;
     gap: 15px;
-    margin: 0;
+    margin-right:20px;
     padding: 0;
 }
 
@@ -52,10 +52,12 @@
   position: absolute;
   top: 100%;
   background-color: #f4f4f4;
-  min-width: 80px;
+  width:100%;
+  min-width: 100px;
   border-radius: 5px;
   overflow: hidden;
   z-index: 1000;
+  transform: translateX(-30px);
 }
 
 .navbar-menu .dropdown-menu li a {

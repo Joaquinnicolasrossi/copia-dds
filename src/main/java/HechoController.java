@@ -18,7 +18,7 @@ public class HechoController {
   }
 
   public Map<String, Object> crear(Context ctx) {
-    Map model = new HashMap<>();
+    Map model = modeloBase(ctx);
     try {
       String titulo = ctx.formParam("titulo");
       String descripcion = ctx.formParam("descripcion");
@@ -73,7 +73,7 @@ public class HechoController {
   }
 
   public Map<String, Object> ubicarHechos(Context ctx) {
-    Map<String, Object> model = new HashMap<>();
+    Map<String, Object> model = modeloBase(ctx);
     try {
       List<Hecho> hechos = repoHechos.obtenerTodosLosHechos();
       if (hechos.isEmpty()) {
@@ -106,5 +106,12 @@ public class HechoController {
         .sum();
 
     return totalBytes <= tamanioMaximo;
+  }
+
+  public Map<String, Object> modeloBase(Context ctx) {
+    Map<String, Object> model = new HashMap<>();
+    model.put("usuarioActual", ctx.attribute("usuarioActual"));
+    model.put("nombre", ctx.attribute("nombre"));
+    return model;
   }
 }

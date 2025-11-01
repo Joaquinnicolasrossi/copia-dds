@@ -12,7 +12,7 @@ public class SolicitudController {
   }
 
   public Map<String, Object> crearSolicitud(Context ctx) {
-    Map<String, Object> model = new HashMap<>();
+    Map<String, Object> model = modeloBase(ctx);
     try {
       String descripcion = ctx.formParam("descripcion");
       Long hechoId = Long.parseLong(ctx.pathParam("id"));
@@ -32,5 +32,12 @@ public class SolicitudController {
       model.put("message", "Error interno: " + e.getClass().getSimpleName() + " - " + e.getMessage());
       return model;
     }
+  }
+
+  public Map<String, Object> modeloBase(Context ctx) {
+    Map<String, Object> model = new HashMap<>();
+    model.put("usuarioActual", ctx.attribute("usuarioActual"));
+    model.put("nombre", ctx.attribute("nombre"));
+    return model;
   }
 }
