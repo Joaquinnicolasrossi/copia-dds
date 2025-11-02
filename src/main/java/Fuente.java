@@ -26,13 +26,12 @@ public abstract class Fuente {
   public Long getId() {
     return id;
   }
-
   protected void setId(Long id) {
     this.id = id;
   }
-  @Transient
+
   public abstract List<Hecho> extraerHechos();
-  @Transient
+
   public String getNombreFuente() {
     if (tipoFuente == null) return "Desconocida";
 

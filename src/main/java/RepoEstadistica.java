@@ -16,21 +16,27 @@ public class RepoEstadistica implements WithSimplePersistenceUnit {
   public RepoEstadistica(EntityManager em) {
     this.entityManager = em;
   }
-  
+
   private EntityManager em() {
     return (this.entityManager != null) ? this.entityManager : entityManager();
   }
 
   public EstadisticaRegistro provinciaConMasHechos(Long coleccionId) {
-    String jpql = "SELECT h.provincia.nombre, COUNT(h) AS cantidad " +
+    // CAMBIO EN LA QUERY: se usa HAVING para no tener arbitrariamente un LIMIT 1 cuyo resultado puede variar en runtime,
+    // Ahora si hay un empate (la nueva consulta devuelve dos filas) y nos quedamos con el primero que devuelve la bdd
+    String jpql = "SELECT h.provincia.nombre, COUNT(h) " +
         "FROM Hecho h, Coleccion c " +
         "WHERE h.fuenteOrigen = c.fuente AND c.id = :coleccionId " +
         "GROUP BY h.provincia.nombre " +
-        "ORDER BY cantidad DESC";
+        "HAVING COUNT(h) >= ALL (" +
+        "  SELECT COUNT(h2) " +
+        "  FROM Hecho h2, Coleccion c2 " +
+        "  WHERE h2.fuenteOrigen = c2.fuente AND c2.id = :coleccionId " +
+        "  GROUP BY h2.provincia.nombre" +
+        ")";
 
     TypedQuery<Object[]> query = em().createQuery(jpql, Object[].class);
     query.setParameter("coleccionId", coleccionId);
-    query.setMaxResults(1);
 
     Coleccion coleccion = em().find(Coleccion.class, coleccionId);
     if (coleccion == null) {
@@ -46,15 +52,19 @@ public class RepoEstadistica implements WithSimplePersistenceUnit {
   }
 
   public EstadisticaRegistro categoriaConMayorHechos(Long coleccionId) {
-    String jpql = "SELECT h.categoria, COUNT(h) AS cantidad " +
+    String jpql = "SELECT h.categoria, COUNT(h) " +
         "FROM Hecho h, Coleccion c " +
         "WHERE h.fuenteOrigen = c.fuente AND c.id = :coleccionId " +
         "GROUP BY h.categoria " +
-        "ORDER BY cantidad DESC";
+        "HAVING COUNT(h) >= ALL (" +
+        "  SELECT COUNT(h2) " +
+        "  FROM Hecho h2, Coleccion c2 " +
+        "  WHERE h2.fuenteOrigen = c2.fuente AND c2.id = :coleccionId " +
+        "  GROUP BY h2.categoria" +
+        ")";
 
     TypedQuery<Object[]> query = em().createQuery(jpql, Object[].class);
     query.setParameter("coleccionId", coleccionId);
-    query.setMaxResults(1);
 
     Coleccion coleccion = em().find(Coleccion.class, coleccionId);
     if (coleccion == null) return null;
@@ -68,16 +78,20 @@ public class RepoEstadistica implements WithSimplePersistenceUnit {
   }
 
   public EstadisticaRegistro provinciaConMasHechosPorCategoria(Long coleccionId, String categoria) {
-    String jpql = "SELECT h.provincia.nombre, COUNT(h) AS cantidad " +
+    String jpql = "SELECT h.provincia.nombre, COUNT(h) " +
         "FROM Hecho h, Coleccion c " +
         "WHERE h.fuenteOrigen = c.fuente AND c.id = :coleccionId AND h.categoria = :categoria " +
         "GROUP BY h.provincia.nombre " +
-        "ORDER BY cantidad DESC";
+        "HAVING COUNT(h) >= ALL (" +
+        "  SELECT COUNT(h2) " +
+        "  FROM Hecho h2, Coleccion c2 " +
+        "  WHERE h2.fuenteOrigen = c2.fuente AND c2.id = :coleccionId AND h2.categoria = :categoria " +
+        "  GROUP BY h2.provincia.nombre" +
+        ")";
 
     TypedQuery<Object[]> query = em().createQuery(jpql, Object[].class);
     query.setParameter("coleccionId", coleccionId);
     query.setParameter("categoria", categoria);
-    query.setMaxResults(1);
 
     Coleccion coleccion = em().find(Coleccion.class, coleccionId);
     if (coleccion == null) return null;
@@ -91,16 +105,20 @@ public class RepoEstadistica implements WithSimplePersistenceUnit {
   }
 
   public EstadisticaRegistro horaConMasHechosPorCategoria(Long coleccionId, String categoria) {
-    String jpql = "SELECT HOUR(h.fecha) as hora, COUNT(h) as cantidad " +
+    String jpql = "SELECT HOUR(h.fecha), COUNT(h) " +
         "FROM Hecho h, Coleccion c " +
         "WHERE h.fuenteOrigen = c.fuente AND c.id = :coleccionId AND h.categoria = :categoria " +
-        "GROUP BY HOUR(h.fecha)" +
-        "ORDER BY cantidad DESC";
+        "GROUP BY HOUR(h.fecha) " +
+        "HAVING COUNT(h) >= ALL (" +
+        "  SELECT COUNT(h2) " +
+        "  FROM Hecho h2, Coleccion c2 " +
+        "  WHERE h2.fuenteOrigen = c2.fuente AND c2.id = :coleccionId AND h2.categoria = :categoria " +
+        "  GROUP BY HOUR(h2.fecha)" +
+        ")";
 
     TypedQuery<Object[]> query = em().createQuery(jpql, Object[].class);
     query.setParameter("coleccionId", coleccionId);
     query.setParameter("categoria", categoria);
-    query.setMaxResults(1);
 
     Coleccion coleccion = em().find(Coleccion.class, coleccionId);
     if (coleccion == null) return null;

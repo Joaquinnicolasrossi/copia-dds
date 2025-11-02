@@ -11,9 +11,6 @@ public class FuenteDinamica extends Fuente {
   RepoFuenteDinamica repoFuenteDinamica;
   @Transient
   RepoSolicitudesRevision repoSolicitudesRevision;
-
-  // TODO Mejorar excepciones podrian ser algo como NotFountException ,
-  // validationErrorException
   public FuenteDinamica(RepoFuenteDinamica repoFuenteDinamica,
       RepoSolicitudesRevision repoSolicitudesRevision) {
     this.repoFuenteDinamica = repoFuenteDinamica;
