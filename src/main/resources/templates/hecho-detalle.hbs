@@ -1,0 +1,49 @@
+{{#partial "contenido"}}
+<h1>Mis Hechos</h1>
+
+{{#if hechos}}
+    <ul>
+        {{#each hechos}}
+            <li class="hecho-card">
+                <p><strong>ID:</strong> {{id}}</p>
+                <p><strong>Título:</strong> {{titulo}}</p>
+                <p><strong>Descripción:</strong> {{descripcion}}</p>
+                <p><strong>Categoría:</strong> {{categoria}}</p>
+                <p><strong>Fecha del Hecho:</strong> {{fecha}}</p>
+                <p><strong>Fecha de Carga:</strong> {{fechaCarga}}</p>
+                <p><strong>Estado:</strong> {{estado}}</p>
+                <p><strong>Latitud:</strong> {{latitud}}</p>
+                <p><strong>Longitud:</strong> {{longitud}}</p>
+                <p><strong>Usuario:</strong> {{usuarioActual.nombre}}</p>
+
+                {{#if multimedia}}
+                    <h4>Archivos Multimedia:</h4>
+                    <ul>
+                        {{#each multimedia}}
+                            <li>
+                                {{tipo}} - {{tamanio}} bytes |
+                                <a href="/{{url}}" target="_blank">Ver archivo</a>
+                            </li>
+                        {{/each}}
+                    </ul>
+                {{else}}
+                    <p>No hay archivos multimedia.</p>
+                {{/if}}
+
+
+                <form action="/solicitud/{{id}}/form" method="get">
+                    <button type="submit">Solicitar eliminación</button>
+                </form>
+
+                <hr>
+            </li>
+        {{/each}}
+    </ul>
+{{else}}
+    <p>No tenés hechos cargados.</p>
+{{/if}}
+
+<a href="/">← Volver</a>
+{{/partial}}
+
+{{> templates/layout }}

@@ -25,7 +25,7 @@
         </properties>
     </persistence-unit>
 
-    <!-- ================= TEST EN MEMORIA ================= -->
+     ================= TEST EN MEMORIA =================
     <persistence-unit name="testPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 

@@ -54,8 +54,12 @@ public class Hecho {
 
   }
 
+  public Long getId() {
+    return id;
+  }
+
   public Hecho(String titulo, String descripcion, String categoria, Double latitud,
-      Double longitud, LocalDateTime fecha, LocalDateTime fechaCarga, Estado estado) {
+               Double longitud, LocalDateTime fecha, LocalDateTime fechaCarga, Estado estado) {
     this.titulo = titulo;
     this.descripcion = descripcion;
     this.categoria = categoria;

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.jetbrains.annotations.NotNull;
 
 public class SolicitudController {
   private final RepoSolicitudes repoSolicitudes;
@@ -55,5 +56,14 @@ public class SolicitudController {
     model.put("usuarioActual", ctx.attribute("usuarioActual"));
     model.put("nombre", ctx.attribute("nombre"));
     return model;
+  }
+
+  public void mostrarFormularioSolicitud( Context context) {
+    Long idHecho = Long.parseLong(context.pathParam("id"));
+    Hecho hecho = repoHechos.obtenerPorId(idHecho);
+    Map<String, Object> model = new HashMap<>();
+    model.put("hecho", hecho);
+    context.render("solicitud-eliminacion-form.hbs", model);
+
   }
 }

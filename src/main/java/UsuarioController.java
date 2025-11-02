@@ -1,16 +1,18 @@
 import io.javalin.http.Context;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
 public class UsuarioController {
 
   private RepoUsuario repoUsuario;
+  private RepoHechos repoHechos;
 
-  public UsuarioController(RepoUsuario repoUsuario) {
+  public UsuarioController(RepoHechos repoHechos, RepoUsuario repoUsuario) {
+    this.repoHechos = repoHechos;
     this.repoUsuario = repoUsuario;
   }
-
 
   public void singUp(Context ctx) {
 
@@ -18,9 +20,13 @@ public class UsuarioController {
     String email = ctx.formParam("email");
     String nombre = ctx.formParam("nombre");
     Usuario usuario = new Usuario(contrasena, email, nombre);
-    usuario.setTipoUsuario(TipoUsuario.CONTRIBUYENTE);
-
     repoUsuario.save(usuario);
+    usuario.setTipoUsuario(TipoUsuario.CONTRIBUYENTE);
+    ctx.sessionAttribute("usuarioActual", usuario);
+    ctx.sessionAttribute("nombre", usuario.getNombre());
+    ctx.sessionAttribute("id", usuario.getId());
+    ctx.sessionAttribute("tipoUsuario", usuario.getTipoUsuario());
+
     ctx.redirect("/");
   }
 
@@ -28,17 +34,20 @@ public class UsuarioController {
     String email = ctx.formParam("email");
     String contrasena = ctx.formParam("contrasena");
 
-    if(email.equals("administrador") && contrasena.equals("123")) {
+
+    if (email.equals("administrador") && contrasena.equals("123")) {
       Map<String, Object> model = new HashMap<>();
       model.put("nombre", "fulano");
       model.put("rol", "Administrador");
       ctx.render("home-admin.hbs", model);
       return;
-    } else if (email.equals("usuario") && contrasena.equals("123")) {
-      ctx.sessionAttribute("usuarioActual", new Usuario());
-      ctx.sessionAttribute("nombre", "fulano");
+    } else if ( email.equals("usuario") && contrasena.equals("123")) {
 
-      ctx.render("home.hbs", Map.of());
+
+      Map<String,Object> model = new HashMap<>();
+      model.put("userId","1");
+
+      ctx.render("home.hbs",model);
       return;
     }
 
@@ -57,9 +66,8 @@ public class UsuarioController {
       return;
     }
 
-    ctx.sessionAttribute("usuarioActual", usuario);
-    ctx.sessionAttribute("nombre", usuario.getNombre());
-    ctx.sessionAttribute("tipoUsuario", usuario.getTipoUsuario());
+
+
 
     if (usuario.getTipoUsuario() == TipoUsuario.ADMINISTRADOR) {
       Map<String, Object> model = new HashMap<>();
@@ -72,8 +80,8 @@ public class UsuarioController {
   }
 
   public void logout(Context ctx) {
-    ctx.sessionAttribute("usuario", null);
-    ctx.render("home.hbs", new HashMap<>());
+    ctx.sessionAttribute("usuarioActual", null);
+    ctx.redirect("/");
   }
 
 
@@ -87,5 +95,19 @@ public class UsuarioController {
     Map<String, Object> model = new HashMap<>();
     model.put("error", error);
     ctx.render("iniciar-sesion-form.hbs", new HashMap<>());
+  }
+
+  public void listarHechosDeUsuario(Context context) {
+    Long id = Long.parseLong(context.pathParam("id"));
+
+    List<Hecho> hechos = repoHechos.obtenerHechosPorUsuario(id);
+
+    Map<String, Object> model = new HashMap<>();
+    model.put("hechos", hechos);
+    model.put("usuarioActual", context.sessionAttribute("usuarioActual"));
+
+    context.render("hecho-detalle.hbs", model);
+
+
   }
 }

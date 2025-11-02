@@ -19,6 +19,7 @@ public class HechoController {
 
   public Map<String, Object> crear(Context ctx) {
     Map model = modeloBase(ctx);
+    Usuario usuarioActual = ctx.sessionAttribute("usuarioActual");
     try {
       String titulo = ctx.formParam("titulo");
       String descripcion = ctx.formParam("descripcion");
@@ -44,7 +45,7 @@ public class HechoController {
 
       });
 
-      archivosMultimedia.forEach(repoMultimedia::crearMultimedia);
+
 
       Hecho hecho = new Hecho.HechoBuilder()
           .setTitulo(titulo)
@@ -56,10 +57,17 @@ public class HechoController {
           .setFechaCarga(LocalDateTime.now())
           .setEstado(Estado.PENDIENTE)
           .build();
+      hecho.setUsuario(usuarioActual);
 
+
+      archivosMultimedia.forEach(m -> m.setHecho(hecho));
       hecho.setMultimedia(archivosMultimedia);
 
       repoHechos.guardarHecho(hecho);
+
+      archivosMultimedia.forEach(repoMultimedia::crearMultimedia);
+
+
       model.put("type", "success");
       model.put("message", "Hecho creado correctamente.");
       return model;

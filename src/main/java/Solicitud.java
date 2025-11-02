@@ -33,6 +33,10 @@ public class Solicitud {
     this.esSpam = esSpam;
   }
 
+  public void setHecho(Hecho hecho) {
+    this.hecho = hecho;
+  }
+
   public void aceptarSolicitud() {
     eliminado = true;
   }

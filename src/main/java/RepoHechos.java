@@ -5,7 +5,9 @@ import javax.persistence.NoResultException;
 public class RepoHechos implements WithSimplePersistenceUnit {
 
   public void guardarHecho(Hecho hecho) {
+    entityManager().getTransaction().begin();
     entityManager().persist(hecho);
+    entityManager().getTransaction().commit();
   }
 
   public void guardarHechos(List<Hecho> hechos) {
@@ -46,13 +48,14 @@ public class RepoHechos implements WithSimplePersistenceUnit {
   }
 
   public Hecho obtenerPorId(Long id) {
-    try {
-      return entityManager()
-          .createQuery("from Hecho where id = :id", Hecho.class)
-          .setParameter("id", id)
-          .getSingleResult();
-    } catch (NoResultException e) {
-      return null;
-    }
+      return entityManager().find(Hecho.class, id);
   }
+  public List<Hecho> obtenerHechosPorUsuario(Long userId) {
+    return createQuery(
+            "SELECT h FROM Hecho h WHERE h.usuario.id = :userId", Hecho.class)
+        .setParameter("userId", userId)
+        .getResultList();
+  }
+
+
 }

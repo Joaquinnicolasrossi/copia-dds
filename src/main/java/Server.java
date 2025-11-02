@@ -16,7 +16,8 @@ public class Server {
     RepoSolicitudes repoSolicitudes = new RepoSolicitudes(new DetectorDeSpamFiltro());
     RepoColecciones repoColecciones = new RepoColecciones(repoSolicitudes);
     FuenteDinamica fuenteDinamica = new FuenteDinamica();
-    UsuarioController usuarioController = new UsuarioController(repoUsuario);
+    UsuarioController usuarioController = new UsuarioController(repoHechos,repoUsuario);
+
     ColeccionController coleccionController = new ColeccionController(repoSolicitudes, repoColecciones, fuenteDinamica, repoHechos);
     SolicitudController solicitudController = new SolicitudController(repoSolicitudes, repoHechos);
 

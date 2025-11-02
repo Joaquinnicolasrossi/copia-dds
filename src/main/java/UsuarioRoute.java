@@ -15,6 +15,7 @@ public class UsuarioRoute implements Router {
     app.get("/usuario/formRegistro", usuarioController::mostrarFormularioRegistro);
     app.get("/usuario/formIniciarSesion",usuarioController::mostrarFormularioIniciarSesion);
     app.get("/usuario/logout",usuarioController::logout);
+    app.get("/usuario/{id}/hechos", usuarioController::listarHechosDeUsuario);
   };
 
 

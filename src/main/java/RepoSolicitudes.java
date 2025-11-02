@@ -12,7 +12,9 @@ public class RepoSolicitudes implements WithSimplePersistenceUnit {
   public void nuevaSolicitud(Hecho hecho, String descripcion) throws Exception {
     boolean spam = detectorDeSpam.esSpam(descripcion);
     Solicitud nueva = new Solicitud(hecho, descripcion, this, spam);
+    entityManager().getTransaction().begin();
     entityManager().persist(nueva);
+    entityManager().getTransaction().commit();
   }
 
   public void eliminarSolicitud(Solicitud solicitud) {
