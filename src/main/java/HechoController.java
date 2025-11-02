@@ -91,7 +91,7 @@ public class HechoController {
         Map<String, Object> data = new HashMap<>();
         data.put("latitud", hecho.getLatitud());
         data.put("longitud", hecho.getLongitud());
-        data.put("descripcion", hecho.getTitulo());
+        data.put("titulo", hecho.getTitulo());
         return data;
       }).toList();
       model.put("hechos", hechosUbicados);
