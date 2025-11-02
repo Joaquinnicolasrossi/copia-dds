@@ -1,0 +1,32 @@
+{{#partial "contenido"}}
+
+    <div class="solicitudes-lista">
+        <h1>Solicitudes pendientes</h1>
+        {{#if solicitudes}}
+            {{#each solicitudes}}
+                <div class="solicitud-container">
+                    <h3>Solicitud #{{id}}</h3>
+                    <div class="solicitud-sub">
+                        <div class="solicitud-data">
+                            <a>{{hecho.titulo}}</a>
+                            <p>{{descripcion}}</p>
+                        </div>
+                        <div class="solicitud-acciones">
+                            <form action="/solicitudes/{{id}}/aceptar" method="post" style="display:inline;">
+                                <button class="aceptar-solicitud-btn" type="submit">Aceptar</button>
+                            </form>
+
+                            <form action="/solicitudes/{{id}}/eliminar" method="post" style="display:inline;">
+                                <button class="eliminar-solicitud-btn" type="submit">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        {{else}}
+            <p class="sin-colec">No hay solicitudes pendientes de revisar.</p>
+        {{/if}}
+    </div>
+{{/partial}}
+
+{{>templates/layout-administrador}}

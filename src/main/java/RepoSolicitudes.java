@@ -25,6 +25,12 @@ public class RepoSolicitudes implements WithSimplePersistenceUnit {
         .getResultList();
   }
 
+  public List<Solicitud> getSolicitudesPendientes() {
+    return entityManager()
+        .createQuery("from Solicitud s where s.eliminado = false ", Solicitud.class)
+        .getResultList();
+  }
+
   public Boolean estaEliminado(Hecho hecho) {
      Solicitud solicitud = entityManager()
          .createQuery("from Solicitud s where s.eliminado = true and s.hecho = :hecho",

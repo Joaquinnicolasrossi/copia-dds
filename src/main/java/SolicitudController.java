@@ -1,5 +1,9 @@
 import io.javalin.http.Context;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SolicitudController {
@@ -32,6 +36,18 @@ public class SolicitudController {
       model.put("message", "Error interno: " + e.getClass().getSimpleName() + " - " + e.getMessage());
       return model;
     }
+  }
+
+  public Map<String, Object> listar(Context ctx) {
+    Map<String, Object> model = new HashMap<>();
+    List<Solicitud> solicitudes = new ArrayList<>();
+    try {
+      solicitudes = repoSolicitudes.getSolicitudesPendientes();
+    } catch (Exception e) {
+      model.put("solicitudes", Collections.emptyList());
+    }
+    model.put("solicitudes", solicitudes);
+    return model;
   }
 
   public Map<String, Object> modeloBase(Context ctx) {

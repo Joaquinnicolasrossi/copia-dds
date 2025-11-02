@@ -87,7 +87,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding-top: 80px;
+    padding-top: 40px;
     padding-left: 20px;
     padding-right: 20px;
 }
@@ -303,4 +303,65 @@ body {
 
 .radio-group input[type="radio"]:hover {
     border-color: #2f6de1;
+}
+
+/*Solcitudes*/
+.solicitudes-lista {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 800px;
+    gap: 10px;
+}
+.solicitud-container {
+    height: 100px;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: #fff;
+    padding: 2px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+}
+.solicitud-container h3 {
+    margin-left: 10px;
+}
+.solicitud-sub {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.solicitud-acciones {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 15px;
+}
+.solicitud-container button {
+    width: 64px;
+    padding: 10px;
+    background-color: #6699ff;
+    border: none;
+    color: white;
+    font-size: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.solicitud-container .eliminar-solicitud-btn {
+    background-color: #fc3728
+}
+
+.solicitud-container .eliminar-solicitud-btn:hover {
+    background-color: #fa7166
 }
