@@ -1,6 +1,5 @@
 import java.util.List;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
-import javax.persistence.NoResultException;
 
 public class RepoHechos implements WithSimplePersistenceUnit {
 
@@ -34,7 +33,7 @@ public class RepoHechos implements WithSimplePersistenceUnit {
 
   public List<Hecho> obtenerHechosPorFuente(Fuente fuente) {
     return entityManager()
-        .createQuery("select h from Hecho h join Fuente f where h.fuente_origen = :fuente", Hecho.class)
+        .createQuery("select h from Hecho h where h.fuenteOrigen = :fuente", Hecho.class)
         .setParameter("fuente", fuente)
         .getResultList();
   }
@@ -56,6 +55,4 @@ public class RepoHechos implements WithSimplePersistenceUnit {
         .setParameter("userId", userId)
         .getResultList();
   }
-
-
 }

@@ -49,6 +49,7 @@ public class FuenteDemoAdapter extends Fuente {
 
   private Hecho mapToHecho(Map<String, Object> raw) {
     Hecho.HechoBuilder builder = new Hecho.HechoBuilder();
+    RepoProvincias repoProvincias = new RepoProvincias();
 
     // Se asumen los tipos de datos
     // y nombres de las keys
@@ -85,6 +86,6 @@ public class FuenteDemoAdapter extends Fuente {
     } else {
       builder.setEstado(Estado.PENDIENTE);
     }
-    return builder.build();
+    return builder.build(repoProvincias);
   }
 }

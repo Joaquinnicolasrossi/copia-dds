@@ -35,8 +35,9 @@ public class Hecho {
   private Double longitud;
   //@Embedded
   //private Ubicacion ubicacion;
-  @Column(name = "provincia")
-  private String provincia;
+  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+  @JoinColumn(name = "provincia_id")
+  private Provincia provincia;
   @Column(name = "fecha")
   @Convert(converter = LocalDateTimeConverter.class)
   private LocalDateTime fecha;
@@ -156,6 +157,7 @@ public class Hecho {
     private LocalDateTime fecha;
     private LocalDateTime fechaCarga;
     private Estado estado;
+    private String provinciaNombre;
 
     public HechoBuilder setTitulo(String titulo) {
       this.titulo = titulo;
@@ -197,46 +199,49 @@ public class Hecho {
       return this;
     }
 
-    public Hecho build() {
-      return new Hecho(titulo, descripcion, categoria, latitud, longitud, fecha, fechaCarga,
+    public HechoBuilder setProvincia(String provinciaNombre) {
+      this.provinciaNombre = provinciaNombre;
+      return this;
+    }
+
+    public Hecho build(RepoProvincias repoProvincias) {
+      Hecho hecho = new Hecho(titulo, descripcion, categoria, latitud, longitud, fecha, fechaCarga,
           estado);
+
+      if (this.provinciaNombre != null && !this.provinciaNombre.isBlank()) {
+        Provincia provinciaEntidad = repoProvincias.findOrCreate(this.provinciaNombre);
+        hecho.setProvincia(provinciaEntidad);
+      }
+
+      return hecho;
     }
   }
 
-  public Hecho actualizarHecho(Hecho original, Hecho.HechoBuilder actualizacion) {
-    Hecho parcial = actualizacion.build();
-
+  public Hecho actualizarHecho(Hecho original, Hecho.HechoBuilder actualizacion, RepoProvincias repoProvincias) {
     Hecho.HechoBuilder combinado = new Hecho.HechoBuilder()
-        .setTitulo(parcial.getTitulo() != null ? parcial.getTitulo() : original.getTitulo())
-        .setDescripcion(parcial.getDescripcion() != null ? parcial.getDescripcion()
-            : original
-                .getDescripcion())
-        .setCategoria(parcial.getCategoria() != null ? parcial.getCategoria()
-            : original
-                .getCategoria())
-        .setLatitud(parcial.getLatitud() != null ? parcial.getLatitud() : original.getLatitud())
-        .setLongitud(parcial.getLongitud() != null ? parcial.getLongitud() : original.getLongitud())
-        .setFecha(parcial.getFecha() != null ? parcial.getFecha() : original.getFecha())
+        .setTitulo(actualizacion.titulo != null ? actualizacion.titulo : original.getTitulo())
+        .setDescripcion(actualizacion.descripcion != null ? actualizacion.descripcion : original.getDescripcion())
+        .setCategoria(actualizacion.categoria != null ? actualizacion.categoria : original.getCategoria())
+        .setLatitud(actualizacion.latitud != null ? actualizacion.latitud : original.getLatitud())
+        .setLongitud(actualizacion.longitud != null ? actualizacion.longitud : original.getLongitud())
+        .setFecha(actualizacion.fecha != null ? actualizacion.fecha : original.getFecha())
         .setFechaCarga(original.getFechaCarga())
         .setEstado(original.getEstado());
-    return combinado.build();
+
+    if (actualizacion.provinciaNombre != null) {
+      combinado.setProvincia(actualizacion.provinciaNombre);
+    } else if (original.getProvincia() != null) {
+      combinado.setProvincia(original.getProvincia().getNombre());
+    }
+
+    return combinado.build(repoProvincias);
   }
 
-  public String getProvincia() {
+  public Provincia getProvincia() {
     return provincia;
   }
 
-  public void setProvincia(String provincia) {
-    if (provincia == null || provincia.isBlank()) {
-      this.provincia = null;
-      return;
-    }
-
-    // PAsamos a minùsculas
-    String lower = provincia.toLowerCase();
-
-    // Capitalizar la primera letra
-    this.provincia = Character.toUpperCase(lower.charAt(0)) + lower.substring(1);
+  public void setProvincia(Provincia provincia) {
+    this.provincia = provincia;
   }
-
 }

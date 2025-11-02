@@ -11,7 +11,8 @@ public class Server {
 
     RepoHechos repoHechos = new RepoHechos();
     RepoMultimedia repoMultimedia = new RepoMultimedia();
-    HechoController hechoController = new HechoController(repoHechos, repoMultimedia);
+    RepoProvincias repoProvincias = new RepoProvincias();
+    HechoController hechoController = new HechoController(repoHechos, repoMultimedia, repoProvincias);
     RepoUsuario repoUsuario = new RepoUsuario();
     RepoSolicitudes repoSolicitudes = new RepoSolicitudes(new DetectorDeSpamFiltro());
     RepoColecciones repoColecciones = new RepoColecciones(repoSolicitudes);

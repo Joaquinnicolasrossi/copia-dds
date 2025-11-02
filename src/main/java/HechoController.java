@@ -11,10 +11,12 @@ import java.util.Map;
 public class HechoController {
   private final RepoHechos repoHechos;
   private final RepoMultimedia repoMultimedia;
+  private final RepoProvincias repoProvincias;
 
-  public HechoController(RepoHechos repoHechos, RepoMultimedia repoMultimedia) {
+  public HechoController(RepoHechos repoHechos, RepoMultimedia repoMultimedia, RepoProvincias repoProvincias) {
     this.repoHechos = repoHechos;
     this.repoMultimedia = repoMultimedia;
+    this.repoProvincias = repoProvincias;
   }
 
   public Map<String, Object> crear(Context ctx) {
@@ -45,8 +47,6 @@ public class HechoController {
 
       });
 
-
-
       Hecho hecho = new Hecho.HechoBuilder()
           .setTitulo(titulo)
           .setDescripcion(descripcion)
@@ -56,7 +56,7 @@ public class HechoController {
           .setFecha(fecha)
           .setFechaCarga(LocalDateTime.now())
           .setEstado(Estado.PENDIENTE)
-          .build();
+          .build(repoProvincias);
       hecho.setUsuario(usuarioActual);
 
 

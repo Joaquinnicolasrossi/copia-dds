@@ -32,6 +32,7 @@ public class CSVHelper {
     return Double.parseDouble(valor);
   }
 
+
   public static void exportarEstadisticasCSV(List<EstadisticaRegistro> registros, String filePath) throws IOException {
     try (CSVWriter writer = new CSVWriter(new FileWriter(filePath))) {
       writer.writeNext(HEADER);
@@ -39,9 +40,14 @@ public class CSVHelper {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
       for (EstadisticaRegistro reg : registros) {
+        String coleccionId = "";
+        if (reg.getColeccion() != null && reg.getColeccion().getId() != null) {
+          coleccionId = reg.getColeccion().getId().toString();
+        }
+
         String[] linea = {
             reg.getId() != null ? reg.getId().toString() : "",
-            reg.getColeccionId() != null ? reg.getColeccionId().toString() : "",
+            coleccionId,
             reg.getTipo() != null ? reg.getTipo() : "",
             reg.getValor() != null ? reg.getValor() : "",
             reg.getCantidad() != null ? reg.getCantidad().toString() : "",

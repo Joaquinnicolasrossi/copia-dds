@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,13 +14,12 @@ public class EstadisticaRegistro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "coleccion_id")
-    private Long coleccionId;
+    @ManyToOne
+    private Coleccion coleccion;
     private String tipo;
     private String valor;
     private Integer cantidad;
     private Boolean visiblePublico;
-    @Column(name = "fecha_actualizacion")
     @Convert(converter = LocalDateTimeConverter.class)
     private LocalDateTime fecha_actualizacion;
 
@@ -34,12 +34,12 @@ public class EstadisticaRegistro {
         this.cantidad = cantidad;
     }
 
-    public Long getColeccionId() {
-        return coleccionId;
+    public Coleccion getColeccion() {
+        return coleccion;
     }
 
-    public void setColeccionId(Long coleccionId) {
-        this.coleccionId = coleccionId;
+    public void setColeccion(Coleccion coleccion) {
+        this.coleccion = coleccion;
     }
 
     public LocalDateTime getFecha_actualizacion() {

@@ -6,6 +6,7 @@ import java.util.List;
 public class RepoFuenteDinamica implements WithSimplePersistenceUnit {
 
   List<Hecho> hechos = new ArrayList<>();
+  RepoProvincias repoProvincias = new RepoProvincias();
 
   public List<Hecho> getHechos() {
     return new ArrayList<>(hechos);
@@ -19,7 +20,7 @@ public class RepoFuenteDinamica implements WithSimplePersistenceUnit {
   }
 
   public void saveUpdate(Hecho hechoOriginal, Hecho.HechoBuilder hechoBuilder) {
-    Hecho actualizado = hechoOriginal.actualizarHecho(hechoOriginal, hechoBuilder);
+    Hecho actualizado = hechoOriginal.actualizarHecho(hechoOriginal, hechoBuilder, repoProvincias);
     hechos.remove(hechoOriginal);
     hechos.add(actualizado);
   }
@@ -57,8 +58,7 @@ public class RepoFuenteDinamica implements WithSimplePersistenceUnit {
    {
    entityManager().getTransaction().begin();
 
-   Hecho actualizado = hechoOriginal.actualizarHecho(hechoOriginal,
-   hechoBuilder);
+   Hecho actualizado = hechoOriginal.actualizarHecho(hechoOriginal, hechoBuilder, repoProvincias);
    entityManager().merge(actualizado);
 
    entityManager().getTransaction().commit();
