@@ -14,10 +14,9 @@ class RepoEstadisticaTest {
   @BeforeAll
   static void init() {
     // Para probar en memoria
-    //emf = Persistence.createEntityManagerFactory("testPU");
+    emf = Persistence.createEntityManagerFactory("testPU");
     // Para probar en MySql
-    emf = Persistence.createEntityManagerFactory("simple-persistence-unit");
-
+//    emf = Persistence.createEntityManagerFactory("simple-persistence-unit");
   }
 
   @AfterAll
@@ -129,7 +128,7 @@ class RepoEstadisticaTest {
 
   // 2) Categorìa con màs hechos reportas
   @Test
-  void testCategoriaConMasHechos(){
+  void testCategoriaConMasHechos() {
     em.getTransaction().begin();
     FuenteDinamica fuente = new FuenteDinamica();
     em.persist(fuente);
@@ -175,7 +174,7 @@ class RepoEstadisticaTest {
 
   // 3) ¿En qué provincia se presenta la mayor cantidad de hechos de una cierta categoría?
   @Test
-  void testProvinciaConMasHechosPorCategoria(){
+  void testProvinciaConMasHechosPorCategoria() {
     em.getTransaction().begin();
     FuenteDinamica fuente = new FuenteDinamica();
     em.persist(fuente);
@@ -206,7 +205,7 @@ class RepoEstadisticaTest {
     em.persist(h2);
 
     Hecho h3 = new Hecho("Otro incendio", "desc", "Incendio",
-        -31.44, -64.19, LocalDateTime.of(2025, 6, 6,7 ,7),
+        -31.44, -64.19, LocalDateTime.of(2025, 6, 6, 7, 7),
         LocalDateTime.now(), Estado.PENDIENTE);
     h3.setFuenteOrigen(fuente);
     h3.setProvincia("Córdoba"); // Córdoba queda con 2
@@ -224,7 +223,7 @@ class RepoEstadisticaTest {
 
   // 4) ¿A qué hora del día ocurren la mayor cantidad de hechos de una cierta categoría?
   @Test
-  void testHoraConMayorCantidadDeHechosPorCategoria(){
+  void testHoraConMayorCantidadDeHechosPorCategoria() {
     em.getTransaction().begin();
     FuenteDinamica fuente = new FuenteDinamica();
     em.persist(fuente);
@@ -270,7 +269,7 @@ class RepoEstadisticaTest {
     em.persist(h3);
 
     // Hecho 20hs
-    Hecho h4= new Hecho("Incendio noche", "desc", "Incendio",
+    Hecho h4 = new Hecho("Incendio noche", "desc", "Incendio",
         -34.61, -58.38,
         LocalDateTime.of(2025, 6, 7, 20, 50),
         LocalDateTime.now(),
