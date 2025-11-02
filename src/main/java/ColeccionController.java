@@ -84,7 +84,7 @@ public class ColeccionController  {
     List<Criterio> criterios = new ArrayList<>();
 
     String categoria = ctx.formParam("categoria");
-    if (categoria == null || categoria.isBlank()) {
+    if (categoria != null && !categoria.isBlank()) {
       criterios.add(new CriterioCategoria());
     }
 
