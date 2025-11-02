@@ -65,6 +65,7 @@ public class Solicitud {
     return esSpam;
   }
 
+  public Long getId() { return id; }
   public String getDescripcion() {
     return descripcion;
   }

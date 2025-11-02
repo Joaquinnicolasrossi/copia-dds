@@ -1,8 +1,8 @@
 {{#partial "contenido"}}
 <div class="form-container">
-    <h1> Solicitar Eliminación del Hecho #{{hecho.id}} </h1>
+    <h1> Solicitar Eliminación del Hecho #{{id}} </h1>
 
-    <form action="/solicitud/{{hecho.id}}" method="post">
+    <form action="/solicitud/{{id}}" method="post">
         <div>
             <label>Motivo</label>
             <textarea name="descripcion" required></textarea>

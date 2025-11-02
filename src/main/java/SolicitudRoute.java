@@ -15,7 +15,13 @@ public class SolicitudRoute implements Router {
       ctx.render("alert.hbs", model);
     });
     app.get("/solicitud/{id}/form", controller::mostrarFormularioSolicitud);
-    app.patch("/solicitud/{id}/aceptar", ctx -> ctx.render("solicitudes.hbs", controller.listar(ctx)));
-    app.delete("/solicitud/{id}/eliminar", ctx -> ctx.render("solicitudes.hbs", controller.listar(ctx)));
+    app.post("/solicitud/{id}/aceptar", ctx -> {
+      controller.aceptarSolicitud(ctx);
+      ctx.render("solicitudes.hbs", controller.listar(ctx));
+    });
+    app.post("/solicitud/{id}/eliminar", ctx -> {
+      controller.eliminarSolicitud(ctx);
+      ctx.render("solicitudes.hbs", controller.listar(ctx));
+    });
   }
 }

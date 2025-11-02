@@ -18,7 +18,9 @@ public class RepoSolicitudes implements WithSimplePersistenceUnit {
   }
 
   public void eliminarSolicitud(Solicitud solicitud) {
+    entityManager().getTransaction().begin();
     entityManager().remove(solicitud);
+    entityManager().getTransaction().commit();
   }
 
   public List<Solicitud> getSolicitudes() {
@@ -34,19 +36,33 @@ public class RepoSolicitudes implements WithSimplePersistenceUnit {
   }
 
   public Boolean estaEliminado(Hecho hecho) {
-     Solicitud solicitud = entityManager()
-         .createQuery("from Solicitud s where s.eliminado = true and s.hecho = :hecho",
-             Solicitud.class)
-         .setParameter("hecho", hecho)
-         .setMaxResults(1)
-         .getSingleResult();
+    Solicitud solicitud = entityManager()
+        .createQuery("from Solicitud s where s.eliminado = true and s.hecho = :hecho",
+            Solicitud.class)
+        .setParameter("hecho", hecho)
+        .setMaxResults(1)
+        .getSingleResult();
 
-     return solicitud != null;
+    return solicitud != null;
   }
 
   public Long cantidadSolicitudesSpam() {
     return entityManager()
         .createQuery("select count(s) from Solicitud s where s.esSpam = true", Long.class)
         .getSingleResult();
+  }
+
+  public Solicitud obtenerPorId(Long id) {
+    return entityManager()
+        .createQuery("SELECT s FROM Solicitud s WHERE s.id = :id", Solicitud.class)
+        .setParameter("id", id)
+        .getSingleResult();
+  }
+
+  public void aceptarSolicitud(Solicitud solicitud) {
+    entityManager().getTransaction().begin();
+    solicitud.aceptarSolicitud();
+    entityManager().merge(solicitud);
+    entityManager().getTransaction().commit();
   }
 }

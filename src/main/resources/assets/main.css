@@ -335,6 +335,14 @@ body {
 .solicitud-container h3 {
     margin-left: 10px;
 }
+
+.solicitud-data p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 300px;
+}
+
 .solicitud-sub {
     display: flex;
     flex-direction: row;

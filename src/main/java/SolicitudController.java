@@ -58,12 +58,19 @@ public class SolicitudController {
     return model;
   }
 
-  public void mostrarFormularioSolicitud( Context context) {
-    Long idHecho = Long.parseLong(context.pathParam("id"));
-    Hecho hecho = repoHechos.obtenerPorId(idHecho);
+  public void mostrarFormularioSolicitud(Context ctx) {
     Map<String, Object> model = new HashMap<>();
-    model.put("hecho", hecho);
-    context.render("solicitud-eliminacion-form.hbs", model);
+    model.put("id", ctx.pathParam("id"));
+    ctx.render("solicitud-eliminacion-form.hbs", model);
+  }
 
+  public void aceptarSolicitud(Context ctx) {
+    Solicitud solicitud = repoSolicitudes.obtenerPorId(Long.valueOf(ctx.pathParam("id")));
+    repoSolicitudes.aceptarSolicitud(solicitud);
+  }
+
+  public void eliminarSolicitud(Context ctx) {
+    Solicitud solicitud = repoSolicitudes.obtenerPorId(Long.valueOf(ctx.pathParam("id")));
+    repoSolicitudes.eliminarSolicitud(solicitud);
   }
 }
