@@ -1,7 +1,7 @@
 {{#partial "contenido"}}
         <div class="form-container">
             <h1> Crear Coleccion </h1>
-            <form class="hecho-form" action="/colecciones" method="post" enctype="multipart/form-data">
+            <form class="hecho-form" action="/colecciones" method="post">
                 <label>Título:</label>
                 <input type="text" name="titulo" required><br>
 
@@ -11,15 +11,17 @@
                 <label>Tipo de fuente</label>
                     <div class="radio-group">
                         <label>
-                            <input type="radio" name="tipoFuente" value="estatica" checked required>
-                            <span class="dot"></span> Estática
+                            <input type="radio" name="tipoFuente" value="estatica-incendios" checked required>
+                            <span class="dot"></span> Estática (Incendios)
                         </label>
-
+                        <label>
+                            <input type="radio" name="tipoFuente" value="estatica-victimas" required>
+                            <span class="dot"></span> Estática (victimas)
+                        </label>
                         <label>
                             <input type="radio" name="tipoFuente" value="dinamica">
                             <span class="dot"></span> Dinámica
                         </label>
-
                         <label>
                             <input type="radio" name="tipoFuente" value="metamapa">
                             <span class="dot"></span> Metamapa
@@ -29,14 +31,21 @@
                 <label>Categoria (opcional)</label>
                 <input type="text" id="criterioCategoria" name="criterioCategoria" placeholder="Ej: Incendio forestal..">
 
-                <label>Provincia (opcional)</label>
-                <input type="text" id="criterioCategoria" name="criterioCategoria" placeholder="Ej: Incendio forestal..">
-
                 <label for="fechaInicio">Fecha desde:</label>
-                <input type="date" id="fechaInicio" name="fechaInicio">
+                <input type="date" id="fechaInicio" name="fechaDesde">
 
                 <label for="fechaFin">Fecha hasta:</label>
-                <input type="date" id="fechaFin" name="fechaFin">
+                <input type="date" id="fechaFin" name="fechaHasta">
+
+                <label>Algoritmo de consenso</label>
+                <br>
+                <select name="algoritmoConsenso">
+                    {{#each algoritmosConsenso}}
+                        <option value="{{id}}">{{nombre}}</option>
+                    {{/each}}
+                </select>
+                <br>
+                <br>
 
                 <button type="submit">Crear colección</button>
             </form>

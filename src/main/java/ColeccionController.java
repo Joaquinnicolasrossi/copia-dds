@@ -1,4 +1,6 @@
 import io.javalin.http.Context;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,73 +10,121 @@ public class ColeccionController  {
 
   private final RepoSolicitudes repoSolicitudes;
   private final RepoColecciones repoColecciones;
-  private final RepoFuenteDinamica repoFuenteDinamica;
+  private final FuenteDinamica fuenteDinamica;
+  private final RepoHechos repoHechos;
 
-  public ColeccionController() {
-    this.repoSolicitudes = new RepoSolicitudes(new DetectorDeSpamFiltro());
-    this.repoColecciones = new RepoColecciones(repoSolicitudes);
-    this.repoFuenteDinamica = new RepoFuenteDinamica();
+  public ColeccionController(RepoSolicitudes repoSolicitudes,
+                             RepoColecciones repoColecciones,
+                             FuenteDinamica fuenteDinamica,
+                             RepoHechos repoHechos) {
+    this.repoSolicitudes = repoSolicitudes;
+    this.repoColecciones = repoColecciones;
+    this.fuenteDinamica = fuenteDinamica;
+    this.repoHechos = repoHechos;
   }
 
-  public Map<String, Object> crear(Context ctx){
+  public Map<String, Object> crear(Context ctx) {
     Map<String, Object> model = modeloBase(ctx);
+
 
     String titulo = ctx.formParam("titulo");
     String descripcion = ctx.formParam("descripcion");
     String tipoFuente = ctx.formParam("tipoFuente");
-    String categoria = ctx.formParam("categoria");
-    String provincia = ctx.formParam("provincia");
-    String fechaDesde = ctx.formParam("fechaDesde");
-    String fechaHasta = ctx.formParam("fechaHasta");
 
-    if (titulo == null || titulo.isBlank() || descripcion == null || descripcion.isBlank()) {
+    if (titulo == null || titulo.isBlank()) {
       model.put("type", "error");
-      model.put("message", "El título y la descripción son obligatorios.");
+      model.put("message", "El título es obligatorio.");
       return model;
     }
 
-    if (tipoFuente == null){
+    if (descripcion == null || descripcion.isBlank()) {
       model.put("type", "error");
-      model.put("message", "Seleccionar una fuente es boligatorio");
+      model.put("message", "La descripción es obligatoria.");
       return model;
     }
 
-    Fuente fuente = null;
-
-    switch (tipoFuente) {
-      case "estatica":
-        fuente = new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
-        break;
-      case "dinamica":
-        //fuente = repoFuenteDinamica.();
-        break;
-      case "metamapa":
-        //fuente = new FuenteMetaMapa();
-        break;
-      default:
-        model.put("type", "error");
-        model.put("message", "Tipo de fuente desconocido: " + tipoFuente);
-        return model;
+    if (tipoFuente == null) {
+      model.put("type", "error");
+      model.put("message", "Seleccionar una fuente es obligatorio");
+      return model;
     }
 
-    List<Criterio> criterios = new ArrayList<>();
+    Fuente fuente = switch (tipoFuente) {
+      case "estatica-incendios" ->
+          new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
+      case "estatica-victimas" ->
+        new FuenteEstaticaIncendios("src/test/resources/victimas_viales_argentina.csv");
+      case "dinamica" ->
+        fuenteDinamica;
+      case "metamapa" ->
+        null;
+      default -> null;
+    };
 
-    if (categoria != null && !categoria.isBlank()) {
-      criterios.add(new CriterioCategoria((categoria)));
+    if (fuente == null) {
+      model.put("type", "error");
+      model.put("message", "La fuente es obligatoria.");
+      return model;
     }
-    //if (provincia != null && !provincia.isBlank()) {
-    //  criterios.add(new CriterioProvincia(provincia));
-    //}
-    //if (fechaDesde != null && !fechaDesde.isBlank()) {
-    //  criterios.add(new CriterioFecha(fechaDesde, fechaHasta));
-    //}
 
-    repoColecciones.crearColeccion(titulo, descripcion, fuente, criterios);
+    List<Criterio> criterios = construirCriterios(ctx);
+
+    Consenso algoritmoConsenso = obtenerAlgoritmoConsenso(ctx);
+
+    repoColecciones.crearColeccion
+        (titulo, descripcion, fuente, criterios, algoritmoConsenso, repoHechos);
 
     model.put("type", "success");
     model.put("message", "Colección creada correctamente.");
     return model;
 
+  }
+
+  private List<Criterio> construirCriterios(Context ctx) {
+    List<Criterio> criterios = new ArrayList<>();
+
+    String categoria = ctx.formParam("categoria");
+    if (categoria == null || categoria.isBlank()) {
+      criterios.add(new CriterioCategoria());
+    }
+
+    String fechaDesde = ctx.formParam("fechaDesde");
+    String fechaHasta = ctx.formParam("fechaHasta");
+    if (fechaDesde != null && !fechaDesde.isBlank() &&
+        fechaHasta != null && !fechaHasta.isBlank()) {
+      LocalDateTime desde = LocalDate.parse(fechaDesde).atStartOfDay();
+      LocalDateTime hasta = LocalDate.parse(fechaHasta).atTime(23, 59, 59);
+      criterios.add(new CriterioFecha(desde, hasta));
+    }
+
+    return criterios;
+  }
+
+  private Consenso obtenerAlgoritmoConsenso(Context ctx) {
+    String algoritmoStr = ctx.formParam("algoritmoConsenso");
+    if (algoritmoStr == null || algoritmoStr.equals("ninguno")) {
+      return null;
+    }
+    return switch (algoritmoStr) {
+      case "multiplesm" -> new MultiplesMenciones();
+      case "mayoria" -> new MayoriaSimple();
+      case "absoluta" -> new Absoluto();
+      default -> null;
+    };
+  }
+
+  public Map<String, Object> mostrarFormulario(Context ctx) {
+    Map<String, Object> model = modeloBase(ctx);
+
+    // Lista de algoritmos de consenso disponibles
+    model.put("algoritmosConsenso", List.of(
+        Map.of("id", "ninguno", "nombre", "Sin consenso (todos los hechos son válidos)"),
+        Map.of("id", "multiplesm", "nombre", "Múltiples menciones (al menos 2 fuentes)"),
+        Map.of("id", "mayoria", "nombre", "Mayoría simple (más de la mitad)"),
+        Map.of("id", "absoluta", "nombre", "Absoluta (todas las fuentes coinciden)")
+    ));
+
+    return model;
   }
 
   public Map<String, Object> listar(Context ctx){

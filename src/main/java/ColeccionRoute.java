@@ -8,15 +8,21 @@ public class ColeccionRoute implements Router {
     this.controller = controller;
   }
   public void configure(Javalin app) {
-    app.get("/colecciones/nuevo", ctx->ctx.render("coleccion-form.hbs"));
+
+    app.get("/colecciones/nuevo", ctx -> {
+      Map<String, Object> model = controller.mostrarFormulario(ctx);
+      ctx.render("coleccion-form.hbs", model);
+    });
 
     // Crear
     app.post("/colecciones", ctx -> {
       Map<String, Object> model = controller.crear(ctx);
       if("success".equals(model.get("type"))){
-        ctx.redirect("/home-administrador");
+        ctx.redirect("/colecciones");
+      } else {
+        model.putAll(controller.mostrarFormulario(ctx));
+        ctx.render("coleccion-form.hbs", model);
       }
-      ctx.render("alert.hbs", model);
     });
 
     // Listar

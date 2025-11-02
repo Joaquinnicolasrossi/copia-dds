@@ -13,9 +13,11 @@ public class Server {
     RepoMultimedia repoMultimedia = new RepoMultimedia();
     HechoController hechoController = new HechoController(repoHechos, repoMultimedia);
     RepoUsuario repoUsuario = new RepoUsuario();
-    UsuarioController usuarioController = new UsuarioController(repoUsuario);
-    ColeccionController coleccionController = new ColeccionController();
     RepoSolicitudes repoSolicitudes = new RepoSolicitudes(new DetectorDeSpamFiltro());
+    RepoColecciones repoColecciones = new RepoColecciones(repoSolicitudes);
+    FuenteDinamica fuenteDinamica = new FuenteDinamica();
+    UsuarioController usuarioController = new UsuarioController(repoUsuario);
+    ColeccionController coleccionController = new ColeccionController(repoSolicitudes, repoColecciones, fuenteDinamica, repoHechos);
     SolicitudController solicitudController = new SolicitudController(repoSolicitudes, repoHechos);
 
     app.before(ctx -> {

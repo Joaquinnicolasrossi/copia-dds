@@ -1,4 +1,5 @@
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -19,6 +20,9 @@ public abstract class Fuente {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(name = "tipo_fuente", insertable = false, updatable = false)
+  private String tipoFuente;
+
   public Long getId() {
     return id;
   }
@@ -28,4 +32,18 @@ public abstract class Fuente {
   }
   @Transient
   public abstract List<Hecho> extraerHechos();
+  @Transient
+  public String getNombreFuente() {
+    if (tipoFuente == null) return "Desconocida";
+
+    // Capitaliza (por ejemplo "estatica-incendios" → "Estática incendios")
+    String[] partes = tipoFuente.split("-");
+    StringBuilder nombre = new StringBuilder();
+    for (String p : partes) {
+      nombre.append(Character.toUpperCase(p.charAt(0)))
+          .append(p.substring(1))
+          .append(" ");
+    }
+    return nombre.toString().trim();
+  }
 }

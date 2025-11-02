@@ -9,7 +9,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("MAYORIA_SIMPLE")
+@DiscriminatorValue("Mayoria_Simple")
 public class MayoriaSimple extends Consenso {
 
   @Override

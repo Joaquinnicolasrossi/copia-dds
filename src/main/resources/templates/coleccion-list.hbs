@@ -11,6 +11,7 @@
                     <th>Tìtulo</th>
                     <th>Descripciòn</th>
                     <th>Tipo de Fuente</th>
+                    <th>Algoritmo consenso</th>
                 </tr>
             </thead>
             <tbody>
@@ -19,7 +20,8 @@
                         <td>{{id}}</td>
                         <td>{{titulo}}</td>
                         <td>{{descripcion}}</td>
-                        <td>{{fuente.tipo}}</td>
+                        <td>{{fuente.nombreFuente}}</td>
+                        <td>{{nombreAlgoritmo}}</td>
                     </tr>
                 {{/each}}
             </tbody>

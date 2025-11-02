@@ -3,7 +3,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("ABSOLUTO")
+@DiscriminatorValue("Absoluto")
 public class Absoluto extends Consenso {
 
   // Si todas las fuentes del nodo contienen el mismo hecho

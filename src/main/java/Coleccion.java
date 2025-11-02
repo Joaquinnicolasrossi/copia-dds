@@ -31,7 +31,8 @@ public class Coleccion {
   private RepoHechos repoHechos;
   @Transient
   private RepoSolicitudes solicitudes;
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "algoritmo_consenso_id")
   private Consenso algoritmoConsenso;
   // Guardo los hechosConsensuados en una lista para eficiencia
   @ManyToMany
@@ -77,6 +78,12 @@ public class Coleccion {
 
   public String getDescripcion() {
     return descripcion;
+  }
+
+  public String getNombreAlgoritmo() {
+    return (algoritmoConsenso != null)
+        ? algoritmoConsenso.getNombreAlgoritmo()
+        : "Ninguno";
   }
 
   public void setTitulo(String titulo) { this.titulo = titulo; }

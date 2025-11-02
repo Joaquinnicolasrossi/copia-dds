@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 // y ninguna otra fuente del nodo contiene otro de igual título
 // pero diferentes atributos, se lo considera consensuado;
 @Entity
-@DiscriminatorValue("MULTIPLES_MENCIONES")
+@DiscriminatorValue("Multiples_Menciones")
 public class MultiplesMenciones extends Consenso {
   @Override
   public boolean estaConsensuado(Hecho hecho, Fuente fuenteDelNodo) {
