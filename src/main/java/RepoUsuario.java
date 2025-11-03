@@ -11,11 +11,12 @@ class RepoUsuario implements WithSimplePersistenceUnit {
 
 
   public Usuario findByUser(String email) {
+    email = email.trim().toLowerCase();
+    System.out.println("Buscando en base: " + email);
     List<Usuario> usuarios = entityManager()
-        .createQuery("select u from Usuario u where u.email = :email", Usuario.class)
+        .createQuery("select u from Usuario u where lower(u.email) = :email", Usuario.class)
         .setParameter("email", email)
         .getResultList();
-
     return usuarios.isEmpty() ? null : usuarios.get(0);
   }
 

@@ -35,47 +35,32 @@ public class UsuarioController {
     String contrasena = ctx.formParam("contrasena");
 
 
-    if (email.equals("administrador") && contrasena.equals("123")) {
-      Map<String, Object> model = new HashMap<>();
-      model.put("nombre", "fulano");
-      model.put("rol", "Administrador");
-      ctx.render("home-admin.hbs", model);
-      return;
-    } else if ( email.equals("usuario") && contrasena.equals("123")) {
-
-
-      Map<String,Object> model = new HashMap<>();
-      model.put("userId","1");
-
-      ctx.render("home.hbs",model);
-      return;
-    }
-
     var usuario = repoUsuario.findByUser(email);
 
     if (usuario == null) {
-      ctx.sessionAttribute("error", "usuario no encontrado");
+      ctx.sessionAttribute("error", "Usuario no encontrado");
       ctx.redirect("/usuario/formIniciarSesion");
       return;
     }
 
 
     if (!usuario.getContrasena().equals(contrasena)) {
-      ctx.sessionAttribute("error", " contraseña incorrecta");
+      ctx.sessionAttribute("error", "Contraseña incorrecta");
       ctx.redirect("/usuario/formIniciarSesion");
       return;
     }
 
-
-
-
+    ctx.sessionAttribute("usuarioActual", usuario);
     if (usuario.getTipoUsuario() == TipoUsuario.ADMINISTRADOR) {
       Map<String, Object> model = new HashMap<>();
       model.put("nombre", usuario.getNombre());
       model.put("rol", "Administrador");
       ctx.render("home-admin.hbs", model);
     } else {
-      ctx.redirect("/");
+      Map<String, Object> model = new HashMap<>();
+      model.put("userId", usuario.getId());
+      model.put("nombre", usuario.getNombre());
+      ctx.render("home.hbs", model);
     }
   }
 
@@ -105,7 +90,6 @@ public class UsuarioController {
     Map<String, Object> model = new HashMap<>();
     model.put("hechos", hechos);
     model.put("usuarioActual", context.sessionAttribute("usuarioActual"));
-
     context.render("hecho-detalle.hbs", model);
 
 
