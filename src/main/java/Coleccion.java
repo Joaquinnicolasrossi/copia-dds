@@ -20,7 +20,7 @@ public class Coleccion {
   @Id
   @GeneratedValue
   private Long id;
-  public String titulo;
+  private String titulo;
   private String descripcion;
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "fuente_id")
@@ -169,5 +169,27 @@ public class Coleccion {
   }
   public void setId(Long id) {
     this.id = id;
+  }
+
+  public void actualizarConfiguracion(String nuevoTitulo, String nuevaDescripcion, Fuente nuevaFuente, List<Criterio> nuevosCriterios, Consenso nuevoAlgoritmo){
+
+    if (nuevoTitulo != null && !nuevoTitulo.isBlank()){
+      this.titulo = nuevoTitulo;
+    }
+
+    if (nuevaDescripcion != null && !nuevoTitulo.isBlank()){
+      this.descripcion = nuevaDescripcion;
+    }
+
+    if (nuevaFuente != null){
+      this.fuente = nuevaFuente;
+    }
+    if (nuevosCriterios != null && !nuevosCriterios.isEmpty()){
+      this.criterios = nuevosCriterios;
+      this.criterios.addAll(nuevosCriterios);
+    }
+    if (nuevoAlgoritmo != null){
+      this.algoritmoConsenso = nuevoAlgoritmo;
+    }
   }
 }

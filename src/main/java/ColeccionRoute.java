@@ -29,7 +29,16 @@ public class ColeccionRoute implements Router {
     app.get("/colecciones", ctx ->
       {Map<String, Object> model = controller.listar(ctx);
       ctx.render("coleccion-list.hbs", model);} );
-
+    // Editar
+    app.get("/colecciones/{id}/editar", ctx -> {
+      Map<String, Object> model = controller.editar(ctx);
+      ctx.render("editar-coleccion.hbs", model);
+    });
+    // Actualizar
+    app.post("/colecciones/{id}/actualizar", ctx -> {
+      controller.actualizar(ctx);
+      ctx.redirect("/colecciones");
+    });
     //app.get("/collecciones/mapa", ctx -> ctx.render("mapa.hbs", controller.ubicarHechos(ctx)));
   }
 }

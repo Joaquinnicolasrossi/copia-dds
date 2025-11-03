@@ -12,6 +12,7 @@
                     <th>Descripciòn</th>
                     <th>Tipo de Fuente</th>
                     <th>Algoritmo consenso</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,6 +23,7 @@
                         <td>{{descripcion}}</td>
                         <td>{{fuente.nombreFuente}}</td>
                         <td>{{nombreAlgoritmo}}</td>
+                        <td><a href="/colecciones/{{id}}/editar" class="btn-enviar">✏️ Editar</a></td>
                     </tr>
                 {{/each}}
             </tbody>

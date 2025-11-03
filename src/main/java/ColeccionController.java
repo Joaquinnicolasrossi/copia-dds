@@ -142,4 +142,55 @@ public class ColeccionController  {
     return model;
   }
 
+  public Map<String, Object> editar(Context ctx) {
+    Map<String, Object> model = modeloBase(ctx);
+
+    String idParam = ctx.pathParam("id");
+    if (idParam == null || idParam.isBlank()) {
+      model.put("type", "error");
+      model.put("message", "ID de colección no válido.");
+      return model;
+    }
+
+    Long id = Long.parseLong(idParam);
+    Coleccion coleccion = repoColecciones.buscarPorId(id);
+
+    if (coleccion == null) {
+      model.put("type", "error");
+      model.put("message", "No se encontró la colección con ID " + id);
+      return model;
+    }
+
+    model.put("coleccion", coleccion);
+    return model;
+  }
+
+  public void actualizar(Context ctx){
+    Long id = Long.parseLong(ctx.pathParam("id"));
+
+    String nuevoTitulo = ctx.formParam("titulo");
+    String nuevaDescripcion = ctx.formParam("descripcion");
+
+
+    String tipoFuente =  ctx.formParam("tipoFuente");
+    Fuente nuevaFuente = switch (tipoFuente) {
+      case "dinamica" -> fuenteDinamica;
+      case "estatica-incendios" -> new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
+      case "estatica-victimas" -> new FuenteEstaticaIncendios("src/test/resources/victimas_viales_argentina.csv");
+      case "metamapa" -> null;//fuenteMetamapa;
+      default -> null;
+    };
+
+    Consenso nuevoAlgoritmo = switch (ctx.formParam("algoritmoConsenso")){
+      case "multiplesm" -> new MultiplesMenciones();
+      case "mayoria" -> new MayoriaSimple();
+      case "absoluta" -> new Absoluto();
+      default -> null;
+    };
+
+    List<Criterio> nuevosCriterios =  construirCriterios(ctx);
+
+    repoColecciones.actualizarColeccion(id, nuevoTitulo, nuevaDescripcion, nuevaFuente, nuevosCriterios, nuevoAlgoritmo);
+    ctx.redirect("/colecciones");
+  }
 }

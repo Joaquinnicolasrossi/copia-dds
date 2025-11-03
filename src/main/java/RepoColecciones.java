@@ -20,8 +20,12 @@ public class RepoColecciones implements WithSimplePersistenceUnit {
   }
 
   public List<Coleccion> getColecciones() {
-    return entityManager().createNativeQuery("SELECT * FROM Coleccion", Coleccion.class)
+    List<Coleccion> colecciones = entityManager().createQuery("FROM Coleccion", Coleccion.class)
         .getResultList();
+
+    // Forzamos que se actualice
+    colecciones.forEach(c -> entityManager().refresh(c));
+    return colecciones;
   };
 
   public List<Long> getIdsColecciones() {
@@ -35,4 +39,20 @@ public class RepoColecciones implements WithSimplePersistenceUnit {
     }
     return ids;
   }
+
+  public void actualizarColeccion(Long id, String nuevoTitulo, String nuevaDescripcion, Fuente nuevaFuente, List<Criterio> nuevosCriterios, Consenso nuevoAlgoritmo){
+    withTransaction( () -> {
+      Coleccion coleccion = entityManager().find(Coleccion.class, id);
+
+      if (coleccion != null){
+        coleccion.actualizarConfiguracion(nuevoTitulo, nuevaDescripcion, nuevaFuente, nuevosCriterios, nuevoAlgoritmo);
+        entityManager().merge(coleccion);
+      }
+    });
+  }
+
+  public Coleccion buscarPorId(Long id) {
+    return entityManager().find(Coleccion.class, id);
+  }
+
 }
