@@ -22,6 +22,36 @@
     font-weight: bold;
     text-decoration: none;
 }
+.navbar .search-form input[type="search"] {
+  flex-grow: 1;
+  border: none;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 16px;
+}
+.navbar .search-bar {
+    background-color: #f4f4f4;
+    border-radius: 20px;
+}
+
+.navbar button {
+    width: 25px;
+    height: 25px;
+    padding: 1px;
+    background-color: #f4f4f4;
+    border: none;
+    color: #6699ff;
+    font-size: 14px;
+    font-weight: 700px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+    background-color: #3366cc;
+}
 
 .navbar-menu {
     list-style: none;

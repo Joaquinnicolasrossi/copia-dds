@@ -31,19 +31,20 @@ public class HechoController {
       Double longitud = Double.valueOf(ctx.formParam("longitud"));
       List<UploadedFile> archivos = ctx.uploadedFiles("multimedia");
 
-      if(!(this.validarCantidadArchivos(archivos) || this.validarTamanioArchivos(archivos))){
+      if (!(this.validarCantidadArchivos(archivos) || this.validarTamanioArchivos(archivos))) {
         model.put("type", "error");
         model.put("message", "Error: los archivos exceden los limites");
         return model;
-      };
+      }
+      ;
       List<Multimedia> archivosMultimedia = new ArrayList<>();
       archivos.forEach(a -> {
-          Multimedia multimedia = new Multimedia();
-          multimedia.setTipo(a.contentType());
-          multimedia.setTamanio(a.size());
-          multimedia.setUrl("uploads/" + a.filename());
+        Multimedia multimedia = new Multimedia();
+        multimedia.setTipo(a.contentType());
+        multimedia.setTamanio(a.size());
+        multimedia.setUrl("uploads/" + a.filename());
 
-          archivosMultimedia.add(multimedia);
+        archivosMultimedia.add(multimedia);
 
       });
 
@@ -108,7 +109,7 @@ public class HechoController {
   }
 
   private boolean validarTamanioArchivos(List<UploadedFile> archivos) {
-    long tamanioMaximo = 1024*1024;
+    long tamanioMaximo = 1024 * 1024;
     long totalBytes = archivos.stream()
         .mapToLong(UploadedFile::size)
         .sum();
@@ -120,6 +121,19 @@ public class HechoController {
     Map<String, Object> model = new HashMap<>();
     model.put("usuarioActual", ctx.attribute("usuarioActual"));
     model.put("nombre", ctx.attribute("nombre"));
+    return model;
+  }
+
+  public Map<String, Object> listar(Context ctx) {
+    Map<String, Object> model = modeloBase(ctx);
+    try {
+      String query = ctx.queryParam("query");
+      List<Hecho> hechos = repoHechos.buscarFullText(query);
+      model.put("hechos", hechos);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return model;
+    }
     return model;
   }
 }

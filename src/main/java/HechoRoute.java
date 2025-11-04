@@ -9,6 +9,10 @@ public class HechoRoute implements Router {
     this.controller = controller;
   }
   public void configure(Javalin app) {
+    app.get("/hechos", ctx -> {
+      Map<String, Object> model = controller.listar(ctx);
+      ctx.render("search-page.hbs", model);
+    });
     app.get("/hechos/nuevo", ctx->ctx.render("hecho-form.hbs"));
     app.post("/hechos", ctx -> {
       Map<String, Object> model = controller.crear(ctx);
