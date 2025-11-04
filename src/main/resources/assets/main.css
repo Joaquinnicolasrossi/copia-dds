@@ -207,7 +207,6 @@ body {
 }
 
 <!-- Colecciones -->
-
 .coleccion-lista {
     flex: 1;
     display: flex;
@@ -307,19 +306,120 @@ body {
     border-color: #2f6de1;
 }
 
-.btn-editar {
+.hr{
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+.form-editar-coleccion {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group{
+    margin-bottom: 20px;
+}
+
+.form-group label{
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333333;
+    font-size: 14px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #4c8bf5;
+    box-shadow: 0 0 0 3px rgba(76, 139, 245, 0.1);
+}
+
+.form-group textarea{
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-group select{
+    cursor: pointer;
+    background-color: white;
+}
+
+.form-acciones{
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.btn-guardar {
+    flex: 1;
+    padding: 12px 24px;
     background-color: #4c8bf5;
     color: white;
-    padding: 6px 12px;
+    border: none;
     border-radius: 6px;
-    text-decoration: none;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
-.btn-editar:hover {
+.btn-guardar:hover {
     background-color: #3366cc;
 }
+
+.btn-cancelar {
+    flex: 1;
+    padding: 12px 24px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-cancelar:hover {
+    background-color: #5a6268;
+}
+
+.btn-ver, .btn-editar {
+    display: inline-block;
+    padding: 6px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9em;
+    margin-right: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-ver, .btn-editar {
+    background: #007bff;
+    color: white;
+}
+
+.btn-ver:hover, .btn-editar:hover {
+    background: #0056b3;
+}
+
 
 /*Solcitudes*/
 .solicitudes-lista {

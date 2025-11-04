@@ -1,36 +1,55 @@
 {{#partial "contenido"}}
-    <div class="editar-coleccion">
-        <h1>Editar colección</h1>
+    <div class="form-container coleccion-form">
+            <h1>Editar colección</h1>
 
-        {{#if coleccion}}
-            <form action="/colecciones/{{coleccion.id}}/actualizar" method="post">
-                <label for="titulo">Título:</label>
-                <input type="text" id="titulo" name="titulo" value="{{coleccion.titulo}}" required>
-
-                <label for="descripcion">Descripción:</label>
-                <textarea id="descripcion" name="descripcion" required>{{coleccion.descripcion}}</textarea>
-
-                <label>Fuente</label>
-                <select name="tipoFuente">
-                    <option value="dinamica">Dinámica</option>
-                    <option value="estatica-incendios">Estática Incendios</option>
-                    <option value="estatica-victimas">Estática Víctimas</option>
-                    <option value="metamapa">MetaMapa</option>
-                </select>
-                <label for="algoritmo">Algoritmo de consenso:</label>
-                <select name="algoritmoConsenso">
-                    <option value="{{coleccion.nombreAlgoritmo}}" selected>{{coleccion.nombreAlgoritmo}}</option>
-                    <option value="multiplesm">Múltiples menciones</option>
-                    <option value="mayoria">Mayoría simple</option>
-                    <option value="absoluta">Absoluta</option>
-                </select>
-
-                <button type="submit">Guardar cambios</button>
-            </form>
-        {{else}}
-            <p>No se encontró la colección.</p>
-        {{/if}}
-    </div>
+            {{#if coleccion}}
+                <form action="/colecciones/{{coleccion.id}}/actualizar" method="post">
+                        <label for="titulo">Título:</label>
+                        <input type="text" id="titulo" name="titulo" value="{{coleccion.titulo}}" placeholder="Ingrese un titulo para la colección" required>
+                        <label for="descripcion">Descripción:</label>
+                        <textarea id="descripcion" name="descripcion" placeholder="Ingrese una descripción" required>{{coleccion.descripcion}}</textarea><br>
+                        <label>Tipo de fuente</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="tipoFuente" value="estatica-incendios">
+                                <span class="dot"></span> Estática (Incendios)
+                            </label>
+                            <label>
+                                <input type="radio" name="tipoFuente" value="dinamica">
+                                <span class="dot"></span> Dinámica
+                            </label>
+                            <label>
+                                <input type="radio" name="tipoFuente" value="estatica-victimas">
+                                <span class="dot"></span> Estática (Víctimas)
+                            </label>
+                            <label>
+                                <input type="radio" name="tipoFuente" value="metamapa">
+                                <span class="dot"></span> Metamapa
+                            </label>
+                    </div>
+                    <hr><br>
+                        <label for="categoria">Categoria (Opcional)</label>
+                        <input type="text" id="categoria" name="categoria" placeholder="Ej: Incendio forestal.."
+                        <label for="fechaDesde">Fecha desde:</label>
+                        <input type="date" id="fechaDesde" name="fechaDesde">
+                        <label for="fechaHasta">Fecha hasta:</label>
+                        <input type="date" id="fechaHasta" name="fechaHasta">
+                    <hr><br>
+                        <label>Algoritmo de consenso:</label>
+                        <select name="algoritmoConsenso">
+                            {{#each algoritmosConsenso}}
+                                <option value="{{id}}">{{nombre}}</option>
+                            {{/each}}
+                        </select>
+                    <div class="form-acciones">
+                        <button type="submit">💾 Guardar</button>
+                        <button type="button" class="eliminar-solicitud-btn" onclick="window.location.href='/colecciones'">❌ Cancelar</button>
+                    </div>
+                </form>
+            {{else}}
+                <p class="sin-colec">No se encontró la colección.</p>
+            {{/if}}
+        </div>
 {{/partial}}
 
 {{> templates/layout-administrador}}

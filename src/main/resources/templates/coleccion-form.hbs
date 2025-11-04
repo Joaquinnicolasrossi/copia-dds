@@ -3,10 +3,10 @@
             <h1> Crear Coleccion </h1>
             <form class="hecho-form" action="/colecciones" method="post">
                 <label>Título:</label>
-                <input type="text" name="titulo" required><br>
+                <input type="text" name="titulo" placeholder="Ingrese un titulo" required><br>
 
                 <label>Descripción:</label>
-                <textarea name="descripcion" required></textarea><br>
+                <textarea name="descripcion" placeholder="Ingrese una descripción" required></textarea><br>
 
                 <label>Tipo de fuente</label>
                     <div class="radio-group">
@@ -27,7 +27,7 @@
                             <span class="dot"></span> Metamapa
                         </label>
                     </div>
-
+                <hr><br>
                 <label>Categoria (opcional)</label>
                 <input type="text" name="categoria" placeholder="Ej: Incendio forestal..">
 
@@ -36,18 +36,18 @@
 
                 <label for="fechaFin">Fecha hasta:</label>
                 <input type="date" id="fechaFin" name="fechaHasta">
-
+                <hr><br>
                 <label>Algoritmo de consenso</label>
-                <br>
                 <select name="algoritmoConsenso">
                     {{#each algoritmosConsenso}}
                         <option value="{{id}}">{{nombre}}</option>
                     {{/each}}
                 </select>
-                <br>
-                <br>
 
-                <button type="submit">Crear colección</button>
+                <div class="form-acciones">
+                    <button type="submit">Crear colección</button>
+                    <button type="button" class="eliminar-solicitud-btn" onclick="window.location.href='/colecciones'">❌ Cancelar</button>
+                </div>
             </form>
         </div>
     {{/partial}}
