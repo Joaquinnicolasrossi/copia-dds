@@ -13,6 +13,7 @@ public class HechoRoute implements Router {
       Map<String, Object> model = controller.listar(ctx);
       ctx.render("search-page.hbs", model);
     });
+
     app.get("/hechos/nuevo", ctx->ctx.render("hecho-form.hbs"));
     app.post("/hechos", ctx -> {
       Map<String, Object> model = controller.crear(ctx);
@@ -23,6 +24,10 @@ public class HechoRoute implements Router {
       Map<String, Object> model = new HashMap<>();
       model.put("hecho-id", ctx.pathParam("id"));
       ctx.render("solicitud-eliminacion-form.hbs", model);
+    });
+    app.get("/hechos/{id}", ctx -> {
+      Map<String, Object> model = controller.obtenerHecho(ctx);
+      ctx.render("hecho.hbs", model);
     });
   }
 }

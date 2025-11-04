@@ -8,9 +8,11 @@
             <ul class="hecho-list">
                 {{#each hechos}}
                     <li class="hecho-card">
-                        <h2 class="hecho-title">{{titulo}}</h2>
+                        <a href="/hechos/{{id}}">
+                            <h2 class="hecho-title">{{titulo}}</h2>
+                        </a>
                         {{#if multimedia}}
-                            <img class="hecho-img" src="/{{multimedia.[0].url}}" alt="Imagen del hecho">
+                            <img class="hecho-img" src="/{{multimedia.0.url}}" alt="Imagen del hecho">
                         {{else}}
                             <img class="hecho-img" src="/img/default.jpg" alt="Sin imagen">
                         {{/if}}

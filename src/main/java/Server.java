@@ -56,7 +56,7 @@ public class Server {
   private static void initializeStaticFiles(JavalinConfig config) {
     config.staticFiles.add(staticFileConfig -> {
       staticFileConfig.hostedPath = "/assets";
-      staticFileConfig.directory = "/assets";
+      staticFileConfig.directory = "assets";
     });
   }
 

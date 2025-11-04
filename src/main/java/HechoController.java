@@ -1,5 +1,9 @@
 import io.javalin.http.Context;
 import io.javalin.http.UploadedFile;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,13 +43,22 @@ public class HechoController {
       ;
       List<Multimedia> archivosMultimedia = new ArrayList<>();
       archivos.forEach(a -> {
-        Multimedia multimedia = new Multimedia();
-        multimedia.setTipo(a.contentType());
-        multimedia.setTamanio(a.size());
-        multimedia.setUrl("uploads/" + a.filename());
+        try {
+          String assetsDir = System.getProperty("user.dir") + "/src/main/resources/assets/";
+          Files.createDirectories(Paths.get(assetsDir));
 
-        archivosMultimedia.add(multimedia);
+          Path destino = Paths.get(assetsDir + a.filename());
+          Files.copy(a.content(), destino, StandardCopyOption.REPLACE_EXISTING);
 
+          Multimedia multimedia = new Multimedia();
+          multimedia.setTipo(a.contentType());
+          multimedia.setTamanio(a.size());
+          multimedia.setUrl("assets/" + a.filename());
+          archivosMultimedia.add(multimedia);
+
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
       });
 
       Hecho hecho = new Hecho.HechoBuilder()
@@ -130,6 +143,22 @@ public class HechoController {
       String query = ctx.queryParam("query");
       List<Hecho> hechos = repoHechos.buscarFullText(query);
       model.put("hechos", hechos);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return model;
+    }
+    return model;
+  }
+
+  public Map<String, Object> obtenerHecho(Context ctx) {
+    Map<String, Object> model = modeloBase(ctx);
+    try {
+      Long hechoId = Long.valueOf(ctx.pathParam("id"));
+      Hecho hecho = repoHechos.obtenerPorId(hechoId);
+      model.put("titulo", hecho.getTitulo());
+      model.put("fecha", hecho.getFecha().toLocalDate());
+      model.put("descripcion", hecho.getDescripcion());
+      model.put("multimedia", hecho.getMultimedia());
     } catch (Exception e) {
       e.printStackTrace();
       return model;

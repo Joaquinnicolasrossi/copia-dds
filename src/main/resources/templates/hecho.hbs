@@ -1,0 +1,26 @@
+{{#partial "contenido"}}
+    <div class="hecho-container">
+        <a href="/hechos">← Volver</a>
+        <div class="hecho-div">
+            <div class="hecho-info">
+                <h3 class="hecho-titulo">{{titulo}}</h3>
+                <p class="hecho-fecha">{{fecha}}</p>
+                <p class="hecho-descripcion">{{descripcion}}</p>
+            </div>
+            <div class="hecho-galeria">
+                {{#each multimedia}}
+                    <li class="hecho-imagen">
+                        <img class="hecho-img" src="/{{url}}" alt="Imagen del hecho">
+                    </li>
+                {{/each}}
+            </div>
+            <div>
+                <form action="/solicitud/{{id}}/form" method="get">
+                    <button type="submit">Solicitar eliminación</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+
+{{> templates/layout }}
