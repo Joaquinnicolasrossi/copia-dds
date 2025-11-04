@@ -19,11 +19,7 @@ public class RepoFuenteDinamica implements WithSimplePersistenceUnit {
         .orElse(null);
   }
 
-  public void saveUpdate(Hecho hechoOriginal, Hecho.HechoBuilder hechoBuilder) {
-    Hecho actualizado = hechoOriginal.actualizarHecho(hechoOriginal, hechoBuilder, repoProvincias);
-    hechos.remove(hechoOriginal);
-    hechos.add(actualizado);
-  }
+
 
   public void rechazar(Hecho hecho) {
     hechos.remove(hecho);
@@ -54,14 +50,14 @@ public class RepoFuenteDinamica implements WithSimplePersistenceUnit {
    }
 
 
-   public void saveUpdate_(Hecho hechoOriginal, Hecho.HechoBuilder hechoBuilder)
-   {
-   entityManager().getTransaction().begin();
+  public void saveUpdate(Hecho hechoOriginal, Hecho.HechoBuilder hechoBuilder)
+  {
+    entityManager().getTransaction().begin();
 
-   Hecho actualizado = hechoOriginal.actualizarHecho(hechoOriginal, hechoBuilder, repoProvincias);
-   entityManager().merge(actualizado);
+    Hecho actualizado = hechoOriginal.actualizarHecho(hechoOriginal, hechoBuilder, repoProvincias);
+    entityManager().merge(actualizado);
 
-   entityManager().getTransaction().commit();
+    entityManager().getTransaction().commit();
 
-   }
+  }
 }

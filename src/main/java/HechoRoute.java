@@ -13,16 +13,19 @@ public class HechoRoute implements Router {
       Map<String, Object> model = controller.listar(ctx);
       ctx.render("search-page.hbs", model);
     });
-    app.get("/hechos/nuevo", ctx->ctx.render("hecho-form.hbs"));
+    app.get("/hechos/nuevo", ctx -> ctx.render("hecho-form.hbs"));
     app.post("/hechos", ctx -> {
       Map<String, Object> model = controller.crear(ctx);
       ctx.render("alert.hbs", model);
     });
     app.get("/hechos/mapa", ctx -> ctx.render("mapa.hbs", controller.ubicarHechos(ctx)));
-    app.get("/hechos/{id}/solicitar-eliminacion", ctx-> {
+    app.get("/hechos/{id}/solicitar-eliminacion", ctx -> {
       Map<String, Object> model = new HashMap<>();
       model.put("hecho-id", ctx.pathParam("id"));
       ctx.render("solicitud-eliminacion-form.hbs", model);
     });
+    app.get("hechos/filtro",controller::filtrarHechos);
+    app.get("/hechos/{id}/editar", controller::mostrarFormularioEditar);
+    app.post("/hechos/{id}/actualizar", controller::actualizarHecho);
   }
 }
