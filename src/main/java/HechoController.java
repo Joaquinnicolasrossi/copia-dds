@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.jetbrains.annotations.NotNull;
 
 public class HechoController {
   private final RepoHechos repoHechos;
@@ -150,6 +151,58 @@ public class HechoController {
     return model;
   }
 
+
+  public void filtrarHechos(Context context) {
+    String filtroParametro = context.queryParam("categoria");
+
+    if (filtroParametro == null || filtroParametro.trim().isEmpty()) {
+      context.sessionAttribute("error", "Debes ingresar una categoría.");
+      context.redirect("/hechos");
+      return;
+    }
+
+    filtroParametro = filtroParametro.trim(); // No lo paso a lower acá todavía
+
+    List<Hecho> hechosFiltrados = repoHechos.obtenerPorCategoria(filtroParametro);
+
+    Map<String, Object> model = new HashMap<>();
+    model.put("categoria", filtroParametro);
+    model.put("hechos", hechosFiltrados);
+    model.put("sinResultados", hechosFiltrados.isEmpty()); // ✔ para la vista
+
+    context.render("hechos-filtrados.hbs", model);
+  }
+
+  public void mostrarFormularioEditar( Context context) {
+
+    Long id = Long.parseLong(context.pathParam("id"));
+
+    Hecho hecho = repoHechos.obtenerPorId(id);
+
+    Map<String,Object> model = new HashMap<>();
+    model.put("id",id);
+
+  context.render("hecho-editar.hbs",model);
+  }
+
+  public void actualizarHecho( Context context) {
+
+    Long id = Long.parseLong(context.pathParam("id"));
+    Hecho hecho = repoHechos.obtenerPorId(id);
+
+    Map<String,Object> model = new HashMap<>();
+    Hecho.HechoBuilder hechoBuilder = new Hecho.HechoBuilder().
+        setCategoria(context.formParam("categoria"))
+            .setDescripcion(context.formParam("descripcion")).
+        setTitulo(context.formParam("titulo"));
+
+
+     hecho.actualizarHecho(hecho,hechoBuilder,repoProvincias);
+
+    context.render("hecho-editar.hbs",model);
+
+
+  }
   public Map<String, Object> obtenerHecho(Context ctx) {
     Map<String, Object> model = modeloBase(ctx);
     try {

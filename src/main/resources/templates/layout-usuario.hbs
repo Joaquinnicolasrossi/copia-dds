@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MetaMapa / Administrador</title>
+    <link rel="stylesheet" href="/assets/main.css">
+</head>
+<body>
+<div class="container">
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/home-usuario">MetaMapa</a>
+        </div>
+        <ul class="navbar-menu">
+       <li><a href="/hechos/nuevo">Crear hecho</a></li>
+       <li><a href="/hechos/mapa">Mapa</a></li>
+       <li><a href="/usuario/{{userId}}/hechos">Ver mis hechos</a></li>
+            <li class="dropdown">
+
+                <ul class="dropdown-menu">
+
+                </ul>
+            </li>
+            <li><a href="/">Cerrar sesión</a></li>
+        </ul>
+    </nav>
+</div>
+
+<div class="render-container">
+    {{#block "contenido"}}
+    {{/block}}
+</div>
+</body>
+</html>

@@ -55,4 +55,15 @@ public class RepoHechos implements WithSimplePersistenceUnit {
         .setParameter("userId", userId)
         .getResultList();
   }
+
+  public List<Hecho> obtenerPorCategoria(String categoria) {
+    return
+
+        createQuery( "SELECT h FROM Hecho h WHERE LOWER(h.categoria) = LOWER(:categoria)", Hecho.class).
+        setParameter("categoria",categoria).getResultList();
+
+  }
+
+
+
 }

@@ -38,7 +38,7 @@ public class FuenteDinamica extends Fuente {
     if (!hecho.estaDentroDePlazoDeEdicion()) {
       throw new Exception("El plazo para modificar este hecho ha expirado.");
     }
-    repoFuenteDinamica.saveUpdate(hecho, hechoBuilder);
+
   }
 
   public void revisarSolicitud(Hecho hecho, EstadoRevision estadoRevision) throws Exception {

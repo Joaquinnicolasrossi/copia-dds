@@ -14,16 +14,12 @@
         {{#each hechos}}
             <li class="hecho-card">
 
-                 <div class="hecho-header">
-                       <h2 class="hecho-title">{{titulo}}</h2>
-                       <form action="/hechos/{{id}}/editar" method="get">
-                           <button type="submit" class="btn-editar">Editar</button>
-                       </form>
-                   </div>
+
+                <h2 class="hecho-title">{{titulo}}</h2>
 
 
                 {{#if multimedia}}
-                    <img class="hecho-img" src="/{{multimedia.0.url}}" alt="Imagen del hecho">
+                    <img class="hecho-img" src="/{{multimedia.[0].url}}" alt="Imagen del hecho">
                 {{else}}
                     <img class="hecho-img" src="/img/default.jpg" alt="Sin imagen">
                 {{/if}}
@@ -39,7 +35,6 @@
                     <form action="/solicitud/{{id}}/form" method="get">
                         <button type="submit"> Solicitar eliminación</button>
                     </form>
-
                 </div>
 
             </li>
