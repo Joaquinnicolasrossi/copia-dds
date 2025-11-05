@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 @Entity
-@DiscriminatorValue("MetaMapa")
+@DiscriminatorValue("METAMAPA")
 public class FuenteMetaMapa extends Fuente {
 
   @Transient
@@ -21,5 +21,9 @@ public class FuenteMetaMapa extends Fuente {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public String getIdentificador(){
+    return "metamapa";
   }
 }

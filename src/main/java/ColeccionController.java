@@ -118,7 +118,7 @@ public class ColeccionController  {
 
     // Lista de algoritmos de consenso disponibles
     model.put("algoritmosConsenso", List.of(
-        Map.of("id", "ninguno", "nombre", "Sin consenso (todos los hechos son válidos)"),
+        Map.of("id", "ninguno", "nombre", "fSin consenso (todos los hechos son válidos)"),
         Map.of("id", "multiplesm", "nombre", "Múltiples menciones (al menos 2 fuentes)"),
         Map.of("id", "mayoria", "nombre", "Mayoría simple (más de la mitad)"),
         Map.of("id", "absoluta", "nombre", "Absoluta (todas las fuentes coinciden)")
@@ -164,30 +164,56 @@ public class ColeccionController  {
     model.put("coleccion", coleccion);
 
     // Lista de algoritmos de consenso disponibles
-    model.put("algoritmosConsenso", List.of(
-        Map.of("id", "ninguno", "nombre", "Sin consenso (todos los hechos son válidos)"),
-        Map.of("id", "multiplesm", "nombre", "Múltiples menciones (al menos 2 fuentes)"),
-        Map.of("id", "mayoria", "nombre", "Mayoría simple (más de la mitad)"),
-        Map.of("id", "absoluta", "nombre", "Absoluta (todas las fuentes coinciden)")
-    ));
+    List<Map<String, String>> algoritmos = new ArrayList<>();
+      algoritmos.add(algoritmo("ninguno", "Sin consenso"));
+      algoritmos.add(algoritmo("multiplesm", "Múltiples menciones"));
+      algoritmos.add(algoritmo("mayoria", "Mayoría simple"));
+      algoritmos.add(algoritmo("absoluto", "Absoluto"));
+    for (Map<String, String> alg : algoritmos) {
+      String selected = alg.get("id").equals(coleccion.getAlgoritmoConsensoId()) ? "selected" : "";
+      alg.put("selected", selected);
+    }
+
+    model.put("algoritmosConsenso", algoritmos);
+
+    // Tipos de fuente
+    List<Map<String, String>> fuentes = new ArrayList<>();
+    fuentes.add(new HashMap<>(Map.of("id", "estatica-incendios", "nombre", "Estática (Incendios)")));
+    fuentes.add(new HashMap<>(Map.of("id", "dinamica", "nombre", "Dinámica")));
+    fuentes.add(new HashMap<>(Map.of("id", "estatica-victimas", "nombre", "Estática (Victimas)")));
+    fuentes.add(new HashMap<>(Map.of("id", "metamapa", "nombre", "MetaMapa")));
+
+    for (Map<String, String> f : fuentes) {
+      String checked = f.get("id").equals(coleccion.getTipoFuenteId()) ? "checked" : "";
+      f.put("checked", checked);
+    }
+
+    model.put("fuentes", fuentes);
+
+    model.put("type", "success");
+    model.put("message", "Colección cargada correctamente.");
 
     return model;
   }
 
   public void actualizar(Context ctx){
     Long id = Long.parseLong(ctx.pathParam("id"));
+    String tipoFuente = ctx.formParam("tipoFuente");
+    Fuente nuevaFuente = repoColecciones.buscarFuentePorTipo(tipoFuente);
 
     String nuevoTitulo = ctx.formParam("titulo");
     String nuevaDescripcion = ctx.formParam("descripcion");
 
+    if (nuevaFuente == null) {
 
-    String tipoFuente =  ctx.formParam("tipoFuente");
-    Fuente nuevaFuente = switch (tipoFuente) {
-      case "dinamica" -> fuenteDinamica;
-      case "estatica-incendios" -> new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
-      case "estatica-victimas" -> new FuenteEstaticaIncendios("src/test/resources/victimas_viales_argentina.csv");
-      case "metamapa" -> null;//fuenteMetamapa;
-      default -> null;
+       nuevaFuente = switch (tipoFuente) {
+        case "dinamica" -> fuenteDinamica;
+        case "estatica-incendios" -> new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
+        case "estatica-victimas" -> new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv");
+        case "metamapa" -> null;//fuenteMetamapa;
+        default -> null;
+      };
+
     };
 
     Consenso nuevoAlgoritmo = switch (ctx.formParam("algoritmoConsenso")){
@@ -201,5 +227,9 @@ public class ColeccionController  {
 
     repoColecciones.actualizarColeccion(id, nuevoTitulo, nuevaDescripcion, nuevaFuente, nuevosCriterios, nuevoAlgoritmo);
     ctx.redirect("/colecciones");
+  }
+
+  private Map<String, String> algoritmo(String id, String nombre) {
+    return new HashMap<>(Map.of("id", id, "nombre", nombre));
   }
 }

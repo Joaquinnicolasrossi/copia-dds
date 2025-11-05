@@ -80,10 +80,9 @@ public class Coleccion {
     return descripcion;
   }
 
-  public String getNombreAlgoritmo() {
-    return (algoritmoConsenso != null)
-        ? algoritmoConsenso.getNombreAlgoritmo()
-        : "Ninguno";
+  public String getAlgoritmoConsensoId() {
+    if (algoritmoConsenso == null) return "ninguno";
+    return algoritmoConsenso.getIdentificador();
   }
 
   public void setTitulo(String titulo) { this.titulo = titulo; }
@@ -191,5 +190,10 @@ public class Coleccion {
     if (nuevoAlgoritmo != null){
       this.algoritmoConsenso = nuevoAlgoritmo;
     }
+  }
+
+  public String getTipoFuenteId() {
+    if (fuente == null) return "ninguna";
+    return fuente.getIdentificador();
   }
 }

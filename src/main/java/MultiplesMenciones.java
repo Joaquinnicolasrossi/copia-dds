@@ -28,4 +28,9 @@ public class MultiplesMenciones extends Consenso {
 
     return coincidencias >= 2 && !hayConflicto;
   }
+
+  @Override
+  public String getIdentificador(){
+    return "multiplesm";
+  }
 }

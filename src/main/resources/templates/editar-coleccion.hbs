@@ -10,26 +10,16 @@
                         <textarea id="descripcion" name="descripcion" placeholder="Ingrese una descripción" required>{{coleccion.descripcion}}</textarea><br>
                         <label>Tipo de fuente</label>
                         <div class="radio-group">
-                            <label>
-                                <input type="radio" name="tipoFuente" value="estatica-incendios">
-                                <span class="dot"></span> Estática (Incendios)
-                            </label>
-                            <label>
-                                <input type="radio" name="tipoFuente" value="dinamica">
-                                <span class="dot"></span> Dinámica
-                            </label>
-                            <label>
-                                <input type="radio" name="tipoFuente" value="estatica-victimas">
-                                <span class="dot"></span> Estática (Víctimas)
-                            </label>
-                            <label>
-                                <input type="radio" name="tipoFuente" value="metamapa">
-                                <span class="dot"></span> Metamapa
-                            </label>
-                    </div>
+                            {{#each fuentes}}
+                                <label>
+                                    <input type="radio" name="tipoFuente" value="{{id}}" {{checked}}>
+                                    {{nombre}}
+                                </label>
+                            {{/each}}
+                        </div>
                     <hr><br>
                         <label for="categoria">Categoria (Opcional)</label>
-                        <input type="text" id="categoria" name="categoria" placeholder="Ej: Incendio forestal.."
+                        <input type="text" id="categoria" name="categoria" placeholder="Ej: Incendio forestal..">
                         <label for="fechaDesde">Fecha desde:</label>
                         <input type="date" id="fechaDesde" name="fechaDesde">
                         <label for="fechaHasta">Fecha hasta:</label>
@@ -38,7 +28,7 @@
                         <label>Algoritmo de consenso:</label>
                         <select name="algoritmoConsenso">
                             {{#each algoritmosConsenso}}
-                                <option value="{{id}}">{{nombre}}</option>
+                                <option value="{{id}}" {{selected}}>{{nombre}}</option>
                             {{/each}}
                         </select>
                     <div class="form-acciones">

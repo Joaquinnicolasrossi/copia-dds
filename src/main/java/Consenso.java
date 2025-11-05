@@ -23,4 +23,6 @@ public abstract class Consenso implements AlgoritmoConsenso {
     return tipo_algoritmo != null ? tipo_algoritmo : "Ninguno";
   }
 
+  public abstract String getIdentificador();
+
 }

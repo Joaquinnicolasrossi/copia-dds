@@ -15,5 +15,10 @@ public class Absoluto extends Consenso {
         // Mas eficiente - Devuelve True si cumple con la condiciòn
         .allMatch(h -> h.tieneMismoContenidoQue(hecho));
   }
+
+  @Override
+  public String getIdentificador(){
+    return "absoluto";
+  }
 }
 

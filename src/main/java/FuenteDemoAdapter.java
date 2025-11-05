@@ -88,4 +88,8 @@ public class FuenteDemoAdapter extends Fuente {
     }
     return builder.build(repoProvincias);
   }
+
+  public String getIdentificador(){
+    return "demo-adapter";
+  }
 }

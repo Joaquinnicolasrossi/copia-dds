@@ -25,4 +25,9 @@ public class MayoriaSimple extends Consenso {
         .count();
     return coincidencias >= Math.ceil(hechos.size() / 2.0);
   }
+
+  @Override
+  public String getIdentificador(){
+    return "mayoria";
+  }
 }

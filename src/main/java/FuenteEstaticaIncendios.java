@@ -279,4 +279,8 @@ public class FuenteEstaticaIncendios extends Fuente {
                 LocalDateTime.now(),
                 Estado.ACEPTADA);
     }
+
+    public String getIdentificador(){
+        return "estatica-incendios";
+    }
 }

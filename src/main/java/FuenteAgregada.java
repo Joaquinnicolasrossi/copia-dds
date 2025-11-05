@@ -11,7 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
 @Entity
-@DiscriminatorValue("Agregada")
+@DiscriminatorValue("AGREGADA")
 public class FuenteAgregada extends Fuente {
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
@@ -56,5 +56,8 @@ public class FuenteAgregada extends Fuente {
         .toList();
 
     return filtrarRepetidos(hechos);
+  }
+  public String getIdentificador(){
+    return "agregada";
   }
 }

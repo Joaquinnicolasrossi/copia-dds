@@ -46,4 +46,7 @@ public class FuenteDinamica extends Fuente {
     estadoRevision.aplicar(hecho);
     repoSolicitudesRevision.eliminarSolcitud(solicitudRevision);
   }
+  public String getIdentificador(){
+    return "dinamica";
+  }
 }

@@ -55,4 +55,16 @@ public class RepoColecciones implements WithSimplePersistenceUnit {
     return entityManager().find(Coleccion.class, id);
   }
 
+  public Fuente buscarFuentePorTipo(String tipo) {
+    if (tipo == null || tipo.isBlank()) return null;
+    String tipoDiscriminador = tipo.toUpperCase().replace("-", "_");
+    List<Fuente> resultados = entityManager()
+        .createQuery("FROM Fuente f WHERE f.tipo_fuente = :tipo", Fuente.class)
+        .setParameter("tipo", tipoDiscriminador)
+        .setMaxResults(1)
+        .getResultList();
+
+    return resultados.isEmpty() ? null : resultados.get(0);
+  }
+
 }

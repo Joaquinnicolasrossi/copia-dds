@@ -75,4 +75,7 @@ public class FuenteEstaticaVictimas extends Fuente {
 
     return lista;
   }
+  public String getIdentificador(){
+    return "estatica-victimas";
+  }
 }

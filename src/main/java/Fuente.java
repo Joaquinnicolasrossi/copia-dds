@@ -20,8 +20,8 @@ public abstract class Fuente {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "tipo_fuente", insertable = false, updatable = false)
-  private String tipoFuente;
+  @Column(insertable = false, updatable = false)
+  private String tipo_fuente;
 
   public Long getId() {
     return id;
@@ -32,17 +32,6 @@ public abstract class Fuente {
 
   public abstract List<Hecho> extraerHechos();
 
-  public String getNombreFuente() {
-    if (tipoFuente == null) return "Desconocida";
+  public abstract String getIdentificador();
 
-    // Capitaliza (por ejemplo "estatica-incendios" → "Estática incendios")
-    String[] partes = tipoFuente.split("-");
-    StringBuilder nombre = new StringBuilder();
-    for (String p : partes) {
-      nombre.append(Character.toUpperCase(p.charAt(0)))
-          .append(p.substring(1))
-          .append(" ");
-    }
-    return nombre.toString().trim();
-  }
 }
