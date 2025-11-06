@@ -1,0 +1,77 @@
+{{#partial "contenido"}}
+    <div class="coleccion-lista">
+        <h1>Estadísticas Generales</h1>
+        <form action="/estadisticas/generar" method="post" style="margin-bottom: 20px;">
+            <button type="submit" class="btn-ver"">
+                🔄 Regenerar Todas las Estadísticas
+            </button>
+        </form>
+
+        {{#if colecciones}}
+            <table class="tabla-colecciones">
+                <thead>
+                <tr>
+                    <th>Colección</th>
+                    <th>Provincia con más hechos</th>
+                    <th>Categoría con más hechos</th>
+                    <th>Provincia con más hechos por categoria</th>
+                    <th>Hora con mas hechos por categoria</th>
+                    <th>Solicitudes Spam</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each colecciones}}
+                    <tr>
+                        <td>{{titulo}}</td>
+                        <td>
+                            {{#if estadisticaProvinciaMayor}}
+                                <strong>{{estadisticaProvinciaMayor.valor}}</strong>
+                                    ({{estadisticaProvinciaMayor.cantidad}} hechos)
+                            {{else}}
+                                <span>-</span>
+                            {{/if}}
+                        </td>
+                        <td>
+                            {{#if estadisticaCategoriaMayor}}
+                                <strong>{{estadisticaCategoriaMayor.valor}}</strong>
+                                ({{estadisticaCategoriaMayor.cantidad}} hechos)
+                            {{else}}
+                                <span>-</span>
+                            {{/if}}
+                        </td>
+                        <td>
+                            {{#if estadisticaProvinciaMasHechosPorCategoria}}
+                                <strong>{{estadisticaProvinciaMasHechosPorCategoria.valor}}</strong>
+                                ({{estadisticaProvinciaMasHechosPorCategoria.cantidad}} hechos)
+                            {{else}}
+                                <span>-</span>
+                        {{/if}}
+                        </td>
+                        <td>
+                            {{#if estadisticaHoraMasHechosPorCategoria}}
+                                <strong>{{estadisticaHoraMasHechosPorCategoria.valor}}</strong>
+                                ({{estadisticaHoraMastus
+                                    HechosPorCategoria.cantidad}} hechos)
+                            {{else}}
+                                <span>-</span>
+                            {{/if}}
+                        </td>
+                        <td>
+                            {{#if estadisticaCantidadSpam}}
+                                <strong>{{estadisticaCantidadSpam.valor}}</strong>
+                                ({{estadisticaCantidadSpam.cantidad}} hechos)
+                            {{else}}
+                                <span>-</span>
+                            {{/if}}
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        {{else}}
+            <p class="sin-colec">No hay colecciones disponibles</p>
+        {{/if}}
+    </div>
+{{/partial}}
+
+{{>templates/layout-administrador}}

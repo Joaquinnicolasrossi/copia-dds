@@ -10,6 +10,8 @@ public class Server {
     });
 
     RepoHechos repoHechos = new RepoHechos();
+    RepoEstadistica repoEstadistica = new RepoEstadistica();
+    GeneradorEstadistica generadorEstadistica = new GeneradorEstadistica(repoEstadistica);
     RepoMultimedia repoMultimedia = new RepoMultimedia();
     RepoProvincias repoProvincias = new RepoProvincias();
     HechoController hechoController = new HechoController(repoHechos, repoMultimedia, repoProvincias);
@@ -18,6 +20,7 @@ public class Server {
     RepoColecciones repoColecciones = new RepoColecciones(repoSolicitudes);
     FuenteDinamica fuenteDinamica = new FuenteDinamica();
     UsuarioController usuarioController = new UsuarioController(repoHechos,repoUsuario);
+    EstadisticaController estadisticaController = new EstadisticaController(repoEstadistica, generadorEstadistica, repoColecciones);
 
     ColeccionController coleccionController = new ColeccionController(repoSolicitudes, repoColecciones, fuenteDinamica, repoHechos);
     SolicitudController solicitudController = new SolicitudController(repoSolicitudes, repoHechos);
@@ -33,7 +36,8 @@ public class Server {
         new UsuarioRoute(usuarioController),
         new ColeccionRoute(coleccionController),
         new SolicitudRoute(solicitudController),
-        new HomeRoute()
+        new HomeRoute(),
+        new EstadisticaRoute(estadisticaController)
 
     );
 
