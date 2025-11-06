@@ -25,7 +25,7 @@ public class FuenteDemoTest {
     conexionMock = mock(ConexionGenerica.class);
     url = new URL("http://localhost/fuente-demo");
     fechaInicio = LocalDateTime.of(2025, 6, 1, 10, 0); // simulamos que la última consulta fue hace 2 horas
-    repo = new RepoHechos();
+    repo = new RepoHechos(new RepoProvincias());
 
     fuenteDemoAdapter = new FuenteDemoAdapter(url, conexionMock, fechaInicio, repo);
   }

@@ -7,10 +7,6 @@ import org.junit.jupiter.api.Test;
 public class NavegacionTest {
 
   @Test
-  void NavegarModoCurada(){
-
-  }
-  @Test
   void NavegarModoIrrestricta(){
     Coleccion coleccion = crearColeccionBase();
     List<Hecho> hechosNavegados = coleccion.navegar(Modo.IRRESTRICTA, new CriterioCategoria("Incendio Forestal"));

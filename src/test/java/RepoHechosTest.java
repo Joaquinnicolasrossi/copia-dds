@@ -15,10 +15,10 @@ public class RepoHechosTest {
 
   @BeforeEach
   public void inicializar() {
-    repo = new RepoHechos();
+    repo = new RepoHechos(new RepoProvincias());
 
     hechos = new ArrayList<>();
-    fuenteMock = new FuenteDinamica(new RepoFuenteDinamica(), new RepoSolicitudesRevision());
+//    fuenteMock = new FuenteDinamica(new RepoFuenteDinamica(), new RepoSolicitudesRevision());
 
     Hecho h1 = crearHechoSimple("tA", "dA", "cA");
     Hecho h2 = crearHechoSimple("tB", "dB", "cB");

@@ -64,8 +64,8 @@ class ConsensoTest {
     fuenteA = mock(FuenteDinamica.class);
     fuenteB = mock(FuenteEstaticaVictimas.class);
     List<Fuente> fuentes = List.of(fuenteA, fuenteB);
-    fuente3 = new FuenteAgregada(fuentes, new RepoHechos());
-    fuenteAgregada = new FuenteAgregada(List.of(fuente1, fuente2, fuente3), new RepoHechos());
+    fuente3 = new FuenteAgregada(fuentes, new RepoHechos(new RepoProvincias()));
+    fuenteAgregada = new FuenteAgregada(List.of(fuente1, fuente2, fuente3), new RepoHechos(new RepoProvincias()));
   }
 
   @Test
