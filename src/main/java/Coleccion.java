@@ -31,6 +31,16 @@ public class Coleccion {
   private RepoHechos repoHechos;
   @Transient
   private RepoSolicitudes solicitudes;
+  @Transient
+  private EstadisticaRegistro estadisticaProvinciaMayor;
+  @Transient
+  private EstadisticaRegistro estadisticaProvinciaMasHechosPorCategoria;
+  @Transient
+  private EstadisticaRegistro estadisticaHoraMasHechosPorCategoria;
+  @Transient
+  private EstadisticaRegistro estadisticaCategoriaMayor;
+  @Transient
+  private EstadisticaRegistro estadisticaCantidadSpam;
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "algoritmo_consenso_id")
   private Consenso algoritmoConsenso;
@@ -68,29 +78,6 @@ public class Coleccion {
     this.repoHechos = repoHechos;
   }
 
-  public String getTitulo() {
-    return this.titulo;
-  }
-
-  public Fuente getFuente() {
-    return this.fuente;
-  }
-
-  public String getDescripcion() {
-    return descripcion;
-  }
-
-  public String getAlgoritmoConsensoId() {
-    if (algoritmoConsenso == null) return "ninguno";
-    return algoritmoConsenso.getIdentificador();
-  }
-
-  public void setTitulo(String titulo) { this.titulo = titulo; }
-
-  public void setFuente(Fuente fuente) { this.fuente = fuente; }
-
-  public void setDescripcion(String descripcion) { this.descripcion = descripcion;  }
-
   public List<Hecho> mostrarHechos() {
     return fuente.extraerHechos().stream()
         .filter(hecho -> cumpleCriterios(hecho))
@@ -108,15 +95,6 @@ public class Coleccion {
     return criterios.stream().allMatch(criterio -> criterio.seCumpleCriterio(hecho));
   }
 
-  // Algoritmo de consenso
-  public List<Fuente> getFuentesRepo() {
-    return repoHechos.obtenerTodasLasFuentes();
-  }
-
-  public List<Hecho> getHechos() {
-    return repoHechos.obtenerTodosLosHechos();
-  }
-
   public List<Hecho> navegar(Modo modo, Criterio filtro) {
     if (modo == Modo.IRRESTRICTA) {
       return mostrarHechosFiltrados(filtro);
@@ -125,14 +103,6 @@ public class Coleccion {
       return filtrarHechosCurados(hechosFiltrados);
     } else
       throw new RuntimeException("Modo de navegacion no valido");
-  }
-
-  public Consenso getAlgoritmoConsenso() {
-    return algoritmoConsenso;
-  }
-
-  public void setAlgoritmoConsenso(Consenso algoritmo) {
-    this.algoritmoConsenso = algoritmo;
   }
 
   private List<Hecho> filtrarHechosCurados(List<Hecho> hechos) {
@@ -163,13 +133,6 @@ public class Coleccion {
         .collect(Collectors.toSet());
   }
 
-  public Long getId() {
-    return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
-  }
-
   public void actualizarConfiguracion(String nuevoTitulo, String nuevaDescripcion, Fuente nuevaFuente, List<Criterio> nuevosCriterios, Consenso nuevoAlgoritmo){
 
     if (nuevoTitulo != null && !nuevoTitulo.isBlank()){
@@ -192,8 +155,66 @@ public class Coleccion {
     }
   }
 
+  // Getters
+  public Long getId() {
+    return id;
+  }
+  public String getTitulo() {
+    return this.titulo;
+  }
+  public Fuente getFuente() {
+    return this.fuente;
+  }
+  public String getDescripcion() {
+    return descripcion;
+  }
+  public String getAlgoritmoConsensoId() {
+    if (algoritmoConsenso == null) return "ninguno";
+    return algoritmoConsenso.getIdentificador();
+  }
   public String getTipoFuenteId() {
     if (fuente == null) return "ninguna";
     return fuente.getIdentificador();
   }
+  public List<Fuente> getFuentesRepo() {
+    return repoHechos.obtenerTodasLasFuentes();
+  }
+  public List<Hecho> getHechos() {
+    return repoHechos.obtenerTodosLosHechos();
+  }
+  public Consenso getAlgoritmoConsenso() {
+    return algoritmoConsenso;
+  }
+  public EstadisticaRegistro getEstadisticaProvinciaMayor() { return estadisticaProvinciaMayor; }
+  public EstadisticaRegistro getEstadisticaCategoriaMayor() { return estadisticaCategoriaMayor; }
+  public EstadisticaRegistro getEstadisticaProvinciaMasHechosPorCategoria() { return estadisticaProvinciaMasHechosPorCategoria; }
+  public EstadisticaRegistro getEstadisticaHoraMasHechosPorCategoria() { return estadisticaHoraMasHechosPorCategoria; }
+  public EstadisticaRegistro getEstadisticaCantidadSpam() { return estadisticaCantidadSpam; }
+  // Setters
+  public void setTitulo(String titulo) { this.titulo = titulo; }
+  public void setFuente(Fuente fuente) { this.fuente = fuente; }
+  public void setDescripcion(String descripcion) { this.descripcion = descripcion;  }
+  public void setAlgoritmoConsenso(Consenso algoritmo) {
+    this.algoritmoConsenso = algoritmo;
+  }
+  public void setId(Long id) {
+    this.id = id;
+  }
+  public void setEstadisticaProvinciaMayor(EstadisticaRegistro estadisticaProvincia) {
+    this.estadisticaProvinciaMayor = estadisticaProvincia;
+  }
+  public void setEstadisticaCategoriaMayor(EstadisticaRegistro estadisticaCategoria) {
+    this.estadisticaCategoriaMayor = estadisticaCategoria;
+  }
+  public void setEstadisticaProvinciaMasHechosPorCategoria(EstadisticaRegistro estadisticaProvincia) {
+    this.estadisticaProvinciaMayor = estadisticaProvincia;
+  }
+  public void setEstadisticaHoraMasHechosPorCategoria(EstadisticaRegistro estadisticaHoraMayor) {
+    this.estadisticaHoraMasHechosPorCategoria = estadisticaHoraMayor;
+  }
+  public void setEstadisticaCantidadSpam(EstadisticaRegistro estadisticaCantidadSpam) {
+    this.estadisticaCantidadSpam = estadisticaCantidadSpam;
+  }
+
+
 }
