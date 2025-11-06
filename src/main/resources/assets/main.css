@@ -583,3 +583,10 @@ body {
   border-radius: 8px;
 }
 
+/* Estadisticas */
+.estadisticas_categoria {
+    margin-bottom: 5px;
+    padding: 4px;
+    background: #f0f8ff;
+    border-left: 3px solid #4c8bf5;
+}

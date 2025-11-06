@@ -42,20 +42,38 @@ public class EstadisticaController {
       generadorEstadistica.generarTodas(coleccion.getId());
     });
 
-    Map<String, List<EstadisticaRegistro>> estadisticasPorTipo = new HashMap<>();
+    for (Coleccion coleccion: colecciones){
+      Long coleccionId = coleccion.getId();
 
-    estadisticasPorTipo.put("provinciaMayorHechos",
-        repoEstadistica.buscarPorTipo("PROVINCIA_MAYOR_HECHOS"));
-    estadisticasPorTipo.put("categoriaMayorHechos",
-        repoEstadistica.buscarPorTipo("CATEGORIA_MAYOR_HECHOS"));
-    estadisticasPorTipo.put("provinciaConMasHechosPorCategoria",
-        repoEstadistica.buscarPorTipo("PROVINCIA_MAYOR_HECHOS_CATEGORIA"));
-    estadisticasPorTipo.put("horaConMasHechosPorCategoria",
-        repoEstadistica.buscarPorTipo("HORA_MAS_HECHOS_POR_CATEGORIA"));
-    estadisticasPorTipo.put("cantidadSpam",
-        repoEstadistica.buscarPorTipo("CANTIDAD_SOLICITUDES_SPAM"));
+      EstadisticaRegistro estadisticaProvinciaMayor = repoEstadistica.provinciaConMasHechos(coleccionId);
+      EstadisticaRegistro categoriaMayorHechos = repoEstadistica.categoriaConMayorHechos(coleccionId);
+      EstadisticaRegistro cantidadSpam = repoEstadistica.cantidadSolicitudesSpam(coleccionId);
 
-    model.put("estadistica", estadisticasPorTipo);
+      List<String> categorias = repoEstadistica.categoriasPorColeccion(coleccionId);
+
+      Map<String, EstadisticaRegistro> horasPorCategoria = new HashMap<>();
+      Map<String, EstadisticaRegistro> provinciasPorCategoria = new HashMap<>();
+
+      for (String categoria : categorias){
+        EstadisticaRegistro provincia = repoEstadistica.provinciaConMasHechosPorCategoria(coleccionId, categoria);
+        if  (provincia != null){
+          provinciasPorCategoria.put(categoria, provincia);
+        }
+
+        EstadisticaRegistro hora = repoEstadistica.horaConMasHechosPorCategoria(coleccionId, categoria);
+        if (hora != null) {
+          horasPorCategoria.put(categoria, hora);
+        }
+      }
+
+      coleccion.setEstadisticaProvinciaMayor(estadisticaProvinciaMayor);
+      coleccion.setEstadisticaCategoriaMayor(categoriaMayorHechos);
+      coleccion.setEstadisticaCantidadSpam(cantidadSpam);
+      coleccion.setEstadisticaProvinciaMasHechosPorCategoria(provinciasPorCategoria);
+      coleccion.setEstadisticaHoraMasHechosPorCategoria(horasPorCategoria);
+
+    }
+
     model.put("colecciones", colecciones);
     return model;
   }

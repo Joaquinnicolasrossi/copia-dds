@@ -1,5 +1,6 @@
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
@@ -34,9 +35,9 @@ public class Coleccion {
   @Transient
   private EstadisticaRegistro estadisticaProvinciaMayor;
   @Transient
-  private EstadisticaRegistro estadisticaProvinciaMasHechosPorCategoria;
+  private Map<String, EstadisticaRegistro> estadisticaProvinciaMasHechosPorCategoria;
   @Transient
-  private EstadisticaRegistro estadisticaHoraMasHechosPorCategoria;
+  private Map<String, EstadisticaRegistro> estadisticaHoraMasHechosPorCategoria;
   @Transient
   private EstadisticaRegistro estadisticaCategoriaMayor;
   @Transient
@@ -187,8 +188,8 @@ public class Coleccion {
   }
   public EstadisticaRegistro getEstadisticaProvinciaMayor() { return estadisticaProvinciaMayor; }
   public EstadisticaRegistro getEstadisticaCategoriaMayor() { return estadisticaCategoriaMayor; }
-  public EstadisticaRegistro getEstadisticaProvinciaMasHechosPorCategoria() { return estadisticaProvinciaMasHechosPorCategoria; }
-  public EstadisticaRegistro getEstadisticaHoraMasHechosPorCategoria() { return estadisticaHoraMasHechosPorCategoria; }
+  public Map<String, EstadisticaRegistro> getEstadisticaProvinciaMasHechosPorCategoria() { return estadisticaProvinciaMasHechosPorCategoria; }
+  public Map<String, EstadisticaRegistro> getEstadisticaHoraMasHechosPorCategoria() { return estadisticaHoraMasHechosPorCategoria; }
   public EstadisticaRegistro getEstadisticaCantidadSpam() { return estadisticaCantidadSpam; }
   // Setters
   public void setTitulo(String titulo) { this.titulo = titulo; }
@@ -206,10 +207,10 @@ public class Coleccion {
   public void setEstadisticaCategoriaMayor(EstadisticaRegistro estadisticaCategoria) {
     this.estadisticaCategoriaMayor = estadisticaCategoria;
   }
-  public void setEstadisticaProvinciaMasHechosPorCategoria(EstadisticaRegistro estadisticaProvincia) {
-    this.estadisticaProvinciaMayor = estadisticaProvincia;
+  public void setEstadisticaProvinciaMasHechosPorCategoria(Map<String, EstadisticaRegistro> estadisticaProvincia) {
+    this.estadisticaProvinciaMasHechosPorCategoria = estadisticaProvincia;
   }
-  public void setEstadisticaHoraMasHechosPorCategoria(EstadisticaRegistro estadisticaHoraMayor) {
+  public void setEstadisticaHoraMasHechosPorCategoria(Map<String, EstadisticaRegistro> estadisticaHoraMayor) {
     this.estadisticaHoraMasHechosPorCategoria = estadisticaHoraMayor;
   }
   public void setEstadisticaCantidadSpam(EstadisticaRegistro estadisticaCantidadSpam) {

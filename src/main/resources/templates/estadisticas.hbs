@@ -26,7 +26,7 @@
                         <td>
                             {{#if estadisticaProvinciaMayor}}
                                 <strong>{{estadisticaProvinciaMayor.valor}}</strong>
-                                    ({{estadisticaProvinciaMayor.cantidad}} hechos)
+                                ({{estadisticaProvinciaMayor.cantidad}} hechos)
                             {{else}}
                                 <span>-</span>
                             {{/if}}
@@ -40,27 +40,30 @@
                             {{/if}}
                         </td>
                         <td>
-                            {{#if estadisticaProvinciaMasHechosPorCategoria}}
-                                <strong>{{estadisticaProvinciaMasHechosPorCategoria.valor}}</strong>
-                                ({{estadisticaProvinciaMasHechosPorCategoria.cantidad}} hechos)
+                            {{#if estadisticasProvinciaPorCategoria}}
+                                <div class="estadisticas_categoria">
+                                    <strong>{{@key}}:</strong>
+                                    <span style="color: #666;">({{this.cantidad}} hechos)</span>
+                                </div>
                             {{else}}
                                 <span>-</span>
                         {{/if}}
                         </td>
                         <td>
-                            {{#if estadisticaHoraMasHechosPorCategoria}}
-                                <strong>{{estadisticaHoraMasHechosPorCategoria.valor}}</strong>
-                                ({{estadisticaHoraMasHechosPorCategoria.cantidad}} hechos)
+                            {{#if estadisticasHoraPorCategoria}}
+                                <div class="estadisticas_categoria">
+                                    <strong>{{@key}}:</strong>
+                                    <span style="color: #666;">({{this.cantidad}} hechos)</span>
+                                </div>
                             {{else}}
                                 <span>-</span>
                             {{/if}}
                         </td>
                         <td>
                             {{#if estadisticaCantidadSpam}}
-                                <strong>{{estadisticaCantidadSpam.valor}}</strong>
-                                ({{estadisticaCantidadSpam.cantidad}} hechos)
+                                {{estadisticaCantidadSpam.cantidad}} solicitudes
                             {{else}}
-                                <span>-</span>
+                                <span>0 solicitudes</span>
                             {{/if}}
                         </td>
                     </tr>
