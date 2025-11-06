@@ -17,7 +17,8 @@ public class CronTab {
 
       switch (tarea) {
         case "fuentedemoadapter": {
-          RepoHechos repo = new RepoHechos();
+          RepoProvincias repoProvincias = new RepoProvincias();
+          RepoHechos repo = new RepoHechos(repoProvincias);
 
           FuenteDemoAdapter fuenteDemo = new FuenteDemoAdapter(
               new URL("https://api.demo/estado"), new ConexionGenerica(), LocalDateTime.now(), repo);
@@ -27,8 +28,9 @@ public class CronTab {
         break;
 
         case "fuenteagregador":
+          RepoProvincias repoProvincias = new RepoProvincias();
           List<Fuente> fuentes = new ArrayList<>();
-          RepoHechos repo = new RepoHechos();
+          RepoHechos repo = new RepoHechos(repoProvincias);
           FuenteAgregada fuenteAgregada = new FuenteAgregada(fuentes, repo);
           actualizarFuenteAgregada(fuenteAgregada);
           break;

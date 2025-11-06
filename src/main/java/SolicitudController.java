@@ -73,4 +73,15 @@ public class SolicitudController {
     Solicitud solicitud = repoSolicitudes.obtenerPorId(Long.valueOf(ctx.pathParam("id")));
     repoSolicitudes.eliminarSolicitud(solicitud);
   }
+
+  public void estadoSolicitud(Context context) {
+
+  }
+
+  public void crearSolicitudRevision( Context context) {
+
+    Map<String,Object> model = new HashMap<>();
+
+
+  }
 }

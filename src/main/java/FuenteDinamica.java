@@ -8,24 +8,26 @@ import javax.persistence.Transient;
 @DiscriminatorValue("DINAMICA")
 public class FuenteDinamica extends Fuente {
   @Transient
-  RepoFuenteDinamica repoFuenteDinamica;
+  RepoHechos repoHechos;
   @Transient
-  RepoSolicitudesRevision repoSolicitudesRevision;
-  public FuenteDinamica(RepoFuenteDinamica repoFuenteDinamica,
-      RepoSolicitudesRevision repoSolicitudesRevision) {
-    this.repoFuenteDinamica = repoFuenteDinamica;
-    this.repoSolicitudesRevision = repoSolicitudesRevision;
+  RepoSolicitudes repoSolicitudes;
+  public FuenteDinamica(RepoHechos repoHechos,
+      RepoSolicitudes repoSolicitudes) {
+    this.repoHechos = repoHechos;
+    this.repoSolicitudes = repoSolicitudes;
   }
 
   protected FuenteDinamica(){}
 
   @Override
   public List<Hecho> extraerHechos() {
-    return repoFuenteDinamica.getHechos();
+    return repoHechos.getHechos();
   }
 
   public void subirHecho(Hecho hecho) {
-    repoSolicitudesRevision.nuevaSolicitud(hecho);
+    repoSolicitudes.
+
+        nuevaSolicitudRevision(hecho);
   }
 
   public void actualizarHecho(Hecho hecho, Hecho.HechoBuilder hechoBuilder, Usuario usuario)
@@ -38,13 +40,13 @@ public class FuenteDinamica extends Fuente {
     if (!hecho.estaDentroDePlazoDeEdicion()) {
       throw new Exception("El plazo para modificar este hecho ha expirado.");
     }
-
+    repoHechos.saveUpdate(hecho,hechoBuilder);
   }
 
   public void revisarSolicitud(Hecho hecho, EstadoRevision estadoRevision) throws Exception {
-    var solicitudRevision = repoSolicitudesRevision.getSolicitudPorHecho(hecho);
+    var solicitudRevision = repoSolicitudes.getSolicitudPorHecho(hecho);
     estadoRevision.aplicar(hecho);
-    repoSolicitudesRevision.eliminarSolcitud(solicitudRevision);
+    repoSolicitudes.eliminarSolicitudRevision(solicitudRevision);
   }
   public String getIdentificador(){
     return "dinamica";

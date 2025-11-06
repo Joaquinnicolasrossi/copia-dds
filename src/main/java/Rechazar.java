@@ -1,8 +1,8 @@
 public class Rechazar implements EstadoRevision {
-  private RepoFuenteDinamica repoFuenteDinamica;
+  private RepoHechos repoHechos;
 
-  public Rechazar(RepoFuenteDinamica repoFuenteDinamica) {
-    this.repoFuenteDinamica = repoFuenteDinamica;
+  public Rechazar(RepoHechos repoHechos) {
+    this.repoHechos = repoHechos;
   }
 
   @Override

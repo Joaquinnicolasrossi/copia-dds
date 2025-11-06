@@ -23,5 +23,7 @@ public class SolicitudRoute implements Router {
       controller.eliminarSolicitud(ctx);
       ctx.render("solicitudes.hbs", controller.listar(ctx));
     });
+    app.get("solicitud/revision",controller::crearSolicitudRevision);
+    app.post("solicitud/estado",controller::estadoSolicitud);
   }
 }

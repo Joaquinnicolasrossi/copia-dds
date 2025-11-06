@@ -2,6 +2,11 @@ import java.util.List;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 public class RepoHechos implements WithSimplePersistenceUnit {
+  private RepoProvincias repoProvincias;
+
+  public RepoHechos(RepoProvincias repoProvincias) {
+    this.repoProvincias = repoProvincias;
+  }
 
   public void guardarHecho(Hecho hecho) {
     entityManager().getTransaction().begin();
@@ -61,6 +66,36 @@ public class RepoHechos implements WithSimplePersistenceUnit {
 
         createQuery( "SELECT h FROM Hecho h WHERE LOWER(h.categoria) = LOWER(:categoria)", Hecho.class).
         setParameter("categoria",categoria).getResultList();
+
+  }
+
+  public Hecho save(Hecho hecho) {
+    entityManager().getTransaction().begin();
+    entityManager().persist(hecho);
+    entityManager().getTransaction().commit();
+    return hecho;
+  }
+
+  public List<Hecho> getHechos() {
+    return entityManager().createQuery("Select from hecho",
+        Hecho.class).getResultList();
+  }
+
+  public Hecho findById(long hechoid) {
+    return entityManager().createQuery(
+            "SELECT h FROM Hecho h WHERE h.id = :hechoid", Hecho.class)
+        .setParameter("hechoid", hechoid).getSingleResult();
+  }
+
+
+  public void saveUpdate(Hecho hechoOriginal, Hecho.HechoBuilder hechoBuilder)
+  {
+    entityManager().getTransaction().begin();
+
+    Hecho actualizado = hechoOriginal.actualizarHecho(hechoOriginal, hechoBuilder, repoProvincias);
+    entityManager().merge(actualizado);
+
+    entityManager().getTransaction().commit();
 
   }
 

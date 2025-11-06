@@ -65,4 +65,32 @@ public class RepoSolicitudes implements WithSimplePersistenceUnit {
     entityManager().merge(solicitud);
     entityManager().getTransaction().commit();
   }
+
+
+
+
+
+
+  public void nuevaSolicitudRevision(Hecho hecho) {
+    entityManager().persist(hecho);
+  }
+
+  public void eliminarSolicitudRevision(SolicitudRevision solicitudRevision) {
+    entityManager().remove(solicitudRevision);
+  }
+  public SolicitudRevision getSolicitudPorHecho(Hecho hecho) {
+    return entityManager()
+        .createQuery("from SolicitudRevision s where s.hecho = :hecho", SolicitudRevision.class)
+        .setParameter("hecho", hecho)
+        .setMaxResults(1)
+        .getSingleResult();
+  }
+
+  public List<SolicitudRevision> getRevisiones() {
+    return entityManager()
+        .createQuery("from SolicitudRevision", SolicitudRevision.class)
+        .getResultList();
+  }
+
+
 }

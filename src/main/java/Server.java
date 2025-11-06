@@ -8,12 +8,11 @@ public class Server {
       initializeStaticFiles(config);
       initializeTemplating(config);
     });
-
-    RepoHechos repoHechos = new RepoHechos();
+    RepoProvincias repoProvincias = new RepoProvincias();
+    RepoHechos repoHechos = new RepoHechos(repoProvincias);
     RepoEstadistica repoEstadistica = new RepoEstadistica();
     GeneradorEstadistica generadorEstadistica = new GeneradorEstadistica(repoEstadistica);
     RepoMultimedia repoMultimedia = new RepoMultimedia();
-    RepoProvincias repoProvincias = new RepoProvincias();
     HechoController hechoController = new HechoController(repoHechos, repoMultimedia, repoProvincias);
     RepoUsuario repoUsuario = new RepoUsuario();
     RepoSolicitudes repoSolicitudes = new RepoSolicitudes(new DetectorDeSpamFiltro());

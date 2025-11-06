@@ -1,14 +1,14 @@
 public class Aceptar implements EstadoRevision {
-  private RepoFuenteDinamica repoFuenteDinamica;
+  private RepoHechos repoHechos;
 
-  public Aceptar(RepoFuenteDinamica repoFuenteDinamica) {
-    this.repoFuenteDinamica = repoFuenteDinamica;
+  public Aceptar(RepoHechos repoHechos ) {
+    this.repoHechos = repoHechos ;
   }
 
   @Override
   public void aplicar(Hecho hecho) {
     hecho.setEstado(Estado.ACEPTADA);
-    repoFuenteDinamica.save(hecho);
+    repoHechos.guardarHecho(hecho);
   }
 }
 
