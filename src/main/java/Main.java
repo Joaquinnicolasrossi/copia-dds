@@ -21,9 +21,9 @@ public class Main {
 
         // 3. Crear las propiedades para sobreescribir el persistence.xml
         Properties properties = new Properties();
-        properties.setProperty("javax.persistence.jdbc.url", dbUrl);
-        properties.setProperty("javax.persistence.jdbc.user", username);
-        properties.setProperty("javax.persistence.jdbc.password", password);
+        properties.setProperty("hibernate.connection.url", dbUrl);
+        properties.setProperty("hibernate.connection.username", username);
+        properties.setProperty("hibernate.connection.password", password);
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
 
         // 4. Configurar la biblioteca de la cátedra
