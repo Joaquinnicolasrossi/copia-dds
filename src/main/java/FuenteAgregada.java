@@ -1,7 +1,9 @@
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,19 +15,20 @@ import javax.persistence.Transient;
 @Entity
 @DiscriminatorValue("AGREGADA")
 public class FuenteAgregada extends Fuente {
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JoinTable(
-      name = "fuente_agregada_fuentes", // Nombre de la nueva tabla intermedia
-      joinColumns = @JoinColumn(name = "fuente_agregada_id"), // Columna para "esta" clase
-      inverseJoinColumns = @JoinColumn(name = "fuente_id") // Columna para las fuentes de la lista
-  )
+  @Transient
   private List<Fuente> fuentes;
+
+  @Column(name = "fuentes_combinadas")
   @Transient
   private RepoHechos repositorio;
+  private String fuentesCombinadas;
 
   public FuenteAgregada(List<Fuente> fuentes, RepoHechos repositorio) {
     this.fuentes = fuentes;
     this.repositorio = repositorio;
+    this.fuentesCombinadas = fuentes.stream()
+        .map(Fuente::getIdentificador)
+        .collect(Collectors.joining(","));
   }
 
   public FuenteAgregada(){}

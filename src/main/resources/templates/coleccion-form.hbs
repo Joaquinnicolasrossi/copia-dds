@@ -1,7 +1,7 @@
 {{#partial "contenido"}}
         <div class="form-container">
             <h1> Crear Coleccion </h1>
-            <form class="hecho-form" action="/colecciones" method="post">
+            <form class="hecho-form" id="coleccionForm" action="/colecciones" method="post">
                 <label>Título:</label>
                 <input type="text" name="titulo" placeholder="Ingrese un titulo" required><br>
 
@@ -11,20 +11,24 @@
                 <label>Tipo de fuente</label>
                     <div class="radio-group">
                         <label>
-                            <input type="radio" name="tipoFuente" value="estatica-incendios" checked required>
+                            <input type="radio" name="tipoFuente" value="estatica-incendios" checked required onchange="toggleAlgoritmoConsenso()">
                             <span class="dot"></span> Estática (Incendios)
                         </label>
                         <label>
-                            <input type="radio" name="tipoFuente" value="dinamica">
+                            <input type="radio" name="tipoFuente" value="dinamica" onchange="toggleAlgoritmoConsenso()">
                             <span class="dot"></span> Dinámica
                         </label>
                         <label>
-                            <input type="radio" name="tipoFuente" value="estatica-victimas" required>
+                            <input type="radio" name="tipoFuente" value="estatica-victimas" required onchange="toggleAlgoritmoConsenso()">
                             <span class="dot"></span> Estática (victimas)
                         </label>
                         <label>
-                            <input type="radio" name="tipoFuente" value="metamapa">
+                            <input type="radio" name="tipoFuente" value="metamapa" onchange="toggleAlgoritmoConsenso()">
                             <span class="dot"></span> Metamapa
+                        </label>
+                        <label>
+                            <input type="radio" name="tipoFuente" value="agregada" onchange="toggleAlgoritmoConsenso()">
+                            <span class="dot"></span> Fuente Agregada
                         </label>
                     </div>
                 <hr><br>
@@ -37,19 +41,53 @@
                 <label for="fechaFin">Fecha hasta:</label>
                 <input type="date" id="fechaFin" name="fechaHasta">
                 <hr><br>
+                <div id="errorFecha" class="error_validacion_fechas"></div>
+                <div>
                 <label>Algoritmo de consenso</label>
-                <select name="algoritmoConsenso">
+                <select id="algoritmoConsenso" name="algoritmoConsenso" disabled>
                     {{#each algoritmosConsenso}}
                         <option value="{{id}}">{{nombre}}</option>
                     {{/each}}
                 </select>
-
+                <small style="color: gray;">Solo disponible para fuentes agregadas.</small>
+                </div>
                 <div class="form-acciones">
                     <button type="submit">Crear colección</button>
                     <button type="button" class="eliminar-solicitud-btn" onclick="window.location.href='/colecciones'">❌ Cancelar</button>
                 </div>
             </form>
         </div>
+        <script>
+            function toggleAlgoritmoConsenso() {
+                const fuentes = document.getElementsByName("tipoFuente");
+                let seleccion = "";
+                fuentes.forEach(radio => {
+                    if (radio.checked) seleccion = radio.value;
+                });
+
+                const consensoSelect = document.getElementById("algoritmoConsenso");
+                consensoSelect.disabled = seleccion !== "agregada";
+                if (seleccion !== "agregada") {
+                    consensoSelect.value = "ninguno";
+                }
+            }
+
+            document.getElementById('coleccionForm').addEventListener('submit', function(e) {
+                const fechaDesde = document.getElementById('fechaInicio').value;
+                const fechaHasta = document.getElementById('fechaFin').value;
+                const errorMsg = document.getElementById('errorFecha');
+
+                // limpiar mensaje anterior
+                errorMsg.style.display = 'none';
+                errorMsg.textContent = '';
+
+                if (fechaDesde && fechaHasta && new Date(fechaDesde) > new Date(fechaHasta)) {
+                    e.preventDefault();
+                    errorMsg.textContent = "La fecha 'desde' no puede ser posterior a la fecha 'hasta'.";
+                    errorMsg.style.display = 'block';
+                }
+            });
+        </script>
     {{/partial}}
 
 {{>templates/layout-administrador}}

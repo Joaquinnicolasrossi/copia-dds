@@ -14,10 +14,11 @@ public class RepoColecciones implements WithSimplePersistenceUnit {
 
   //public void crearColeccion(String titulo, String descripcion, FuenteEstaticaIncendios fuente,
   public void crearColeccion(String titulo, String descripcion, Fuente fuente,
-      List<Criterio> criterios, Consenso algoritmoConsenso, RepoHechos repoHechos) {
+                             List<Criterio> criterios, Consenso algoritmoConsenso, RepoHechos repoHechos) {
     Coleccion coleccion = new Coleccion(titulo, descripcion, fuente, criterios, repoSolicitudes, algoritmoConsenso, repoHechos);
     withTransaction( () -> entityManager().persist(coleccion));
   }
+
 
   public List<Coleccion> getColecciones() {
     List<Coleccion> colecciones = entityManager().createQuery("FROM Coleccion", Coleccion.class)

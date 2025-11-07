@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -23,10 +24,14 @@ public class Coleccion {
   private Long id;
   private String titulo;
   private String descripcion;
+  @ManyToOne
+  @JoinColumn(name = "provincia_id")
+  private Provincia provincia;
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "fuente_id")
   public Fuente fuente;
-  @OneToMany(mappedBy = "coleccion")
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(name = "coleccion_id")
   public List<Criterio> criterios;
   @Transient
   private RepoHechos repoHechos;
@@ -140,16 +145,15 @@ public class Coleccion {
       this.titulo = nuevoTitulo;
     }
 
-    if (nuevaDescripcion != null && !nuevoTitulo.isBlank()){
+    if (nuevaDescripcion != null && !nuevaDescripcion.isBlank()){
       this.descripcion = nuevaDescripcion;
     }
 
     if (nuevaFuente != null){
       this.fuente = nuevaFuente;
     }
-    if (nuevosCriterios != null && !nuevosCriterios.isEmpty()){
+    if (nuevosCriterios != null && !nuevosCriterios.isEmpty()) {
       this.criterios = nuevosCriterios;
-      this.criterios.addAll(nuevosCriterios);
     }
     if (nuevoAlgoritmo != null){
       this.algoritmoConsenso = nuevoAlgoritmo;
@@ -215,6 +219,18 @@ public class Coleccion {
   }
   public void setEstadisticaCantidadSpam(EstadisticaRegistro estadisticaCantidadSpam) {
     this.estadisticaCantidadSpam = estadisticaCantidadSpam;
+  }
+
+  public void setRepoHechos(RepoHechos repoHechos) {
+    this.repoHechos = repoHechos;
+  }
+
+  public Set<Hecho> getHechosConsensuados() {
+    return hechosConsensuados;
+  }
+
+  public void setHechosConsensuados(Set<Hecho> hechosConsensuados) {
+    this.hechosConsensuados = hechosConsensuados;
   }
 
 

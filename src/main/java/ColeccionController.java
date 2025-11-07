@@ -23,6 +23,14 @@ public class ColeccionController  {
     this.repoHechos = repoHechos;
   }
 
+  public Map<String, Object> modeloBase(Context ctx) {
+    Map<String, Object> model = new HashMap<>();
+    model.put("usuarioActual", ctx.attribute("usuarioActual"));
+    model.put("nombre", ctx.attribute("nombre"));
+    return model;
+  }
+
+  // ---------------------- CREAR ----------------------
   public Map<String, Object> crear(Context ctx) {
     Map<String, Object> model = modeloBase(ctx);
 
@@ -30,6 +38,7 @@ public class ColeccionController  {
     String titulo = ctx.formParam("titulo");
     String descripcion = ctx.formParam("descripcion");
     String tipoFuente = ctx.formParam("tipoFuente");
+    String algoritmoStr = ctx.formParam("algoritmoConsenso");
 
     if (titulo == null || titulo.isBlank()) {
       model.put("type", "error");
@@ -53,11 +62,16 @@ public class ColeccionController  {
       case "estatica-incendios" ->
           new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
       case "estatica-victimas" ->
-        new FuenteEstaticaIncendios("src/test/resources/victimas_viales_argentina.csv");
+        new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv");
       case "dinamica" ->
         fuenteDinamica;
       case "metamapa" ->
         null;
+      case "agregada" -> new FuenteAgregada(
+          List.of(
+              new FuenteEstaticaIncendios("src/test/resources/fires-all.csv"),
+              new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv"),
+              fuenteDinamica), repoHechos);
       default -> null;
     };
 
@@ -67,9 +81,23 @@ public class ColeccionController  {
       return model;
     }
 
-    List<Criterio> criterios = construirCriterios(ctx);
+    Consenso algoritmoConsenso = null;
+    if ("ninguno".equals(algoritmoStr) || algoritmoStr == null || algoritmoStr.isBlank()){
+      algoritmoConsenso = null;
+    } else if (!(fuente instanceof FuenteAgregada)) {
+      model.put("type", "error");
+      model.put("message", "Solo las fuentes agregadas pueden tener un algoritmo de consenso.");
+      return model;
+    } else {
+      algoritmoConsenso = switch (algoritmoStr) {
+        case "multiplesm" -> new MultiplesMenciones();
+        case "mayoria" -> new MayoriaSimple();
+        case "absoluta" -> new Absoluto();
+        default -> null;
+      };
+    }
 
-    Consenso algoritmoConsenso = obtenerAlgoritmoConsenso(ctx);
+    List<Criterio> criterios = construirCriterios(ctx);
 
     repoColecciones.crearColeccion
         (titulo, descripcion, fuente, criterios, algoritmoConsenso, repoHechos);
@@ -80,37 +108,31 @@ public class ColeccionController  {
 
   }
 
+  // ---------------------- CRITERIOS ----------------------
   private List<Criterio> construirCriterios(Context ctx) {
     List<Criterio> criterios = new ArrayList<>();
 
     String categoria = ctx.formParam("categoria");
     if (categoria != null && !categoria.isBlank()) {
-      criterios.add(new CriterioCategoria());
+      criterios.add(new CriterioCategoria(categoria));
     }
 
     String fechaDesde = ctx.formParam("fechaDesde");
     String fechaHasta = ctx.formParam("fechaHasta");
-    if (fechaDesde != null && !fechaDesde.isBlank() &&
-        fechaHasta != null && !fechaHasta.isBlank()) {
-      LocalDateTime desde = LocalDate.parse(fechaDesde).atStartOfDay();
-      LocalDateTime hasta = LocalDate.parse(fechaHasta).atTime(23, 59, 59);
+    LocalDateTime desde = null;
+    LocalDateTime hasta = null;
+    // validaciones
+    if (fechaDesde != null && !fechaDesde.isBlank()) {
+      desde = LocalDate.parse(fechaDesde).atStartOfDay();
+    }
+    if (fechaHasta != null && !fechaHasta.isBlank()) {
+      hasta = LocalDate.parse(fechaHasta).atTime(23, 59, 59);
+    }
+    if (desde != null || hasta != null) {
       criterios.add(new CriterioFecha(desde, hasta));
     }
 
     return criterios;
-  }
-
-  private Consenso obtenerAlgoritmoConsenso(Context ctx) {
-    String algoritmoStr = ctx.formParam("algoritmoConsenso");
-    if (algoritmoStr == null || algoritmoStr.equals("ninguno")) {
-      return null;
-    }
-    return switch (algoritmoStr) {
-      case "multiplesm" -> new MultiplesMenciones();
-      case "mayoria" -> new MayoriaSimple();
-      case "absoluta" -> new Absoluto();
-      default -> null;
-    };
   }
 
   public Map<String, Object> mostrarFormulario(Context ctx) {
@@ -127,6 +149,7 @@ public class ColeccionController  {
     return model;
   }
 
+  // ---------------------- LISTAR ----------------------
   public Map<String, Object> listar(Context ctx){
     Map<String, Object> model = new HashMap<>();
     List<Coleccion> colecciones = repoColecciones.getColecciones();
@@ -135,13 +158,7 @@ public class ColeccionController  {
     return model;
   }
 
-  public Map<String, Object> modeloBase(Context ctx) {
-    Map<String, Object> model = new HashMap<>();
-    model.put("usuarioActual", ctx.attribute("usuarioActual"));
-    model.put("nombre", ctx.attribute("nombre"));
-    return model;
-  }
-
+  // ---------------------- EDITAR ----------------------
   public Map<String, Object> editar(Context ctx) {
     Map<String, Object> model = modeloBase(ctx);
 
@@ -182,6 +199,7 @@ public class ColeccionController  {
     fuentes.add(new HashMap<>(Map.of("id", "dinamica", "nombre", "Dinámica")));
     fuentes.add(new HashMap<>(Map.of("id", "estatica-victimas", "nombre", "Estática (Victimas)")));
     fuentes.add(new HashMap<>(Map.of("id", "metamapa", "nombre", "MetaMapa")));
+    fuentes.add(new HashMap<>(Map.of("id", "agregada", "nombre", "Agregada")));
 
     for (Map<String, String> f : fuentes) {
       String checked = f.get("id").equals(coleccion.getTipoFuenteId()) ? "checked" : "";
@@ -196,25 +214,26 @@ public class ColeccionController  {
     return model;
   }
 
+  // ---------------------- ACTUALIZAR ----------------------
   public void actualizar(Context ctx){
     Long id = Long.parseLong(ctx.pathParam("id"));
     String tipoFuente = ctx.formParam("tipoFuente");
-    Fuente nuevaFuente = repoColecciones.buscarFuentePorTipo(tipoFuente);
 
     String nuevoTitulo = ctx.formParam("titulo");
     String nuevaDescripcion = ctx.formParam("descripcion");
 
-    if (nuevaFuente == null) {
-
-       nuevaFuente = switch (tipoFuente) {
+    Fuente nuevaFuente = switch (tipoFuente) {
         case "dinamica" -> fuenteDinamica;
         case "estatica-incendios" -> new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
         case "estatica-victimas" -> new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv");
         case "metamapa" -> null;//fuenteMetamapa;
+        case "agregada" -> new FuenteAgregada(
+             List.of(
+                 new FuenteEstaticaIncendios("src/test/resources/fires-all.csv"),
+                 new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv"),
+                 fuenteDinamica), repoHechos);
         default -> null;
       };
-
-    };
 
     Consenso nuevoAlgoritmo = switch (ctx.formParam("algoritmoConsenso")){
       case "multiplesm" -> new MultiplesMenciones();

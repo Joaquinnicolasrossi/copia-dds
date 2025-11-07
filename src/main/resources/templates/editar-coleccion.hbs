@@ -3,7 +3,7 @@
             <h1>Editar colección</h1>
 
             {{#if coleccion}}
-                <form action="/colecciones/{{coleccion.id}}/actualizar" method="post">
+                <form class="hecho-form" id="coleccionForm" action="/colecciones/{{coleccion.id}}/actualizar" method="post">
                         <label for="titulo">Título:</label>
                         <input type="text" id="titulo" name="titulo" value="{{coleccion.titulo}}" placeholder="Ingrese un titulo para la colección" required>
                         <label for="descripcion">Descripción:</label>
@@ -24,6 +24,7 @@
                         <input type="date" id="fechaDesde" name="fechaDesde">
                         <label for="fechaHasta">Fecha hasta:</label>
                         <input type="date" id="fechaHasta" name="fechaHasta">
+                        <div id="errorFecha" class="error_validacion_fechas"></div>
                     <hr><br>
                         <label>Algoritmo de consenso:</label>
                         <select name="algoritmoConsenso">
@@ -40,6 +41,37 @@
                 <p class="sin-colec">No se encontró la colección.</p>
             {{/if}}
         </div>
+    <script>
+        document.getElementById('coleccionForm').addEventListener('submit', function(e) {
+            const fechaDesde = document.getElementById('fechaInicio').value;
+            const fechaHasta = document.getElementById('fechaFin').value;
+            const errorMsg = document.getElementById('errorFecha');
+
+            if (fechaDesde && fechaHasta && new Date(fechaDesde) > new Date(fechaHasta)) {
+                e.preventDefault();
+                errorMsg.textContent = "La fecha 'desde' no puede ser posterior a la fecha 'hasta'.";
+                errorMsg.style.display = 'block';
+            } else {
+                errorMsg.style.display = 'none';
+            }
+        });
+
+        document.getElementById('coleccionForm').addEventListener('submit', function(e) {
+            const fechaDesde = document.getElementById('fechaInicio').value;
+            const fechaHasta = document.getElementById('fechaFin').value;
+            const errorMsg = document.getElementById('errorFecha');
+
+            // limpiar mensaje anterior
+            errorMsg.style.display = 'none';
+            errorMsg.textContent = '';
+
+            if (fechaDesde && fechaHasta && new Date(fechaDesde) > new Date(fechaHasta)) {
+                e.preventDefault();
+                errorMsg.textContent = "La fecha 'desde' no puede ser posterior a la fecha 'hasta'.";
+                errorMsg.style.display = 'block';
+            }
+        });
+    </script>
 {{/partial}}
 
 {{> templates/layout-administrador}}

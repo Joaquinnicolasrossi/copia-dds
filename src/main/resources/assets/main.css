@@ -590,3 +590,13 @@ body {
     background: #f0f8ff;
     border-left: 3px solid #4c8bf5;
 }
+
+.error_validacion_fechas {
+    display:none;
+    color: #a94442;
+    background-color: #f2dede;
+    border: 1px solid #ebccd1;
+    padding: 8px;
+    border-radius: 4px;
+    margin-top: 8px;
+}
