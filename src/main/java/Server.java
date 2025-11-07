@@ -3,6 +3,15 @@ import io.javalin.config.JavalinConfig;
 import java.util.List;
 
 public class Server {
+  private int getRenderAssignedPort() {
+    String renderPort = System.getenv("PORT");
+    if (renderPort != null) {
+      return Integer.parseInt(renderPort);
+    }
+    // Si no encuentra la variable de Render, usa 7000 (para correr local)
+    return 7000;
+  }
+
   public void start() {
     Javalin app = Javalin.create(config -> {
       initializeStaticFiles(config);
@@ -44,10 +53,7 @@ public class Server {
       router.configure(app);
     }
 
-
-
-    app.start(7000);
-
+    app.start(getRenderAssignedPort());
   }
 
   private void initializeTemplating(JavalinConfig config) {
@@ -62,5 +68,4 @@ public class Server {
       staticFileConfig.directory = "assets";
     });
   }
-
 }
