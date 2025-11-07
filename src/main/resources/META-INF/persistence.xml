@@ -9,6 +9,21 @@
     <persistence-unit name="simple-persistence-unit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
+        <class>Coleccion</class>
+        <class>Consenso</class>
+        <class>Criterio</class>
+        <class>EstadisticaRegistro</class>
+        <class>Fuente</class>
+        <class>FuenteDinamica</class>
+        <class>FuenteEstaticaIncendios</class>
+        <class>FuenteAgregada</class>
+        <class>FuenteDemoAdapter</class>
+        <class>Hecho</class>
+        <class>Multimedia</class>
+        <class>Solicitud</class>
+        <class>SolicitudRevision</class>
+        <class>Usuario</class>
+
         <properties>
             <property name="hibernate.archive.autodetection" value="class"/>
 
@@ -29,17 +44,20 @@
     <persistence-unit name="testPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>Hecho</class>
-        <class>Solicitud</class>
         <class>Coleccion</class>
-        <class>Usuario</class>
+        <class>Consenso</class>
+        <class>Criterio</class>
         <class>EstadisticaRegistro</class>
         <class>Fuente</class>
         <class>FuenteDinamica</class>
         <class>FuenteEstaticaIncendios</class>
         <class>FuenteAgregada</class>
         <class>FuenteDemoAdapter</class>
-        <class>Criterio</class>
+        <class>Hecho</class>
+        <class>Multimedia</class>
+        <class>Solicitud</class>
+        <class>SolicitudRevision</class>
+        <class>Usuario</class>
 
         <properties>
             <property name="hibernate.archive.autodetection" value="class"/>
