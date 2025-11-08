@@ -1,55 +1,36 @@
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Properties;
 
 public class Main {
+  public static void main(String[] args) {
+    configurePersistence();
+    new Server().start(); // solo inicia Javalin
+  }
 
   private static void configurePersistence() {
     try {
-      // 1. Leer la variable de entorno de Render
-      String databaseUrl = System.getenv("DATABASE_URL");
+      String dbUrl = System.getenv("DATABASE_URL");
+      if (dbUrl != null) {
+        System.out.println("Usando configuración de deploy Railway");
+        java.net.URI uri = new java.net.URI(dbUrl);
+        String[] userInfo = uri.getUserInfo().split(":");
+        String username = userInfo[0];
+        String password = userInfo[1];
+        String jdbcUrl = "jdbc:mysql://" + uri.getHost() + ":" + uri.getPort() + uri.getPath() + "?useSSL=false";
 
-      if (databaseUrl != null) {
-        System.out.println("Configurando persistencia con DATABASE_URL...");
-        URI dbUri = new URI(databaseUrl);
+        java.util.Properties props = new java.util.Properties();
+        props.setProperty("hibernate.connection.url", jdbcUrl);
+        props.setProperty("hibernate.connection.username", username);
+        props.setProperty("hibernate.connection.password", password);
+        props.setProperty("hibernate.hbm2ddl.auto", "update");
+        props.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
+        props.setProperty("hibernate.dialect.storage_engine", "innodb");
 
-        // 2. Parsear la URL: mysql://user:pass@host:port/db
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-
-        // 3. Crear las propiedades para sobreescribir el persistence.xml
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.connection.url", dbUrl);
-        properties.setProperty("hibernate.connection.username", username);
-        properties.setProperty("hibernate.connection.password", password);
-        properties.setProperty("hibernate.hbm2ddl.auto", "update");
-
-        // 4. Configurar la biblioteca de la cátedra
-        WithSimplePersistenceUnit.configure(
-            config -> config.putAll(properties)
-        );
-        System.out.println("Persistencia configurada para deploy.");
+        // Inicializa una única vez la unidad de persistencia
+        WithSimplePersistenceUnit.configure(cfg -> cfg.putAll(props));
       } else {
-        System.out.println("DATABASE_URL no encontrada. Usando persistence.xml (local).");
+        System.out.println("Modo local: usando persistence.xml");
       }
     } catch (Exception e) {
-      System.err.println("ERROR CONFIGURANDO PERSISTENCIA: " + e.getMessage());
-      e.printStackTrace();
-    }
-  }
-
-  public static void main(String[] args) {
-    try {
-      // 6. LLAMAR A LA CONFIGURACIÓN ANTES DE INICIAR EL SERVIDOR
-      configurePersistence();
-
-      // Iniciar el servidor (como antes)
-      new Server().start();
-
-    } catch (Exception e) {
-      System.err.println("Error al iniciar el servidor: " + e.getMessage());
       e.printStackTrace();
     }
   }
