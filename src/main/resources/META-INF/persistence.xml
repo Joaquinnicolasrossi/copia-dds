@@ -25,7 +25,7 @@
         <class>Usuario</class>
 
         <properties>
-<!--            <property name="hibernate.archive.autodetection" value="none"/>-->
+            <property name="hibernate.archive.autodetection" value="none"/>
 
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/metamapa"/>
