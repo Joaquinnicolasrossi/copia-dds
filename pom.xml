@@ -256,6 +256,7 @@
                   <resource>META-INF/persistence.xml</resource>
                 </transformer>
               </transformers>
+              <finalName>metamapa</finalName>
             </configuration>
           </execution>
         </executions>
