@@ -121,34 +121,6 @@
       <groupId>org.uqbar-project</groupId>
       <artifactId>jpa-java8-extras</artifactId>
       <version>1.0-alpha-1</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-core</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-entitymanager</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <!-- Forzar Hibernate 5.6 -->
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-core</artifactId>
-      <version>5.6.15.Final</version>
-    </dependency>
-    <dependency>
-      <groupId>com.github.jknack</groupId>
-      <artifactId>handlebars</artifactId>
-      <version>4.3.1</version>
-    </dependency>
-
-    <!-- API JPA (versión moderna) -->
-    <dependency>
-      <groupId>javax.persistence</groupId>
-      <artifactId>javax.persistence-api</artifactId>
-      <version>2.2</version>
     </dependency>
     <dependency>
       <groupId>mysql</groupId>
@@ -164,16 +136,11 @@
       <groupId>io.github.flbulgarelli</groupId>
       <artifactId>jpa-extras</artifactId>
       <version>1.0.0-rc1</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-core</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-entitymanager</artifactId>
-        </exclusion>
-      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.github.jknack</groupId>
+      <artifactId>handlebars</artifactId>
+      <version>4.3.1</version>
     </dependency>
   </dependencies>
 
@@ -289,17 +256,6 @@
                   <resource>META-INF/persistence.xml</resource>
                 </transformer>
               </transformers>
-              <filters>
-                <filter>
-                  <artifact>*:*</artifact>
-                  <excludes>
-                    <exclude>META-INF/*.SF</exclude>
-                    <exclude>META-INF/*.DSA</exclude>
-                    <exclude>META-INF/*.RSA</exclude>
-                  </excludes>
-                </filter>
-              </filters>
-              <finalName>metamapa</finalName>
             </configuration>
           </execution>
         </executions>
