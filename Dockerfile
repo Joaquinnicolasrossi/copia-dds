@@ -14,4 +14,4 @@ COPY --from=builder /build/target/metamapa.jar app.jar
 COPY --from=builder /build/target/dependency ./dependency
 
 EXPOSE 7000
-CMD ["java", "-cp", "app.jar:dependency/*", "Main"]
+CMD sh -c "java -cp 'app.jar:dependency/*' Main"

@@ -3,12 +3,12 @@ import io.javalin.config.JavalinConfig;
 import java.util.List;
 
 public class Server {
-  private int getRenderAssignedPort() {
-    String renderPort = System.getenv("PORT");
-    if (renderPort != null) {
-      return Integer.parseInt(renderPort);
+  private int getRailwayAssignedPort() {
+    String railway = System.getenv("PORT");
+    if (railway != null) {
+      return Integer.parseInt(railway);
     }
-    // Si no encuentra la variable de Render, usa 7000 (para correr local)
+    // Si no encuentra la variable de Railway, usa 7000 (para correr local)
     return 7000;
   }
 
@@ -53,7 +53,7 @@ public class Server {
       router.configure(app);
     }
 
-    app.start(getRenderAssignedPort());
+    app.start(getRailwayAssignedPort());
   }
 
   private void initializeTemplating(JavalinConfig config) {
