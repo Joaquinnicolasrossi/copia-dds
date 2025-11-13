@@ -20,7 +20,7 @@ import javax.persistence.Transient;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-@Table(name = "Hecho")
+@Table(name = "hecho")
 public class Hecho {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
