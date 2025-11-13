@@ -28,7 +28,7 @@
         <properties>
             <property name="hibernate.archive.autodetection" value="class,hbm"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/metamapa"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://host.docker.internal:3306/metamapa"/>
             <property name="hibernate.connection.username" value="root"/>
             <property name="hibernate.connection.password" value="joacocapo"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
