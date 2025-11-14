@@ -9,17 +9,12 @@ public class Absoluto extends Consenso {
 
   // Si todas las fuentes del nodo contienen el mismo hecho
   @Override
-  public boolean estaConsensuado(Hecho hecho, Map<Fuente, List<Hecho>> hechosPorFuente) {
-    int totalFuentes = hechosPorFuente.size();
+  public boolean estaConsensuado(Hecho hecho, Fuente fuente) {
+    List<Hecho> hechos = fuente.extraerHechos();
+    if (hechos.isEmpty()) return false;
 
-    long menciones = hechosPorFuente.values().stream()
-        .filter(hechosDeFuente ->
-            hechosDeFuente.stream()
-                .anyMatch(h -> h.tieneMismoContenidoQue(hecho))
-        )
-        .count();
-
-    return menciones == totalFuentes;
+    return hechos.stream()
+        .allMatch(h -> h.tieneMismoContenidoQue(hecho));
   }
 
   @Override

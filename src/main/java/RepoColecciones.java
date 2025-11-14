@@ -131,10 +131,16 @@ public class RepoColecciones implements WithSimplePersistenceUnit {
       fuentesInternas.add(fd);
 
       // Agregar fuentes estáticas
-      fuentesInternas.add(new FuenteEstaticaIncendios("src/test/resources/fires-all.csv"));
-      fuentesInternas.add(new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv"));
+      fuentesInternas.add(new FuenteEstaticaIncendios("src/test/resources/fuente_test_consenso.csv"));
+      fuentesInternas.add(new FuenteEstaticaIncendios("src/test/resources/fuente_test_consenso2.csv"));
+      //fuentesInternas.add(new FuenteEstaticaIncendios("src/test/resources/fires-all.csv"));
+      //fuentesInternas.add(new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv"));
       fa.setFuentes(fuentesInternas);
       fa.setRepoHechos(repoHechos);
+      fa.limpiarCache(); // para no traer valores anteriores
+    }
+    else if (fuente instanceof FuenteMetaMapa) {
+      ((FuenteMetaMapa) fuente).inicializarClienteSiFalta();
     }
 
     coleccion.setSolicitudes(repoSolicitudes);

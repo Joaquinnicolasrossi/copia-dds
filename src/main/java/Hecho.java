@@ -177,14 +177,11 @@ public class Hecho {
     if (otro == null)
       return false;
 
-    boolean mismaCategoria = this.categoria != null
-        && this.categoria.equalsIgnoreCase(otro.getCategoria());
-
-    boolean coordenadasSimilares =
-        Math.abs(this.latitud - otro.getLatitud()) < 0.01
-            && Math.abs(this.longitud - otro.getLongitud()) < 0.01;
-
-    return mismaCategoria && coordenadasSimilares;
+    return this.titulo.equalsIgnoreCase(otro.titulo)
+        && this.descripcion.equalsIgnoreCase(otro.descripcion)
+        && this.categoria.equalsIgnoreCase(otro.categoria)
+        && Double.compare(this.latitud, otro.latitud) == 0
+        && Double.compare(this.longitud, otro.longitud) == 0;
   }
 
   public static class HechoBuilder {

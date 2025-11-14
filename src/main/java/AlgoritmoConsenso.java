@@ -8,9 +8,6 @@
   - True si està consensuado
 */
 
-import java.util.List;
-import java.util.Map;
-
 public interface AlgoritmoConsenso {
-  boolean estaConsensuado(Hecho hecho, Map<Fuente, List<Hecho>> hechosPorFuente);
+  boolean estaConsensuado(Hecho hecho, Fuente fuente);
 }

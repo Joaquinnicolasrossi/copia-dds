@@ -160,7 +160,7 @@ public class Coleccion {
         .toList();
 
     this.hechosConsensuados = todosLosHechos.stream()
-        .filter(hecho -> algoritmoConsenso.estaConsensuado(hecho, hechosPorFuente))
+        .filter(hecho -> algoritmoConsenso.estaConsensuado(hecho, fuente))
         .collect(Collectors.toSet());
   }
 

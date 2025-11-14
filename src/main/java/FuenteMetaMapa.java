@@ -1,4 +1,5 @@
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
@@ -22,8 +23,12 @@ public class FuenteMetaMapa extends Fuente {
       throw new RuntimeException(e);
     }
   }
-
   public String getIdentificador(){
     return "metamapa";
+  }
+  public void inicializarClienteSiFalta() {
+    if (this.cliente == null) {
+      this.cliente = new ClienteMetaMapa();
+    }
   }
 }

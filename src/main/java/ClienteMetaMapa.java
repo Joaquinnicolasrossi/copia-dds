@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ClienteMetaMapa {
 
-  private static final String url = "http://localhost:8080/apiMetaMapa";
+  private static final String url = "http://localhost:7000/apiMetaMapa";
   private final HttpClient client;
   private final ObjectMapper mapper;
 

@@ -45,7 +45,8 @@ public class Server {
         new ColeccionRoute(coleccionController),
         new SolicitudRoute(solicitudController),
         new HomeRoute(),
-        new EstadisticaRoute(estadisticaController)
+        new EstadisticaRoute(estadisticaController),
+        new MetaMapaRoute()
 
     );
 
@@ -54,7 +55,10 @@ public class Server {
     }
 
     app.start(getRailwayAssignedPort());
+
   }
+
+
 
   private void initializeTemplating(JavalinConfig config) {
     config.fileRenderer(

@@ -1,101 +1,82 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ConsensoTest {
-  private Hecho hechoComun;
-  private Hecho hechoVariado;
-  private Hecho hechoUnico;
+import java.time.LocalDateTime;
+import java.util.List;
 
-  FuenteEstaticaIncendios fuente1;
-  FuenteEstaticaVictimas fuente2;
-  FuenteAgregada fuente3;
-  FuenteDinamica fuenteA;
-  FuenteEstaticaVictimas fuenteB;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
+public class ConsensoTest {
+
+  private Hecho h1;
+  private Hecho h1_copy;
+  private Hecho hDistinto;
+
+  private Fuente f1;
+  private Fuente f2;
   private FuenteAgregada fuenteAgregada;
 
   @BeforeEach
   void setUp() {
 
+    h1 = new Hecho("Incendio", "Fuego grande", "Incendio",
+        -31.4, -64.1,
+        LocalDateTime.now(), LocalDateTime.now(), Estado.PENDIENTE);
 
-    hechoComun = new Hecho(
-        "Incendio en zona rural",
-        "Fuego de gran magnitud en la provincia de Córdoba.",
-        "Incendio",
-        -31.4167,
-        -64.1833,
-        LocalDateTime.of(2025, 6, 1,10,5),
-        LocalDateTime.now(),
-        Estado.PENDIENTE
-    );
+    h1_copy = new Hecho("Incendio", "Fuego grande", "Incendio",
+        -31.4, -64.1,
+        LocalDateTime.now(), LocalDateTime.now(), Estado.PENDIENTE);
 
-    hechoVariado = new Hecho(
-        "Incendio en zona rural",
-        "Fuego de gran magnitud en la provincia de Córdoba.",
-        "Incendio",
-        -31.4167,
-        -64.1833,
-        LocalDateTime.of(2025, 6, 1,10,5),
-        LocalDateTime.now(),
-        Estado.PENDIENTE
-    );
+    hDistinto = new Hecho("Incendio", "Otro texto", "Incendio",
+        -31.4, -64.1,
+        LocalDateTime.now(), LocalDateTime.now(), Estado.PENDIENTE);
 
-    hechoUnico = new Hecho(
-        "Incendio en zona rural",
-        "Otro foco distinto con igual título.",
-        "Incendio",
-        -30.0000,
-        -60.0000,
-        LocalDateTime.of(2025, 6, 2,10,5),
-        LocalDateTime.now(),
-        Estado.PENDIENTE
-    );
 
-    fuente1 = new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
-    fuente2 = new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv");
-    fuenteA = mock(FuenteDinamica.class);
-    fuenteB = mock(FuenteEstaticaVictimas.class);
-    List<Fuente> fuentes = List.of(fuenteA, fuenteB);
-    fuente3 = new FuenteAgregada(fuentes, new RepoHechos(new RepoProvincias()));
-    fuenteAgregada = new FuenteAgregada(List.of(fuente1, fuente2, fuente3), new RepoHechos(new RepoProvincias()));
+    // FAKES de fuentes
+    f1 = mock(Fuente.class);
+    f2 = mock(Fuente.class);
+
+    when(f1.extraerHechos()).thenReturn(List.of(h1, h1_copy));
+    when(f2.extraerHechos()).thenReturn(List.of(h1));
+
+    // Fuente agregada combinando f1 y f2
+    fuenteAgregada = mock(FuenteAgregada.class);
+    when(fuenteAgregada.extraerHechos()).thenReturn(List.of(h1, h1_copy, h1));
+  }
+
+
+  @Test
+  void testAbsolutoFalseSiNoTodasLasFuentesCoinciden() {
+    Absoluto a = new Absoluto();
+
+    // hay 1 distinto así que debe dar false
+    when(fuenteAgregada.extraerHechos()).thenReturn(List.of(h1, h1_copy, hDistinto));
+
+    assertFalse(a.estaConsensuado(h1, fuenteAgregada));
   }
 
   @Test
-  void testMultiplesMenciones() {
-    AlgoritmoConsenso algoritmo = new MultiplesMenciones();
+  void testMultiplesMencionesOk() {
+    MultiplesMenciones m = new MultiplesMenciones();
 
-    // Está en 2 fuentes, pero el titulo es variante
-    assertFalse(algoritmo.estaConsensuado(hechoComun, fuenteAgregada),
-        "No debe estar consensuado si hay versiones con mismo título y distinto contenido");
+    assertTrue(m.estaConsensuado(h1, fuenteAgregada));
   }
 
-  /*@Test
-  void testMayoríaSimple() {
-    AlgoritmoConsenso algoritmo = new MayoriaSimple();
-
-    // hechoComun --> está en 2 de 3 fuentes (Mayor de la mitad)
-    assertTrue(algoritmo.estaConsensuado(hechoComun, fuenteAgregada));
-
-    // hechoUnico --> está en una sola fuente
-    assertFalse(algoritmo.estaConsensuado(hechoUnico, fuenteAgregada));
-  }
-  */
   @Test
-  void testConsensoAbsoluto() {
-    AlgoritmoConsenso algoritmo = new Absoluto();
+  void testMayoriaSimpleTrue() {
+    MayoriaSimple ms = new MayoriaSimple();
 
-    // hechoComun está en 2 de 3 (no abosluto)
-    assertFalse(algoritmo.estaConsensuado(hechoComun, fuenteAgregada));
+    // 3 hechos, 2 coinciden
+    assertTrue(ms.estaConsensuado(h1, fuenteAgregada));
+  }
 
-    // hechoUnico está solo en una (no absoluto)
-    assertFalse(algoritmo.estaConsensuado(hechoUnico, fuenteAgregada));
+  @Test
+  void testMayoriaSimpleFalse() {
+    MayoriaSimple ms = new MayoriaSimple();
+
+    when(fuenteAgregada.extraerHechos()).thenReturn(List.of(h1, hDistinto, hDistinto));
+
+    assertFalse(ms.estaConsensuado(h1, fuenteAgregada));
   }
 }

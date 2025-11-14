@@ -14,17 +14,16 @@ import javax.persistence.Entity;
 public class MayoriaSimple extends Consenso {
 
   @Override
-  public boolean estaConsensuado(Hecho hecho, Map<Fuente, List<Hecho>> hechosPorFuente) {
-    int totalFuentes = hechosPorFuente.size();
+  public boolean estaConsensuado(Hecho hecho, Fuente fuente) {
 
-    long menciones = hechosPorFuente.values().stream()
-        .filter(hechosDeFuente ->
-            hechosDeFuente.stream()
-                .anyMatch(h -> h.tieneMismoContenidoQue(hecho))
-        )
-        .count();
+      List<Hecho> hechos = fuente.extraerHechos();
+      if (hechos.isEmpty()) return false;
 
-    return menciones > (totalFuentes / 2.0);
+      long coincidencias = hechos.stream()
+          .filter(h -> h.tieneMismoContenidoQue(hecho))
+          .count();
+
+      return coincidencias >= Math.ceil(hechos.size() / 2.0);
   }
 
 

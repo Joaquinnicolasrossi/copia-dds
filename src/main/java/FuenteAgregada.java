@@ -22,13 +22,15 @@ public class FuenteAgregada extends Fuente {
   @Column(name = "fuentes_combinadas")
   @Transient
   private RepoHechos repositorio;
+  @Transient
+  private List<Hecho> hechosCacheados;
   private String fuentesCombinadas;
 
   public FuenteAgregada(List<Fuente> fuentes, RepoHechos repositorio) {
     this.fuentes = fuentes;
     this.repositorio = repositorio;
     this.fuentesCombinadas = fuentes.stream()
-        .map(Fuente::getIdentificador)
+        .map(f -> f.getId() != null ? f.getId().toString() : f.getIdentificador())
         .collect(Collectors.joining(","));
   }
 
@@ -36,13 +38,19 @@ public class FuenteAgregada extends Fuente {
 
   @Override
   public List<Hecho> extraerHechos() {
-    if (fuentes == null || fuentes.isEmpty()) {
-      return new ArrayList<>();
+    // Si ya se cargaron, deolver cache
+    if (hechosCacheados != null) {
+      return hechosCacheados;
     }
-      return fuentes.stream()
+    hechosCacheados = extraerHechosActualizados();
+    return hechosCacheados;
+    //if (fuentes == null || fuentes.isEmpty()) {
+    //  return new ArrayList<>();
+    //}
+      //return fuentes.stream()
         //.flatMap(fuente -> repositorio.obtenerHechosPorFuente(fuente).stream())
-        .flatMap(fuente -> fuente.extraerHechos().stream())
-        .toList();
+        //.flatMap(fuente -> fuente.extraerHechos().stream())
+        //.toList();
   }
 
   private List<Hecho> filtrarRepetidos(List<Hecho> hechos) {
@@ -75,10 +83,14 @@ public class FuenteAgregada extends Fuente {
 
   public void setFuentes(List<Fuente> fuentes) {
     this.fuentes = fuentes;
+    this.hechosCacheados = null; // Limpiamos cache si cambian las fuentes
   }
 
   public List<Fuente> getFuentes() {
     return fuentes;
   }
 
+  public void limpiarCache() {
+    this.hechosCacheados = null;
+  }
 }
