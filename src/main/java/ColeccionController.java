@@ -60,19 +60,19 @@ public class ColeccionController  {
 
     Fuente fuente = switch (tipoFuente) {
       case "estatica-incendios" ->
-          new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
+          new FuenteEstaticaIncendios("src/main/resources/assets/fires-all.csv");
       case "estatica-victimas" ->
-        new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv");
+        new FuenteEstaticaVictimas("src/main/resources/assets/victimas_viales_argentina.csv");
       case "dinamica" ->
         fuenteDinamica;
       case "metamapa" ->
           new FuenteMetaMapa();
       case "agregada" -> new FuenteAgregada(
           List.of(
-              guardarFuenteSiNoTieneID(new FuenteEstaticaIncendios("src/test/resources/fuente_test_consenso.csv")),
-              guardarFuenteSiNoTieneID(new FuenteEstaticaIncendios("src/test/resources/fuente_test_consenso2.csv")),
-              //guardarFuenteSiNoTieneID(new FuenteEstaticaIncendios("src/test/resources/fires-all.csv")),
-              //guardarFuenteSiNoTieneID(new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv")),
+              guardarFuenteSiNoTieneID(new FuenteEstaticaIncendios("src/main/resources/assets/fuente_test_consenso.csv")),
+              guardarFuenteSiNoTieneID(new FuenteEstaticaIncendios("src/main/resources/assets/fuente_test_consenso2.csv")),
+              //guardarFuenteSiNoTieneID(new FuenteEstaticaIncendios("src/main/resources/assets/fires-all.csv")),
+              //guardarFuenteSiNoTieneID(new FuenteEstaticaVictimas("src/main/resources/assets/victimas_viales_argentina.csv")),
               fuenteDinamica), repoHechos);
       default -> null;
     };
@@ -228,13 +228,13 @@ public class ColeccionController  {
 
     Fuente nuevaFuente = switch (tipoFuente) {
         case "dinamica" -> fuenteDinamica;
-        case "estatica-incendios" -> new FuenteEstaticaIncendios("src/test/resources/fires-all.csv");
-        case "estatica-victimas" -> new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv");
+        case "estatica-incendios" -> new FuenteEstaticaIncendios("src/main/resources/assets/fires-all.csv");
+        case "estatica-victimas" -> new FuenteEstaticaVictimas("src/main/resources/assets/victimas_viales_argentina.csv");
         case "metamapa" -> new FuenteMetaMapa();
       case "agregada" -> new FuenteAgregada(
              List.of(
-                 guardarFuenteSiNoTieneID(new FuenteEstaticaIncendios("src/test/resources/fires-all.csv")),
-                 guardarFuenteSiNoTieneID(new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv")),
+                 guardarFuenteSiNoTieneID(new FuenteEstaticaIncendios("src/main/resources/assets/fires-all.csv")),
+                 guardarFuenteSiNoTieneID(new FuenteEstaticaVictimas("src/main/resources/assets/victimas_viales_argentina.csv")),
                  fuenteDinamica), repoHechos);
         default -> null;
       };
