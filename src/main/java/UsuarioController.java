@@ -55,11 +55,13 @@ public class UsuarioController {
       Map<String, Object> model = new HashMap<>();
       model.put("nombre", usuario.getNombre());
       model.put("rol", "Administrador");
+      model.put("usuarioActual", usuario);
       ctx.render("home-admin.hbs", model);
     } else {
       Map<String, Object> model = new HashMap<>();
       model.put("userId", usuario.getId());
       model.put("nombre", usuario.getNombre());
+      model.put("usuarioActual", usuario);
       ctx.render("home.hbs", model);
     }
   }
