@@ -8,56 +8,35 @@ public class CronTab {
 
   public static void main(String[] args) {
     try {
-      if (args.length == 0) {
-        System.err.println("Debe proveer una tarea (ej: fuentedemoadapter)");
-        System.exit(1);
-      }
+      configurePersistence();
+      String tarea = args.length == 0 ? "all" : args[0];
 
-      String tarea = args[0];
+      System.out.println("== Ejecutando tarea: " + tarea + " ==");
 
-      switch (tarea) {
-        case "fuentedemoadapter": {
-          RepoProvincias repoProvincias = new RepoProvincias();
-          RepoHechos repo = new RepoHechos(repoProvincias);
+      switch (tarea.toLowerCase()) {
 
-          FuenteDemoAdapter fuenteDemo = new FuenteDemoAdapter(
-              new URL("https://api.demo/estado"), new ConexionGenerica(), LocalDateTime.now(), repo);
-
-          actualizarFuenteDemo(fuenteDemo);
-        }
-        break;
+        case "fuentedemoadapter":
+          ejecutarFuenteDemo();
+          break;
 
         case "fuenteagregador":
-          RepoProvincias repoProvincias = new RepoProvincias();
-          List<Fuente> fuentes = new ArrayList<>();
-          RepoHechos repo = new RepoHechos(repoProvincias);
-          FuenteAgregada fuenteAgregada = new FuenteAgregada(fuentes, repo);
-          actualizarFuenteAgregada(fuenteAgregada);
+          ejecutarFuenteAgregada();
           break;
 
         case "recalcularconsensos":
-          DetectorDeSpamFiltro spam = new DetectorDeSpamFiltro();
-          RepoSolicitudes repoSolicitudes = new RepoSolicitudes(spam);
-          RepoProvincias repoProvincias1 = new RepoProvincias();
-          RepoHechos repoHechos = new RepoHechos(repoProvincias1);
-          RepoColecciones repoColecciones = new RepoColecciones(repoSolicitudes, repoHechos);
-          List<Coleccion> colecciones = repoColecciones.getColecciones();
-          recalcularConsensosDeColecciones(colecciones);
+          ejecutarRecalculoConsensos();
           break;
 
         case "recalcularestadistica":
-          DetectorDeSpam spam2 = new DetectorDeSpamFiltro();
-          RepoSolicitudes repoSolicitudes2 = new RepoSolicitudes(spam2);
-          RepoProvincias repoProvincias2 = new RepoProvincias();
-          RepoHechos repoHechos1 = new RepoHechos(repoProvincias2);
-          RepoColecciones repoColecciones2 = new RepoColecciones(repoSolicitudes2, repoHechos1);
+          ejecutarRecalculoEstadistica();
+          break;
 
-          RepoEstadistica repoEstadistica = new RepoEstadistica();
-          GeneradorEstadistica generador = new GeneradorEstadistica(repoEstadistica, repoColecciones2);
-
-
-          List<Long> idColecciones = repoColecciones2.getIdsColecciones();
-          idColecciones.forEach(generador::generarTodas);
+        case "all":
+          System.out.println("Ejecutando TODAS las tareas...");
+          ejecutarFuenteDemo();
+          ejecutarFuenteAgregada();
+          ejecutarRecalculoConsensos();
+          ejecutarRecalculoEstadistica();
           break;
 
         default:
@@ -65,28 +44,68 @@ public class CronTab {
           System.exit(1);
       }
 
-      System.out.println("Tarea '" + tarea + "' completada exitosamente.");
+      System.out.println("== Tarea '" + tarea + "' completada ==");
 
     } catch (Exception e) {
-      System.err.println("Error ejecutando la tarea: " + e.getMessage());
-      e.printStackTrace();
+      System.err.println("ERROR ejecutando tarea: " + e.getMessage());
     } finally {
       WithSimplePersistenceUnit.shutdown();
       System.out.println("Sistema de persistencia apagado.");
     }
   }
 
-  private static void actualizarFuenteDemo(FuenteDemoAdapter fuenteDemo) {
+  private static void ejecutarFuenteDemo() throws Exception {
+    RepoProvincias repoProvincias = new RepoProvincias();
+    RepoHechos repo = new RepoHechos(repoProvincias);
+
+    FuenteDemoAdapter fuenteDemo = new FuenteDemoAdapter(
+        new URL("https://api.demo/estado"),
+        new ConexionGenerica(),
+        LocalDateTime.now(),
+        repo
+    );
+
     fuenteDemo.actualizarHechos();
-    System.out.println("FuenteDemo actualizada en " + LocalDateTime.now());
+    System.out.println("[OK] FuenteDemo actualizada");
   }
 
-  private static void actualizarFuenteAgregada(FuenteAgregada fuenteAgregada) {
-    fuenteAgregada.actualizarRepositorio();
-    System.out.println("FuenteAgregada actualizada");
+  private static void ejecutarFuenteAgregada() {
+    RepoProvincias repoProvincias = new RepoProvincias();
+    List<Fuente> fuentes = new ArrayList<>();
+    RepoHechos repo = new RepoHechos(repoProvincias);
+
+    FuenteAgregada fa = new FuenteAgregada(fuentes, repo);
+    fa.actualizarRepositorio();
+
+    System.out.println("[OK] FuenteAgregada actualizada");
   }
 
-  private static void recalcularConsensosDeColecciones(List<Coleccion> colecciones) {
-    colecciones.forEach(Coleccion::recalcularConsensos);
+  private static void ejecutarRecalculoConsensos() {
+    DetectorDeSpamFiltro spam = new DetectorDeSpamFiltro();
+    RepoSolicitudes repoS = new RepoSolicitudes(spam);
+    RepoProvincias repoP = new RepoProvincias();
+    RepoHechos repoH = new RepoHechos(repoP);
+    RepoColecciones repoC = new RepoColecciones(repoS, repoH);
+
+    repoC.getColecciones().forEach(Coleccion::recalcularConsensos);
+    System.out.println("[OK] Consensos recalculados");
+  }
+
+  private static void ejecutarRecalculoEstadistica() {
+    DetectorDeSpamFiltro spam = new DetectorDeSpamFiltro();
+    RepoSolicitudes repoS = new RepoSolicitudes(spam);
+    RepoProvincias repoP = new RepoProvincias();
+    RepoHechos repoH = new RepoHechos(repoP);
+    RepoColecciones repoC = new RepoColecciones(repoS, repoH);
+
+    RepoEstadistica repoE = new RepoEstadistica();
+    GeneradorEstadistica gen = new GeneradorEstadistica(repoE, repoC);
+
+    repoC.getIdsColecciones().forEach(gen::generarTodas);
+    System.out.println("[OK] Estadísticas recalculadas");
+  }
+
+  private static void configurePersistence() {
+    Main.configurePersistence(); // reutilizás la config
   }
 }

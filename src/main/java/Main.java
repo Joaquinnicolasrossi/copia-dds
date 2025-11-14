@@ -6,7 +6,7 @@ public class Main {
     new Server().start(); // solo inicia Javalin
   }
 
-  private static void configurePersistence() {
+  public static void configurePersistence() {
     try {
       String dbUrl = System.getenv("DATABASE_URL");
       if (dbUrl != null) {
