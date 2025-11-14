@@ -57,14 +57,13 @@ public class RepoHechos implements WithSimplePersistenceUnit {
   public List<Hecho> obtenerHechosPorUsuario(Long userId) {
     return entityManager()
         .createQuery(
-            "SELECT h FROM hecho h " +
-                "WHERE h.usuario.id = :userId " +
-                "AND h.estado IN (:estados)",
+            " SELECT h FROM Hecho h WHERE h.usuario.id = :userId AND h.estado IN (:estados)",
             Hecho.class)
         .setParameter("userId", userId)
         .setParameter("estados", List.of(Estado.PENDIENTE, Estado.ACEPTADA_CON_SUGERENCIAS))
         .getResultList();
   }
+
 
   public List<Hecho> obtenerPorCategoria(String categoria) {
     return
