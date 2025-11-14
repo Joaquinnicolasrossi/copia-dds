@@ -21,7 +21,7 @@ public class Server {
     RepoProvincias repoProvincias = new RepoProvincias();
     RepoHechos repoHechos = new RepoHechos(repoProvincias);
     RepoEstadistica repoEstadistica = new RepoEstadistica();
-    RepoColecciones repoColecciones = new RepoColecciones(repoSolicitudes);
+    RepoColecciones repoColecciones = new RepoColecciones(repoSolicitudes, repoHechos);
     GeneradorEstadistica generadorEstadistica = new GeneradorEstadistica(repoEstadistica, repoColecciones);
     RepoMultimedia repoMultimedia = new RepoMultimedia();
     FuenteDinamica fuenteDinamica = repoHechos.obtenerFuenteDinamica();

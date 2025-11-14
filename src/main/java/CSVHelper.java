@@ -1,6 +1,7 @@
 import com.opencsv.CSVWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -16,13 +17,26 @@ public class CSVHelper {
       return "";
     return fila[index].trim();
   }
+// Con esta función fallaba el LocalDateTime, lo modificamos para que muestre los hechos en la colección csv
+//  public static LocalDateTime parseFecha(String valor, java.time.format.DateTimeFormatter formatter) {
+//    if (valor == null || valor.isEmpty())
+//      return null;
+//    return (formatter == null)
+//        ? LocalDateTime.parse(valor) // ISO-8601
+//        : LocalDateTime.parse(valor, formatter);
+//  }
 
   public static LocalDateTime parseFecha(String valor, java.time.format.DateTimeFormatter formatter) {
     if (valor == null || valor.isEmpty())
       return null;
-    return (formatter == null)
-        ? LocalDateTime.parse(valor) // ISO-8601
-        : LocalDateTime.parse(valor, formatter);
+
+    if (formatter == null) {
+      return valor.length() == 10
+          ? LocalDate.parse(valor).atStartOfDay()
+          : LocalDateTime.parse(valor);
+    }
+
+    return LocalDate.parse(valor, formatter).atStartOfDay();
   }
 
   public static double parseCoordenada(String valor) {

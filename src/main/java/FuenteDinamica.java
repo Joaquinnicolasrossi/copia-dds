@@ -43,4 +43,13 @@ public class FuenteDinamica extends Fuente {
   public String getIdentificador() {
     return "dinamica";
   }
+
+  public void setRepoHechos(RepoHechos repoHechos) {
+    this.repoHechos = repoHechos;
+  }
+
+  public void setRepoSolicitudes(RepoSolicitudes repoSolicitudes) {
+    this.repoSolicitudes = repoSolicitudes;
+  }
+
 }

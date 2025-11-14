@@ -5,6 +5,7 @@
  */
 
 import java.util.List;
+import java.util.Map;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -13,18 +14,19 @@ import javax.persistence.Entity;
 public class MayoriaSimple extends Consenso {
 
   @Override
-  public boolean estaConsensuado(Hecho hecho, Fuente fuenteDeNodo) {
-    List<Hecho> hechos = fuenteDeNodo.extraerHechos();
+  public boolean estaConsensuado(Hecho hecho, Map<Fuente, List<Hecho>> hechosPorFuente) {
+    int totalFuentes = hechosPorFuente.size();
 
-    if (hechos.isEmpty()) {
-      return false;
-    }
-
-    long coincidencias = hechos.stream()
-        .filter(h -> h.tieneMismoContenidoQue(hecho))
+    long menciones = hechosPorFuente.values().stream()
+        .filter(hechosDeFuente ->
+            hechosDeFuente.stream()
+                .anyMatch(h -> h.tieneMismoContenidoQue(hecho))
+        )
         .count();
-    return coincidencias >= Math.ceil(hechos.size() / 2.0);
+
+    return menciones > (totalFuentes / 2.0);
   }
+
 
   @Override
   public String getIdentificador(){

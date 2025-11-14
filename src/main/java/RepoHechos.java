@@ -81,13 +81,13 @@ public class RepoHechos implements WithSimplePersistenceUnit {
   }
 
   public List<Hecho> getHechos() {
-    return entityManager().createQuery("Select from hecho",
+    return entityManager().createQuery("SELECT h from Hecho h",
         Hecho.class).getResultList();
   }
 
   public Hecho findById(long hechoid) {
     return entityManager().createQuery(
-            "SELECT h FROM hecho h WHERE h.id = :hechoid", Hecho.class)
+            "SELECT h FROM Hecho h WHERE h.id = :hechoid", Hecho.class)
         .setParameter("hechoid", hechoid).getSingleResult();
   }
 

@@ -38,7 +38,9 @@ public class CronTab {
         case "recalcularconsensos":
           DetectorDeSpamFiltro spam = new DetectorDeSpamFiltro();
           RepoSolicitudes repoSolicitudes = new RepoSolicitudes(spam);
-          RepoColecciones repoColecciones = new RepoColecciones(repoSolicitudes);
+          RepoProvincias repoProvincias1 = new RepoProvincias();
+          RepoHechos repoHechos = new RepoHechos(repoProvincias1);
+          RepoColecciones repoColecciones = new RepoColecciones(repoSolicitudes, repoHechos);
           List<Coleccion> colecciones = repoColecciones.getColecciones();
           recalcularConsensosDeColecciones(colecciones);
           break;
@@ -46,7 +48,9 @@ public class CronTab {
         case "recalcularestadistica":
           DetectorDeSpam spam2 = new DetectorDeSpamFiltro();
           RepoSolicitudes repoSolicitudes2 = new RepoSolicitudes(spam2);
-          RepoColecciones repoColecciones2 = new RepoColecciones(repoSolicitudes2);
+          RepoProvincias repoProvincias2 = new RepoProvincias();
+          RepoHechos repoHechos1 = new RepoHechos(repoProvincias2);
+          RepoColecciones repoColecciones2 = new RepoColecciones(repoSolicitudes2, repoHechos1);
 
           RepoEstadistica repoEstadistica = new RepoEstadistica();
           GeneradorEstadistica generador = new GeneradorEstadistica(repoEstadistica, repoColecciones2);

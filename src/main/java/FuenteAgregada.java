@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,8 +36,12 @@ public class FuenteAgregada extends Fuente {
 
   @Override
   public List<Hecho> extraerHechos() {
-    return fuentes.stream()
-        .flatMap(fuente -> repositorio.obtenerHechosPorFuente(fuente).stream())
+    if (fuentes == null || fuentes.isEmpty()) {
+      return new ArrayList<>();
+    }
+      return fuentes.stream()
+        //.flatMap(fuente -> repositorio.obtenerHechosPorFuente(fuente).stream())
+        .flatMap(fuente -> fuente.extraerHechos().stream())
         .toList();
   }
 
@@ -63,4 +68,17 @@ public class FuenteAgregada extends Fuente {
   public String getIdentificador(){
     return "agregada";
   }
+
+  public void setRepoHechos(RepoHechos repoHechos) {
+    this.repositorio = repoHechos;
+  }
+
+  public void setFuentes(List<Fuente> fuentes) {
+    this.fuentes = fuentes;
+  }
+
+  public List<Fuente> getFuentes() {
+    return fuentes;
+  }
+
 }

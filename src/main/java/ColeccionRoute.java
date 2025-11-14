@@ -39,6 +39,11 @@ public class ColeccionRoute implements Router {
       controller.actualizar(ctx);
       ctx.redirect("/colecciones");
     });
+    // Ver Hechos
+    app.get("/colecciones/{id}/hechos", ctx -> {
+      Map<String, Object> model = controller.verHechos(ctx);
+    ctx.render("coleccion-hechos.hbs", model);
+    });
     //app.get("/collecciones/mapa", ctx -> ctx.render("mapa.hbs", controller.ubicarHechos(ctx)));
   }
 }

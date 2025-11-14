@@ -84,11 +84,26 @@ public class Coleccion {
     this.repoHechos = repoHechos;
   }
 
+  //public List<Hecho> mostrarHechos() {
+  //  return fuente.extraerHechos().stream()
+  //      .filter(hecho -> cumpleCriterios(hecho))
+  //      .filter(hecho -> !solicitudes.estaEliminado(hecho))
+  //      .toList();
+  //}
   public List<Hecho> mostrarHechos() {
-    return fuente.extraerHechos().stream()
-        .filter(hecho -> cumpleCriterios(hecho))
-        .filter(hecho -> !solicitudes.estaEliminado(hecho))
+    List<Hecho> hechosFuente = fuente.extraerHechos();
+
+    List<Hecho> hechosFiltrados = hechosFuente.stream()
+        .filter(this::cumpleCriterios)
         .toList();
+
+    if (algoritmoConsenso != null && fuente instanceof FuenteAgregada) {
+      return hechosFiltrados.stream()
+          .filter(this::estaConsensuado)
+          .toList();
+    }
+
+    return hechosFiltrados;
   }
 
   public List<Hecho> mostrarHechosFiltrados(Criterio filtro) {
@@ -128,14 +143,24 @@ public class Coleccion {
   }
 
   public void recalcularConsensos() {
-    if (!(fuente instanceof FuenteAgregada fuenteAgregada))
-      return;
-    if (algoritmoConsenso == null)
-      return;
+    if (!(fuente instanceof FuenteAgregada fa)) return;
+    if (algoritmoConsenso == null) return;
 
-    List<Hecho> hechos = fuenteAgregada.extraerHechos();
-    this.hechosConsensuados = hechos.stream()
-        .filter(hecho -> algoritmoConsenso.estaConsensuado(hecho, fuenteAgregada))
+    // Extraemos los hechos una sola vez
+    Map<Fuente, List<Hecho>> hechosPorFuente = fa.getFuentes().stream()
+        .collect(Collectors.toMap(
+            f -> f,
+            f -> {
+              List<Hecho> hechos = f.extraerHechos();
+              return hechos;
+            }
+        ));
+    List<Hecho> todosLosHechos = hechosPorFuente.values().stream()
+        .flatMap(List::stream)
+        .toList();
+
+    this.hechosConsensuados = todosLosHechos.stream()
+        .filter(hecho -> algoritmoConsenso.estaConsensuado(hecho, hechosPorFuente))
         .collect(Collectors.toSet());
   }
 
@@ -232,6 +257,5 @@ public class Coleccion {
   public void setHechosConsensuados(Set<Hecho> hechosConsensuados) {
     this.hechosConsensuados = hechosConsensuados;
   }
-
-
+  public void setSolicitudes(RepoSolicitudes solicitudes) { this.solicitudes = solicitudes; }
 }

@@ -69,8 +69,8 @@ public class ColeccionController  {
         null;
       case "agregada" -> new FuenteAgregada(
           List.of(
-              new FuenteEstaticaIncendios("src/test/resources/fires-all.csv"),
-              new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv"),
+              guardarFuenteSiNoTieneID(new FuenteEstaticaIncendios("src/test/resources/fires-all.csv")),
+              guardarFuenteSiNoTieneID(new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv")),
               fuenteDinamica), repoHechos);
       default -> null;
     };
@@ -80,6 +80,8 @@ public class ColeccionController  {
       model.put("message", "La fuente es obligatoria.");
       return model;
     }
+
+    fuente = guardarFuenteSiNoTieneID(fuente);
 
     Consenso algoritmoConsenso = null;
     if ("ninguno".equals(algoritmoStr) || algoritmoStr == null || algoritmoStr.isBlank()){
@@ -101,8 +103,6 @@ public class ColeccionController  {
 
     repoColecciones.crearColeccion
         (titulo, descripcion, fuente, criterios, algoritmoConsenso, repoHechos);
-
-    //generadorEstadistica.generarTodas(coleccion.getId());
 
     model.put("type", "success");
     model.put("message", "Colección creada correctamente.");
@@ -231,8 +231,8 @@ public class ColeccionController  {
         case "metamapa" -> null;//fuenteMetamapa;
         case "agregada" -> new FuenteAgregada(
              List.of(
-                 new FuenteEstaticaIncendios("src/test/resources/fires-all.csv"),
-                 new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv"),
+                 guardarFuenteSiNoTieneID(new FuenteEstaticaIncendios("src/test/resources/fires-all.csv")),
+                 guardarFuenteSiNoTieneID(new FuenteEstaticaVictimas("src/test/resources/victimas_viales_argentina.csv")),
                  fuenteDinamica), repoHechos);
         default -> null;
       };
@@ -244,13 +244,53 @@ public class ColeccionController  {
       default -> null;
     };
 
+    nuevaFuente = guardarFuenteSiNoTieneID(nuevaFuente);
+
     List<Criterio> nuevosCriterios =  construirCriterios(ctx);
 
     repoColecciones.actualizarColeccion(id, nuevoTitulo, nuevaDescripcion, nuevaFuente, nuevosCriterios, nuevoAlgoritmo);
     ctx.redirect("/colecciones");
   }
 
+  public Map<String, Object> verHechos(Context ctx){
+    Map<String, Object> model = modeloBase(ctx);
+
+    Long coleccionId = Long.valueOf(ctx.pathParam("id"));
+    int pagina = ctx.queryParamAsClass("pagina", Integer.class).getOrDefault(0);
+    int tamanoPagina = 20;
+
+    Coleccion coleccion = repoColecciones.buscarPorId(coleccionId);
+
+    if (coleccion == null) {
+      model.put("error", "Colección no encontrada");
+      return model;
+    }
+    List<Hecho> hechos = repoColecciones.obtenerHechosPaginados(coleccionId, pagina, tamanoPagina);
+    int totalPaginas = repoColecciones.getTotalPaginas(coleccionId, tamanoPagina);
+    int totalHechos = repoColecciones.getTotalHechos(coleccionId);
+
+    model.put("coleccion", coleccion);
+    model.put("hechos", hechos);
+    model.put("paginaActual", pagina);
+    model.put("totalPaginas", totalPaginas);
+    model.put("totalHechos", totalHechos);
+    model.put("paginaAnterior", pagina - 1);
+    model.put("paginaSiguiente", pagina + 1);
+    model.put("tienePaginaAnterior", pagina > 0);
+    model.put("tienePaginaSiguiente", pagina < totalPaginas - 1);
+    model.put("numeroPaginaActual", pagina + 1); // Muestra pàgina 1 (no existe la 0)
+
+    return model;
+    }
+
   private Map<String, String> algoritmo(String id, String nombre) {
     return new HashMap<>(Map.of("id", id, "nombre", nombre));
+  }
+
+  private Fuente guardarFuenteSiNoTieneID(Fuente fuente) {
+    if (fuente.getId() == null) {
+      fuente = repoColecciones.guardarFuente(fuente);
+    }
+    return fuente;
   }
 }

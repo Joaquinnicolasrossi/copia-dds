@@ -1,0 +1,90 @@
+{{#partial "contenido"}}
+    <div class="coleccion-lista">
+        <h1>Hechos de: {{coleccion.titulo}}</h1>
+
+        <p> {{coleccion.descripcion}} </p>
+
+        <div  class="info-box">
+            <span><strong>📊 Total de hechos:</strong> {{totalHechos}}</span>
+            <span><strong>📄 Página:</strong> {{numeroPaginaActual}} de {{totalPaginas}}</span>
+        </div>
+
+        {{#if error}}
+            <p class="error">{{error}}</p>
+        {{else}}
+            {{#if hechos}}
+                <table class="tabla-colecciones">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Categoría</th>
+                        <th>Provincia</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each hechos}}
+                        <tr>
+                            <td>{{id}}</td>
+                            <td><strong>{{titulo}}</strong></td>
+                            <td>
+                                <span class="categoria-badge">
+                                    {{categoria}}
+                                </span>
+                            </td>
+                            <td>
+                                {{#if provincia}}
+                                    {{provincia.nombre}}
+                                {{else}}
+                                    <span class="sin-provincia">Sin provincia</span>
+                                {{/if}}
+                            </td>
+                            <td>{{fecha}}</td>
+                            <td> {{estado}} </td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+
+                <!-- Paginación  de colecciones-->
+                <div class="paginacion">
+                    {{#if tienePaginaAnterior}}
+                        <a href="/colecciones/{{coleccion.id}}/hechos?pagina={{paginaAnterior}}"
+                        class="btn-ver">
+                        ← Anterior
+                        </a>
+                    {{else}}
+                        <button disabled>
+                            ← Anterior
+                        </button>
+                    {{/if}}
+
+                    <span class="pagina-actual">
+                    Página <strong>{{numeroPaginaActual}}</strong> de <strong>{{totalPaginas}}</strong>
+                </span>
+
+                    {{#if tienePaginaSiguiente}}
+                        <a href="/colecciones/{{coleccion.id}}/hechos?pagina={{paginaSiguiente}}"
+                        class="btn-ver">
+                        Siguiente →
+                        </a>
+                    {{else}}
+                        <button disabled>
+                            Siguiente →
+                        </button>
+                    {{/if}}
+                </div>
+            {{else}}
+                <p class="sin-colec">No hay hechos en esta colección</p>
+            {{/if}}
+        {{/if}}
+
+        <div style="margin-top: 30px;">
+            <a href="/colecciones" class="btn-ver">← Volver a colecciones</a>
+        </div>
+    </div>
+{{/partial}}
+
+{{>templates/layout-administrador}}

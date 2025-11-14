@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Map;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -9,24 +10,16 @@ import javax.persistence.Entity;
 @DiscriminatorValue("Multiples_Menciones")
 public class MultiplesMenciones extends Consenso {
   @Override
-  public boolean estaConsensuado(Hecho hecho, Fuente fuenteDelNodo) {
+  public boolean estaConsensuado(Hecho hecho, Map<Fuente, List<Hecho>> hechosPorFuente) {
 
-    // Contamos la cantidad de coincidencias para la primer validaciòn
-    List<Hecho> hechos = fuenteDelNodo.extraerHechos();
-    if (hechos.isEmpty()) {
-      return false;
-    }
-    long coincidencias = hechos.stream()
-        .filter(h -> h.tieneMismoContenidoQue(hecho))
+    long menciones = hechosPorFuente.values().stream()
+        .filter(hechosDeFuente ->
+            hechosDeFuente.stream()
+                .anyMatch(h -> h.tieneMismoContenidoQue(hecho))
+        )
         .count();
 
-    // Verificamos si existe un hecho con el mismo tìtulo pero con diferente
-    // contenido
-    boolean hayConflicto = hechos.stream()
-        .filter(h -> h.getTitulo().equals(hecho.getTitulo()))
-        .anyMatch(h -> !h.tieneMismoContenidoQue(hecho));
-
-    return coincidencias >= 2 && !hayConflicto;
+    return menciones >= 2;
   }
 
   @Override
