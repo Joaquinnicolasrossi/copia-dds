@@ -100,4 +100,19 @@ public class RepoHechos implements WithSimplePersistenceUnit {
     entityManager().getTransaction().commit();
 
   }
+
+    public FuenteDinamica obtenerFuenteDinamica() {
+        List<FuenteDinamica> fuentes = entityManager()
+            .createQuery("from FuenteDinamica", FuenteDinamica.class)
+            .getResultList();
+
+        if (!fuentes.isEmpty()) {
+            return fuentes.get(0);
+        }
+        // si no existe la creo
+        FuenteDinamica nueva = new FuenteDinamica();
+        withTransaction(() -> entityManager().persist(nueva));
+        return nueva;
+    }
+
 }

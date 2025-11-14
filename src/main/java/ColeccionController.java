@@ -102,6 +102,8 @@ public class ColeccionController  {
     repoColecciones.crearColeccion
         (titulo, descripcion, fuente, criterios, algoritmoConsenso, repoHechos);
 
+    //generadorEstadistica.generarTodas(coleccion.getId());
+
     model.put("type", "success");
     model.put("message", "Colección creada correctamente.");
     return model;

@@ -9,11 +9,16 @@ public class RepoSolicitudes implements WithSimplePersistenceUnit {
   }
 
   public void nuevaSolicitud(Hecho hecho, String descripcion) throws Exception {
-    boolean spam = detectorDeSpam.esSpam(descripcion);
-    Solicitud nueva = new Solicitud(hecho, descripcion, this, spam);
-    entityManager().getTransaction().begin();
-    entityManager().persist(nueva);
-    entityManager().getTransaction().commit();
+    withTransaction(() -> {
+      String textoHecho = hecho.getTitulo() + " " + hecho.getDescripcion();
+      boolean spam = detectorDeSpam.esSpam(textoHecho);
+      Solicitud nueva = new Solicitud(hecho, descripcion, this, spam);
+      nueva.setEsSpam(spam);
+      if (spam) {
+        nueva.marcarComoSpam();
+      }
+      entityManager().persist(nueva);
+    });
   }
 
   public void eliminarSolicitud(Solicitud solicitud) {
@@ -30,7 +35,7 @@ public class RepoSolicitudes implements WithSimplePersistenceUnit {
 
   public List<Solicitud> getSolicitudesPendientes() {
     return entityManager()
-        .createQuery("from Solicitud s where s.eliminado = false ", Solicitud.class)
+        .createQuery("from Solicitud s where s.eliminado = false AND s.descripcion NOT LIKE 'SPAM:%'", Solicitud.class)
         .getResultList();
   }
 

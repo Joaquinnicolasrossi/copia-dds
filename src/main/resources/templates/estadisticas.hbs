@@ -2,7 +2,7 @@
     <div class="coleccion-lista">
         <h1>Estadísticas Generales</h1>
         <form action="/estadisticas/generar" method="post" style="margin-bottom: 20px;">
-            <button type="submit" class="btn-ver"">
+            <button type="submit" class="btn-ver">
                 🔄 Regenerar Todas las Estadísticas
             </button>
         </form>
@@ -40,21 +40,27 @@
                             {{/if}}
                         </td>
                         <td>
-                            {{#if estadisticasProvinciaPorCategoria}}
-                                <div class="estadisticas_categoria">
-                                    <strong>{{@key}}:</strong>
-                                    <span style="color: #666;">({{this.cantidad}} hechos)</span>
-                                </div>
+                            {{#if estadisticaProvinciaMasHechosPorCategoria}}
+                                {{#each estadisticaProvinciaMasHechosPorCategoria}}
+                                    <div class="estadisticas_categoria">
+                                        <strong>{{@key}}:</strong>
+                                        {{this.valor}}
+                                        <span style="color: #666;">({{this.cantidad}} hechos)</span>
+                                    </div>
+                                {{/each}}
                             {{else}}
                                 <span>-</span>
                         {{/if}}
                         </td>
                         <td>
-                            {{#if estadisticasHoraPorCategoria}}
-                                <div class="estadisticas_categoria">
-                                    <strong>{{@key}}:</strong>
-                                    <span style="color: #666;">({{this.cantidad}} hechos)</span>
-                                </div>
+                            {{#if estadisticaHoraMasHechosPorCategoria}}
+                                {{#each estadisticaHoraMasHechosPorCategoria}}
+                                    <div class="estadisticas_categoria">
+                                        <strong>{{@key}}:</strong>
+                                        {{this.valor}}
+                                        <span style="color: #666;">({{this.cantidad}} hechos)</span>
+                                    </div>
+                                {{/each}}
                             {{else}}
                                 <span>-</span>
                             {{/if}}

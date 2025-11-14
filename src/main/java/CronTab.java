@@ -45,12 +45,12 @@ public class CronTab {
 
         case "recalcularestadistica":
           DetectorDeSpam spam2 = new DetectorDeSpamFiltro();
-
-          RepoEstadistica repoEstadistica = new RepoEstadistica();
-          GeneradorEstadistica generador = new GeneradorEstadistica(repoEstadistica);
-
           RepoSolicitudes repoSolicitudes2 = new RepoSolicitudes(spam2);
           RepoColecciones repoColecciones2 = new RepoColecciones(repoSolicitudes2);
+
+          RepoEstadistica repoEstadistica = new RepoEstadistica();
+          GeneradorEstadistica generador = new GeneradorEstadistica(repoEstadistica, repoColecciones2);
+
 
           List<Long> idColecciones = repoColecciones2.getIdsColecciones();
           idColecciones.forEach(generador::generarTodas);

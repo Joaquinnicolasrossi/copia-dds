@@ -34,7 +34,9 @@ public class RepoProvincias implements WithSimplePersistenceUnit {
   }
 
   public void guardar(Provincia provincia) {
-    em().persist(provincia);
+    withTransaction(() -> {
+      em().persist(provincia);
+    });
   }
 
   public Provincia findOrCreate(String nombre) {

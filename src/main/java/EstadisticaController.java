@@ -38,10 +38,6 @@ public class EstadisticaController {
     // Obtenemos todas las colecciones y ejecutamos todas las estadisticas
     List<Coleccion> colecciones = repoColecciones.getColecciones();
 
-    colecciones.forEach(coleccion -> {
-      generadorEstadistica.generarTodas(coleccion.getId());
-    });
-
     for (Coleccion coleccion: colecciones){
       Long coleccionId = coleccion.getId();
 

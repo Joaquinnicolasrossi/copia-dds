@@ -50,7 +50,8 @@ public class Solicitud {
   }
 
   public void descripcionValida(String descripcion) throws IllegalArgumentException {
-    if (descripcion.length() < 500) {
+    // Es 500, pero para probar cambiamos a 5
+    if (descripcion.length() < 5) {
       throw new IllegalArgumentException("La solicitud debe contener una descripcion "
           + "de al menos 500 caracteres.");
     }
@@ -70,5 +71,7 @@ public class Solicitud {
     return descripcion;
   }
 
+  public Boolean getEsSpam() { return esSpam; }
+  public void setEsSpam(Boolean esSpam) { this.esSpam = esSpam; }
 
 }

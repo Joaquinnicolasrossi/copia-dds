@@ -21,12 +21,12 @@ public class Server {
     RepoProvincias repoProvincias = new RepoProvincias();
     RepoHechos repoHechos = new RepoHechos(repoProvincias);
     RepoEstadistica repoEstadistica = new RepoEstadistica();
-    GeneradorEstadistica generadorEstadistica = new GeneradorEstadistica(repoEstadistica);
-    RepoMultimedia repoMultimedia = new RepoMultimedia();
-    HechoController hechoController = new HechoController(repoHechos, repoMultimedia, repoProvincias, repoSolicitudes);
-    RepoUsuario repoUsuario = new RepoUsuario();
     RepoColecciones repoColecciones = new RepoColecciones(repoSolicitudes);
-    FuenteDinamica fuenteDinamica = new FuenteDinamica();
+    GeneradorEstadistica generadorEstadistica = new GeneradorEstadistica(repoEstadistica, repoColecciones);
+    RepoMultimedia repoMultimedia = new RepoMultimedia();
+    FuenteDinamica fuenteDinamica = repoHechos.obtenerFuenteDinamica();
+    HechoController hechoController = new HechoController(repoHechos, repoMultimedia, repoProvincias, repoSolicitudes, fuenteDinamica);
+    RepoUsuario repoUsuario = new RepoUsuario();
     UsuarioController usuarioController = new UsuarioController(repoHechos,repoUsuario);
     EstadisticaController estadisticaController = new EstadisticaController(repoEstadistica, generadorEstadistica, repoColecciones);
 

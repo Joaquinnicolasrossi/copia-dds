@@ -159,8 +159,9 @@ public class RepoEstadistica implements WithSimplePersistenceUnit {
   }
 
   public void guardarEstadistica(EstadisticaRegistro registro) {
-    em().persist(registro);
-  }
+    withTransaction(() -> {
+      entityManager().persist(registro);
+    });  }
 
   public List<String> categoriasPorColeccion(Long coleccionId) {
     String jpql = "SELECT DISTINCT h.categoria " +

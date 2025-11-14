@@ -19,13 +19,15 @@ public class HechoController {
   private final RepoMultimedia repoMultimedia;
   private final RepoProvincias repoProvincias;
   private final RepoSolicitudes repoSolicitudes;
+  private final FuenteDinamica fuenteDinamica;
 
   public HechoController(RepoHechos repoHechos, RepoMultimedia repoMultimedia, RepoProvincias repoProvincias,
-                         RepoSolicitudes reporSolicitudes) {
+                         RepoSolicitudes reporSolicitudes, FuenteDinamica fuenteDinamica) {
     this.repoHechos = repoHechos;
     this.repoMultimedia = repoMultimedia;
     this.repoProvincias = repoProvincias;
     this.repoSolicitudes = reporSolicitudes;
+    this.fuenteDinamica = fuenteDinamica;
   }
 
   public Map<String, Object> crear(Context ctx) {
@@ -38,6 +40,7 @@ public class HechoController {
       LocalDateTime fecha = LocalDateTime.parse(ctx.formParam("fecha"));
       Double latitud = Double.valueOf(ctx.formParam("latitud"));
       Double longitud = Double.valueOf(ctx.formParam("longitud"));
+      String provinciaNombre = GeocodingService.obtenerProvinciaDesdeCoordenadas(latitud, longitud);
       List<UploadedFile> archivos = ctx.uploadedFiles("multimedia");
 
       if (!(this.validarCantidadArchivos(archivos) || this.validarTamanioArchivos(archivos))) {
@@ -70,6 +73,7 @@ public class HechoController {
           .setTitulo(titulo)
           .setDescripcion(descripcion)
           .setCategoria(categoria)
+          .setProvincia(provinciaNombre)
           .setLatitud(latitud)
           .setLongitud(longitud)
           .setFecha(fecha)
@@ -77,7 +81,7 @@ public class HechoController {
           .setEstado(Estado.PENDIENTE)
           .build(repoProvincias);
       hecho.setUsuario(usuarioActual);
-
+      hecho.setFuenteOrigen(fuenteDinamica);
 
       archivosMultimedia.forEach(m -> m.setHecho(hecho));
       hecho.setMultimedia(archivosMultimedia);
@@ -87,6 +91,8 @@ public class HechoController {
       archivosMultimedia.forEach(repoMultimedia::crearMultimedia);
       SolicitudRevision solicitudRevision = new SolicitudRevision(hecho, hecho.getUsuario());
       repoSolicitudes.nuevaSolicitudRevision(solicitudRevision);
+      String descripcionSolicitud = "SPAM: " + hecho.getTitulo();
+      repoSolicitudes.nuevaSolicitud(hecho, descripcionSolicitud);
       model.put("type", "success");
       model.put("message", "Hecho creado correctamente.");
       return model;

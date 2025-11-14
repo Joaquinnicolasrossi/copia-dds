@@ -27,7 +27,7 @@ public class Coleccion {
   @ManyToOne
   @JoinColumn(name = "provincia_id")
   private Provincia provincia;
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne
   @JoinColumn(name = "fuente_id")
   public Fuente fuente;
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
