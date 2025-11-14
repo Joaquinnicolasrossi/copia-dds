@@ -33,6 +33,7 @@ public class HechoController {
   public Map<String, Object> crear(Context ctx) {
     Map model = modeloBase(ctx);
     Usuario usuarioActual = ctx.sessionAttribute("usuarioActual");
+    FuenteDinamica fuenteDinamicaAsociada = repoHechos.obtenerFuenteDinamica();
     try {
       String titulo = ctx.formParam("titulo");
       String descripcion = ctx.formParam("descripcion");
@@ -81,7 +82,7 @@ public class HechoController {
           .setEstado(Estado.PENDIENTE)
           .build(repoProvincias);
       hecho.setUsuario(usuarioActual);
-      hecho.setFuenteOrigen(fuenteDinamica);
+      hecho.setFuenteOrigen(fuenteDinamicaAsociada);
 
       archivosMultimedia.forEach(m -> m.setHecho(hecho));
       hecho.setMultimedia(archivosMultimedia);
@@ -252,6 +253,7 @@ public class HechoController {
       model.put("fecha", hecho.getFecha().toLocalDate());
       model.put("descripcion", hecho.getDescripcion());
       model.put("multimedia", hecho.getMultimedia());
+      model.put("id",hecho.getId());
     } catch (Exception e) {
       e.printStackTrace();
       return model;
