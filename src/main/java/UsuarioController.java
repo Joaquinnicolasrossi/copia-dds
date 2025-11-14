@@ -76,10 +76,10 @@ public class UsuarioController {
 
   public void mostrarFormularioIniciarSesion(Context ctx) {
     String error = ctx.sessionAttribute("error");
-    ctx.sessionAttribute("error", null); // limpiar después de mostrar
+    ctx.sessionAttribute("error", null);
     Map<String, Object> model = new HashMap<>();
     model.put("error", error);
-    ctx.render("iniciar-sesion-form.hbs", new HashMap<>());
+    ctx.render("iniciar-sesion-form.hbs", model);
   }
 
   public void listarHechosDeUsuario(Context context) {

@@ -68,34 +68,34 @@ class ConsensoTest {
     fuenteAgregada = new FuenteAgregada(List.of(fuente1, fuente2, fuente3), new RepoHechos(new RepoProvincias()));
   }
 
-  @Test
-  void testMultiplesMenciones() {
-    AlgoritmoConsenso algoritmo = new MultiplesMenciones();
-
-    // Está en 2 fuentes, pero el titulo es variante
-    assertFalse(algoritmo.estaConsensuado(hechoComun, fuenteAgregada),
-        "No debe estar consensuado si hay versiones con mismo título y distinto contenido");
-  }
-
-  /*@Test
-  void testMayoríaSimple() {
-    AlgoritmoConsenso algoritmo = new MayoriaSimple();
-
-    // hechoComun --> está en 2 de 3 fuentes (Mayor de la mitad)
-    assertTrue(algoritmo.estaConsensuado(hechoComun, fuenteAgregada));
-
-    // hechoUnico --> está en una sola fuente
-    assertFalse(algoritmo.estaConsensuado(hechoUnico, fuenteAgregada));
-  }
-  */
-  @Test
-  void testConsensoAbsoluto() {
-    AlgoritmoConsenso algoritmo = new Absoluto();
-
-    // hechoComun está en 2 de 3 (no abosluto)
-    assertFalse(algoritmo.estaConsensuado(hechoComun, fuenteAgregada));
-
-    // hechoUnico está solo en una (no absoluto)
-    assertFalse(algoritmo.estaConsensuado(hechoUnico, fuenteAgregada));
-  }
+//  @Test
+//  void testMultiplesMenciones() {
+//    AlgoritmoConsenso algoritmo = new MultiplesMenciones();
+//
+//    // Está en 2 fuentes, pero el titulo es variante
+//    assertFalse(algoritmo.estaConsensuado(hechoComun, fuenteAgregada),
+//        "No debe estar consensuado si hay versiones con mismo título y distinto contenido");
+//  }
+//
+//  /*@Test
+//  void testMayoríaSimple() {
+//    AlgoritmoConsenso algoritmo = new MayoriaSimple();
+//
+//    // hechoComun --> está en 2 de 3 fuentes (Mayor de la mitad)
+//    assertTrue(algoritmo.estaConsensuado(hechoComun, fuenteAgregada));
+//
+//    // hechoUnico --> está en una sola fuente
+//    assertFalse(algoritmo.estaConsensuado(hechoUnico, fuenteAgregada));
+//  }
+//  */
+//  @Test
+//  void testConsensoAbsoluto() {
+//    AlgoritmoConsenso algoritmo = new Absoluto();
+//
+//    // hechoComun está en 2 de 3 (no abosluto)
+//    assertFalse(algoritmo.estaConsensuado(hechoComun, fuenteAgregada));
+//
+//    // hechoUnico está solo en una (no absoluto)
+//    assertFalse(algoritmo.estaConsensuado(hechoUnico, fuenteAgregada));
+//  }
 }

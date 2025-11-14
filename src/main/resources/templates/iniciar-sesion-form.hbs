@@ -11,6 +11,11 @@
             <input type="password" name="contrasena" id="password" required>
 
             <button type="submit">Ingresar</button>
+             {{#if error}}
+                      <div class="alert alert-danger">
+                        {{error}}
+                      </div>
+                      {{/if}}
         </form>
 
         <p>¿No tienes cuenta? <a href="/usuario/formRegistro">Regístrate</a></p>
