@@ -225,6 +225,18 @@ public class HechoController {
       if (fechaStr != null && !fechaStr.isBlank()) {
         hechoBuilder.setFechaCarga(LocalDateTime.parse(fechaStr, formatter));
       }
+      String latStr = context.formParam("latitud");
+      String lonStr = context.formParam("longitud");
+      if (latStr != null && lonStr != null && !latStr.isBlank() && !lonStr.isBlank()) {
+        try {
+          double latitud = Double.parseDouble(latStr);
+          double longitud = Double.parseDouble(lonStr);
+          hechoBuilder.setLatitud(latitud);
+          hechoBuilder.setLongitud(longitud);
+        } catch (NumberFormatException e) {
+          context.queryParam("error");
+        }
+      }
 
       if (hecho.getUsuario() == null) {
         throw new Exception("El usuario no está registrado.");
