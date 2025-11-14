@@ -55,6 +55,10 @@ public class Hecho {
 
   }
 
+  public Usuario getUsuario() {
+    return usuario;
+  }
+
   public Long getId() {
     return id;
   }
@@ -69,6 +73,38 @@ public class Hecho {
     this.fecha = fecha;
     this.fechaCarga = fechaCarga;
     this.estado = estado;
+  }
+
+  public void setCategoria(String categoria) {
+    this.categoria = categoria;
+  }
+
+  public void setDescripcion(String descripcion) {
+    this.descripcion = descripcion;
+  }
+
+  public void setFecha(LocalDateTime fecha) {
+    this.fecha = fecha;
+  }
+
+  public void setFechaCarga(LocalDateTime fechaCarga) {
+    this.fechaCarga = fechaCarga;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public void setLatitud(Double latitud) {
+    this.latitud = latitud;
+  }
+
+  public void setTitulo(String titulo) {
+    this.titulo = titulo;
+  }
+
+  public void setLongitud(Double longitud) {
+    this.longitud = longitud;
   }
 
   public Fuente getFuenteOrigen() {
@@ -159,6 +195,42 @@ public class Hecho {
     private Estado estado;
     private String provinciaNombre;
 
+    public String getCategoria() {
+      return categoria;
+    }
+
+    public String getDescripcion() {
+      return descripcion;
+    }
+
+    public Estado getEstado() {
+      return estado;
+    }
+
+    public LocalDateTime getFecha() {
+      return fecha;
+    }
+
+    public Double getLatitud() {
+      return latitud;
+    }
+
+    public LocalDateTime getFechaCarga() {
+      return fechaCarga;
+    }
+
+    public Double getLongitud() {
+      return longitud;
+    }
+
+    public String getProvinciaNombre() {
+      return provinciaNombre;
+    }
+
+    public String getTitulo() {
+      return titulo;
+    }
+
     public HechoBuilder setTitulo(String titulo) {
       this.titulo = titulo;
       return this;
@@ -217,7 +289,7 @@ public class Hecho {
     }
   }
 
-  public Hecho actualizarHecho(Hecho original, Hecho.HechoBuilder actualizacion, RepoProvincias repoProvincias) {
+  public void actualizarHecho(Hecho original, Hecho.HechoBuilder actualizacion, RepoProvincias repoProvincias) {
     Hecho.HechoBuilder combinado = new Hecho.HechoBuilder()
         .setTitulo(actualizacion.titulo != null ? actualizacion.titulo : original.getTitulo())
         .setDescripcion(actualizacion.descripcion != null ? actualizacion.descripcion : original.getDescripcion())
@@ -225,7 +297,7 @@ public class Hecho {
         .setLatitud(actualizacion.latitud != null ? actualizacion.latitud : original.getLatitud())
         .setLongitud(actualizacion.longitud != null ? actualizacion.longitud : original.getLongitud())
         .setFecha(actualizacion.fecha != null ? actualizacion.fecha : original.getFecha())
-        .setFechaCarga(original.getFechaCarga())
+        .setFechaCarga(actualizacion.fechaCarga != null ? actualizacion.fechaCarga : original.getFechaCarga())
         .setEstado(original.getEstado());
 
     if (actualizacion.provinciaNombre != null) {
@@ -234,7 +306,14 @@ public class Hecho {
       combinado.setProvincia(original.getProvincia().getNombre());
     }
 
-    return combinado.build(repoProvincias);
+    Hecho combinadoHecho =  combinado.build(repoProvincias);
+    original.setTitulo(combinadoHecho.getTitulo());
+    original.setDescripcion(combinadoHecho.getDescripcion());
+    original.setCategoria(combinadoHecho.getCategoria());
+    original.setLatitud(combinadoHecho.getLatitud());
+    original.setLongitud(combinadoHecho.getLongitud());
+    original.setFechaCarga(combinadoHecho.getFechaCarga());
+    original.setProvincia(combinadoHecho.getProvincia());
   }
 
   public Provincia getProvincia() {

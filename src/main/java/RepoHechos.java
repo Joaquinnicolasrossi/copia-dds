@@ -2,7 +2,7 @@ import java.util.List;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 public class RepoHechos implements WithSimplePersistenceUnit {
-  private RepoProvincias repoProvincias;
+  private final RepoProvincias repoProvincias;
 
   public RepoHechos(RepoProvincias repoProvincias) {
     this.repoProvincias = repoProvincias;
@@ -52,20 +52,25 @@ public class RepoHechos implements WithSimplePersistenceUnit {
   }
 
   public Hecho obtenerPorId(Long id) {
-      return entityManager().find(Hecho.class, id);
+    return entityManager().find(Hecho.class, id);
   }
   public List<Hecho> obtenerHechosPorUsuario(Long userId) {
-    return createQuery(
-            "SELECT h FROM Hecho h WHERE h.usuario.id = :userId", Hecho.class)
+    return entityManager()
+        .createQuery(
+            "SELECT h FROM hecho h " +
+                "WHERE h.usuario.id = :userId " +
+                "AND h.estado IN (:estados)",
+            Hecho.class)
         .setParameter("userId", userId)
+        .setParameter("estados", List.of(Estado.PENDIENTE, Estado.ACEPTADA_CON_SUGERENCIAS))
         .getResultList();
   }
 
   public List<Hecho> obtenerPorCategoria(String categoria) {
     return
 
-        createQuery( "SELECT h FROM Hecho h WHERE LOWER(h.categoria) = LOWER(:categoria)", Hecho.class).
-        setParameter("categoria",categoria).getResultList();
+        createQuery( "SELECT h FROM hecho h WHERE LOWER(h.categoria) = LOWER(:categoria)", Hecho.class).
+            setParameter("categoria",categoria).getResultList();
 
   }
 
@@ -83,22 +88,17 @@ public class RepoHechos implements WithSimplePersistenceUnit {
 
   public Hecho findById(long hechoid) {
     return entityManager().createQuery(
-            "SELECT h FROM Hecho h WHERE h.id = :hechoid", Hecho.class)
+            "SELECT h FROM hecho h WHERE h.id = :hechoid", Hecho.class)
         .setParameter("hechoid", hechoid).getSingleResult();
   }
-
 
   public void saveUpdate(Hecho hechoOriginal, Hecho.HechoBuilder hechoBuilder)
   {
     entityManager().getTransaction().begin();
-
-    Hecho actualizado = hechoOriginal.actualizarHecho(hechoOriginal, hechoBuilder, repoProvincias);
-    entityManager().merge(actualizado);
-
+    hechoOriginal.actualizarHecho(hechoOriginal, hechoBuilder, repoProvincias);
+    entityManager().merge(hechoOriginal);
+    System.out.println("Fecha nueva: " + hechoBuilder.getFechaCarga());
     entityManager().getTransaction().commit();
 
   }
-
-
-
 }

@@ -1,0 +1,36 @@
+{{#partial "contenido"}}
+<h1 class="form-titulo">Aplicar sugerencias</h1>
+{{#if error}}
+  <div class="alerta-error">
+    {{error}}
+  </div>
+{{/if}}
+
+{{#if mensaje}}
+  <div class="alerta-exito">
+    {{mensaje}}
+  </div>
+{{/if}}
+<form action="/solicitud/{{id}}/revision/aceptar-sugerencia" method="post" class="form-editar">
+    <label for="titulo">Título</label>
+    <input type="text" id="titulo" name="titulo" value="{{titulo}}" placeholder="Título del hecho" >
+
+    <label for="descripcion">Descripción</label>
+    <textarea id="descripcion" name="descripcion" placeholder="Descripción del hecho" >{{descripcion}}</textarea>
+
+    <label for="categoria">Categoría</label>
+    <input type="text" id="categoria" name="categoria" value="{{categoria}}" placeholder="Categoría">
+
+    <label for="latitud">Latitud</label>
+    <input type="text" id="latitud" name="latitud" value="{{latitud}}" placeholder="Latitud">
+
+    <label for="longitud">Longitud</label>
+    <input type="text" id="longitud" name="longitud" value="{{longitud}}" placeholder="Longitud">
+
+    <button type="submit">Aplicar sugerencias</button>
+</form>
+
+
+{{/partial}}
+
+{{>templates/layout-administrador}}

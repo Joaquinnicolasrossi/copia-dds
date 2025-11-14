@@ -1,0 +1,51 @@
+{{#partial "contenido"}}
+<h1>Solicitudes de Revisión</h1>
+
+{{#if solicitudesRevision}}
+    <table class="tabla-solicitudes">
+        <thead>
+            <tr>
+                <th>ID Hecho</th>
+                <th>Solicitante</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {{#each solicitudesRevision}}
+        <tr>
+            <td>{{this.hecho.id}}</td>
+
+            <td>
+                {{#if hecho.usuario}}
+                    {{hecho.usuario.nombre}}
+                {{else}}
+                    Anónimo
+                {{/if}}
+            </td>
+
+            <td>{{this.hecho.estado}}</td>
+            <td class="acciones">
+                <form action="/solicitud/{{this.id}}/revision/aceptar" method="post" style="display:inline;">
+                    <button type="submit" class="btn-aceptar">Aceptar</button>
+                </form>
+
+                <form action="/solicitud/{{this.id}}/sugerencias" method="get" style="display:inline;">
+                  <button type="submit" class="btn-aceptar-sug">Aceptar con sugerencia</button>
+                </form>
+
+                <form action="/solicitud/{{this.id}}/revision/rechazar" method="post" style="display:inline;">
+
+                    <button type="submit" class="btn-rechazar">Rechazar</button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+        </tbody>
+    </table>
+{{else}}
+    <p>No hay solicitudes de revisión.</p>
+{{/if}}
+{{/partial}}
+
+{{> templates/layout-administrador}}

@@ -1,27 +1,31 @@
 import io.javalin.http.Context;
 import io.javalin.http.UploadedFile;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.jetbrains.annotations.NotNull;
 
 public class HechoController {
   private final RepoHechos repoHechos;
   private final RepoMultimedia repoMultimedia;
   private final RepoProvincias repoProvincias;
+  private final RepoSolicitudes repoSolicitudes;
 
-  public HechoController(RepoHechos repoHechos, RepoMultimedia repoMultimedia, RepoProvincias repoProvincias) {
+  public HechoController(RepoHechos repoHechos, RepoMultimedia repoMultimedia, RepoProvincias repoProvincias,
+                         RepoSolicitudes reporSolicitudes) {
     this.repoHechos = repoHechos;
     this.repoMultimedia = repoMultimedia;
     this.repoProvincias = repoProvincias;
+    this.repoSolicitudes = reporSolicitudes;
   }
 
   public Map<String, Object> crear(Context ctx) {
@@ -41,7 +45,7 @@ public class HechoController {
         model.put("message", "Error: los archivos exceden los limites");
         return model;
       }
-      ;
+
       List<Multimedia> archivosMultimedia = new ArrayList<>();
       archivos.forEach(a -> {
         try {
@@ -81,8 +85,8 @@ public class HechoController {
       repoHechos.guardarHecho(hecho);
 
       archivosMultimedia.forEach(repoMultimedia::crearMultimedia);
-
-
+      SolicitudRevision solicitudRevision = new SolicitudRevision(hecho, hecho.getUsuario());
+      repoSolicitudes.nuevaSolicitudRevision(solicitudRevision);
       model.put("type", "success");
       model.put("message", "Hecho creado correctamente.");
       return model;
@@ -173,36 +177,66 @@ public class HechoController {
     context.render("hechos-filtrados.hbs", model);
   }
 
-  public void mostrarFormularioEditar( Context context) {
+  public void mostrarFormularioEditar(Context context) {
 
     Long id = Long.parseLong(context.pathParam("id"));
 
     Hecho hecho = repoHechos.obtenerPorId(id);
 
-    Map<String,Object> model = new HashMap<>();
-    model.put("id",id);
+    Map<String, Object> model = new HashMap<>();
+    model.put("id", id);
+    String error = context.queryParam("error");
+    if (error != null) model.put("error", error);
 
-  context.render("hecho-editar.hbs",model);
-  }
+    String success = context.queryParam("success");
+    if (success != null) model.put("mensaje", "Hecho actualizado con éxito");
 
-  public void actualizarHecho( Context context) {
-
-    Long id = Long.parseLong(context.pathParam("id"));
-    Hecho hecho = repoHechos.obtenerPorId(id);
-
-    Map<String,Object> model = new HashMap<>();
-    Hecho.HechoBuilder hechoBuilder = new Hecho.HechoBuilder().
-        setCategoria(context.formParam("categoria"))
-            .setDescripcion(context.formParam("descripcion")).
-        setTitulo(context.formParam("titulo"));
-
-
-     hecho.actualizarHecho(hecho,hechoBuilder,repoProvincias);
-
-    context.render("hecho-editar.hbs",model);
-
+    context.render("hecho-editar.hbs", model);
 
   }
+
+  public void actualizarHecho(Context context) {
+    try {
+      FuenteDinamica fuenteDinamica = new FuenteDinamica(repoHechos, repoSolicitudes);
+      Long id = Long.parseLong(context.pathParam("id"));
+      Hecho hecho = repoHechos.obtenerPorId(id);
+
+      Map<String, Object> model = new HashMap<>();
+      Hecho.HechoBuilder hechoBuilder = new Hecho.HechoBuilder();
+
+      String categoria = context.formParam("categoria");
+      if (categoria != null && !categoria.isBlank()) hechoBuilder.setCategoria(categoria);
+
+      String descripcion = context.formParam("descripcion");
+      if (descripcion != null && !descripcion.isBlank()) hechoBuilder.setDescripcion(descripcion);
+
+      String titulo = context.formParam("titulo");
+      if (titulo != null && !titulo.isBlank()) hechoBuilder.setTitulo(titulo);
+
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+      String fechaStr = context.formParam("fechaCarga");
+      if (fechaStr != null && !fechaStr.isBlank()) {
+        hechoBuilder.setFechaCarga(LocalDateTime.parse(fechaStr, formatter));
+      }
+
+      if (hecho.getUsuario() == null) {
+        throw new Exception("El usuario no está registrado.");
+      }
+
+      if (!hecho.estaDentroDePlazoDeEdicion()) {
+        throw new Exception("El plazo para modificar este hecho ha expirado.");
+      }
+
+      fuenteDinamica.actualizarHecho(hecho, hechoBuilder, hecho.getUsuario());
+      context.redirect("/hechos/" + id + "/editar?success=true");
+
+    } catch (Exception e) {
+      Long id = Long.parseLong(context.pathParam("id"));
+      String mensajeError = URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8);
+      context.redirect("/hechos/" + id + "/editar?error=" + mensajeError);
+    }
+  }
+
   public Map<String, Object> obtenerHecho(Context ctx) {
     Map<String, Object> model = modeloBase(ctx);
     try {

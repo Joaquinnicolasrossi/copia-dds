@@ -1,5 +1,4 @@
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RepoSolicitudes implements WithSimplePersistenceUnit {
@@ -66,18 +65,18 @@ public class RepoSolicitudes implements WithSimplePersistenceUnit {
     entityManager().getTransaction().commit();
   }
 
-
-
-
-
-
-  public void nuevaSolicitudRevision(Hecho hecho) {
-    entityManager().persist(hecho);
+  public void nuevaSolicitudRevision(SolicitudRevision solicitudRevision) {
+    entityManager().getTransaction().begin();
+    entityManager().persist(solicitudRevision);
+    entityManager().getTransaction().commit();
   }
 
   public void eliminarSolicitudRevision(SolicitudRevision solicitudRevision) {
+    entityManager().getTransaction().begin();
     entityManager().remove(solicitudRevision);
+    entityManager().getTransaction().commit();
   }
+
   public SolicitudRevision getSolicitudPorHecho(Hecho hecho) {
     return entityManager()
         .createQuery("from SolicitudRevision s where s.hecho = :hecho", SolicitudRevision.class)
@@ -87,10 +86,14 @@ public class RepoSolicitudes implements WithSimplePersistenceUnit {
   }
 
   public List<SolicitudRevision> getRevisiones() {
-    return entityManager()
-        .createQuery("from SolicitudRevision", SolicitudRevision.class)
+    return createQuery(
+        "FROM SolicitudRevision s WHERE s.hecho.estado = 'PENDIENTE'", SolicitudRevision.class)
         .getResultList();
   }
 
-
+  public SolicitudRevision findById(Long id) {
+    return entityManager().createQuery("FROM SolicitudRevision s WHERE s.id = :id", SolicitudRevision.class)
+        .setParameter("id", id)
+        .getSingleResult();
+  }
 }

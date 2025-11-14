@@ -1,0 +1,105 @@
+body {
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+h1.form-titulo {
+  text-align: center;
+  margin: 30px 0 20px;
+  color: #2c3e50;
+}
+
+/* ======== FORMULARIO ======== */
+.form-editar {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 25px 35px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-editar label {
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+.form-editar input[type="text"],
+.form-editar textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  resize: vertical;
+}
+
+.form-editar input[type="text"]:focus,
+.form-editar textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* ======== BOTÓN ======== */
+.form-editar button {
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.form-editar button:hover {
+  background-color: #0056b3;
+}
+
+.form-editar button:active {
+  transform: scale(0.97);
+}
+
+/* ======== ALERTAS ======== */
+.alerta-error,
+.alerta-exito {
+  max-width: 600px;
+  margin: 10px auto 20px;
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.alerta-error {
+  background-color: #fdecea;
+  color: #c0392b;
+  border: 1px solid #e6b0aa;
+}
+
+.alerta-exito {
+  background-color: #eafaf1;
+  color: #27ae60;
+  border: 1px solid #a9dfbf;
+}
+
+/* ======== RESPONSIVE ======== */
+@media (max-width: 700px) {
+  .form-editar {
+    padding: 20px;
+  }
+
+  h1.form-titulo {
+    font-size: 1.4rem;
+  }
+}

@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -65,7 +64,7 @@ public class Usuario {
     if (estaRegistrado) {
       hecho.setUsuario(this);
     }
-    fuente.subirHecho(hecho);
+    fuente.crearSolicitud(hecho);
   }
 
   public void registrarse() {

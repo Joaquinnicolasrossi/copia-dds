@@ -17,14 +17,14 @@ public class Server {
       initializeStaticFiles(config);
       initializeTemplating(config);
     });
+    RepoSolicitudes repoSolicitudes = new RepoSolicitudes(new DetectorDeSpamFiltro());
     RepoProvincias repoProvincias = new RepoProvincias();
     RepoHechos repoHechos = new RepoHechos(repoProvincias);
     RepoEstadistica repoEstadistica = new RepoEstadistica();
     GeneradorEstadistica generadorEstadistica = new GeneradorEstadistica(repoEstadistica);
     RepoMultimedia repoMultimedia = new RepoMultimedia();
-    HechoController hechoController = new HechoController(repoHechos, repoMultimedia, repoProvincias);
+    HechoController hechoController = new HechoController(repoHechos, repoMultimedia, repoProvincias, repoSolicitudes);
     RepoUsuario repoUsuario = new RepoUsuario();
-    RepoSolicitudes repoSolicitudes = new RepoSolicitudes(new DetectorDeSpamFiltro());
     RepoColecciones repoColecciones = new RepoColecciones(repoSolicitudes);
     FuenteDinamica fuenteDinamica = new FuenteDinamica();
     UsuarioController usuarioController = new UsuarioController(repoHechos,repoUsuario);
