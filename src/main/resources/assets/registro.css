@@ -1,4 +1,13 @@
 /* Reset básico */
+:root {
+  --primary: #6699ff;
+  --primary-hover: #4d88ff;
+  --secondary: #f4f4f4;
+  --secondary-hover: #e5e5e5;
+  --black: #333;
+  --red: #fc3728;
+  --white: #fff;
+}
 * {
     margin: 0;
     padding: 0;
@@ -8,8 +17,8 @@
 /* Cuerpo de la página */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    color: #333;
+    background-color: var(--secondary);
+    color: var(--black);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,7 +27,7 @@ body {
 
 /* Contenedor del formulario */
 .container {
-    background-color: #fff;
+    background-color: var(--white);
     padding: 30px 40px;
     border-radius: 10px;
     box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
@@ -30,14 +39,13 @@ body {
 h1 {
     margin-bottom: 20px;
     text-align: center;
-    color: #6699ff; /* color llamativo */
 }
 
 /* Etiquetas y inputs */
 label {
     display: block;
     margin-bottom: 5px;
-    font-weight: bold;
+
 }
 
 input[type="text"],
@@ -54,7 +62,7 @@ input[type="password"] {
 button {
     width: 100%;
     padding: 10px;
-    background-color: #6699ff;
+    background-color: var(--primary);
     color: white;
     border: none;
     border-radius: 5px;
@@ -64,19 +72,20 @@ button {
 }
 
 button:hover {
-    background-color: #3366cc;
+    background-color: var(--primary-hover);
 }
 
 /* Mensajes de error */
 p.error {
-    color: red;
+    color: var(--red);
     margin-bottom: 15px;
     text-align: center;
 }
 
 /* Link a login */
 p a {
-    color: #6699ff;
+    margin: 2px;
+    color: var(--primary);
     text-decoration: none;
 }
 

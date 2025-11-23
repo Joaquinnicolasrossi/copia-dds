@@ -1,3 +1,13 @@
+:root {
+  --primary: #6699ff;
+  --primary-hover: #4d88ff;
+  --secondary: #f4f4f4;
+  --secondary-hover: #e5e5e5;
+  --black: #333;
+  --red: #fc3728;
+  --white: #fff;
+}
+
 *{
   padding :0;
   margin:0;
@@ -5,7 +15,7 @@
   font-family: Arial, sans-serif;
 }
 .navbar {
-    background-color: #6699ff;
+    background-color: var(--primary);
     padding: 10px;
     display: flex;
     justify-content: space-between;
@@ -31,7 +41,7 @@
   font-size: 16px;
 }
 .navbar .search-bar {
-    background-color: #f4f4f4;
+    background-color: var(--secondary);
     border-radius: 20px;
 }
 
@@ -39,9 +49,9 @@
     width: 25px;
     height: 25px;
     padding: 1px;
-    background-color: #f4f4f4;
+    background-color: var(--secondary);
     border: none;
-    color: #6699ff;
+    color: var(--secondary);
     font-size: 14px;
     font-weight: 700px;
     border-radius: 50px;
@@ -50,7 +60,7 @@
 }
 
 .form-container button:hover {
-    background-color: #3366cc;
+    background-color: var(--primary-hover);
 }
 
 .navbar-menu {
@@ -62,14 +72,14 @@
 }
 
 .navbar-menu li a {
-    color: white;
+    color:  var(--white);
     text-decoration: none;
     padding: 5px ;
     transition: background-color 0.3s ease;
 }
 
 .navbar-menu li a:hover {
-    background-color: #3366cc;
+    background-color: var(--primary-hover);
     border-radius: 5px;
 }
 
@@ -81,7 +91,7 @@
   display: none;
   position: absolute;
   top: 100%;
-  background-color: #f4f4f4;
+  background-color:  var(--secondary);
   width:100%;
   min-width: 100px;
   border-radius: 5px;
@@ -93,14 +103,14 @@
 .navbar-menu .dropdown-menu li a {
   display: block;
   padding: 10px;
-  color: #6699ff;
+  color:  var(--primary);
   font-size: 15px;
   text-decoration: none;
 }
 
 .navbar-menu .dropdown-menu li a:hover {
-  background-color: #3366cc;
-  color: #f4f4f4;
+  background-color: var(--primary-hover);
+  color:  var(--secondary);
 }
 
 .navbar-menu .dropdown:hover .dropdown-menu {
@@ -111,7 +121,7 @@ body {
     margin: 0;
 }
 .render-container {
-    background-color: #f4f4f4;
+    background-color: var(--secondary);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -128,7 +138,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #fff;
+    background-color: var(--white);
     padding: 30px 40px;
     border-radius: 10px;
     box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
@@ -166,7 +176,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: white;
+  background-color:  var(--white);
   cursor: pointer;
 }
 
@@ -177,8 +187,8 @@ body {
 
 .form-container input[type="file"]::file-selector-button {
   padding: 5px 10px;
-  background-color: #6699ff;
-  color: white;
+  background-color:  var(--primary);
+  color:  var(--white);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -189,9 +199,9 @@ body {
 .form-container button {
     width: 100%;
     padding: 10px;
-    background-color: #6699ff;
+    background-color:  var(--primary);
     border: none;
-    color: white;
+    color:  var(--white);
     font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
@@ -199,11 +209,11 @@ body {
 }
 
 .form-container button:hover {
-    background-color: #3366cc;
+    background-color: var(--primary-hover);
 }
 
 .solicitud-eliminacion-form button {
-    background-color: #fc3728
+    background-color: var(--red);
 }
 
 .solicitud-eliminacion-form button:hover {
@@ -225,6 +235,7 @@ body {
     justify-content: center;
     align-items: center;
     background-color: #fff;
+    margin: 10px;
     padding: 30px 40px;
     border-radius: 10px;
     box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
@@ -357,7 +368,7 @@ body {
     display: block;
     font-weight: 600;
     margin-bottom: 8px;
-    color: #333333;
+    color: var(--black);
     font-size: 14px;
 }
 
@@ -412,7 +423,7 @@ body {
 }
 
 .btn-guardar:hover {
-    background-color: #3366cc;
+    background-color: var(--primary-hover);
 }
 
 .btn-cancelar {
@@ -472,7 +483,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    background-color: #fff;
+    background-color: var(--white);
     padding: 2px;
     border-radius: 10px;
     box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
@@ -504,9 +515,9 @@ body {
 .solicitud-container button {
     width: 64px;
     padding: 10px;
-    background-color: #6699ff;
+    background-color: var(--primary);
     border: none;
-    color: white;
+    color: var(--white);
     font-size: 12px;
     border-radius: 5px;
     cursor: pointer;
@@ -514,7 +525,10 @@ body {
 }
 
 .solicitud-container .eliminar-solicitud-btn {
-    background-color: #fc3728
+    background-color: var(--secondary);
+    border: 1px solid var(--primary);
+    color: var(--primary);
+
 }
 
 .solicitud-container .eliminar-solicitud-btn:hover {
@@ -526,7 +540,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    background-color: #fff;
+    background-color: var(--white);
     padding: 30px 40px;
     border-radius: 10px;
     box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
@@ -555,10 +569,10 @@ body {
     font-size: 16px;
 }
 .hecho-container button {
-    background-color: #e74c3c;
+    background-color: var(--red);
     border: none;
     padding: 8px 12px;
-    color: white;
+    color: var(--white);
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
@@ -620,7 +634,7 @@ body {
 }
 
 .info-box strong {
-    color: #333;
+    color: var(--black);
 }
 
 .sin-provincia {
@@ -640,7 +654,7 @@ body {
 .paginacion .btn-ver {
     padding: 10px 20px;
     background: #2196f3;
-    color: white;
+    color: var(--white);
     text-decoration: none;
     border-radius: 4px;
     transition: background 0.3s;

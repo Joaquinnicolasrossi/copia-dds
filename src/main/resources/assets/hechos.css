@@ -1,7 +1,17 @@
+:root {
+  --primary: #6699ff;
+  --primary-hover: #4d88ff;
+  --secondary: #f4f4f4;
+  --secondary-hover: #e5e5e5;
+  --black: #333;
+  --red: #fc3728;
+  --white: #fff;
+}
+
 .hecho-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 30px;
     padding: 0;
     list-style: none;
 }
@@ -16,6 +26,13 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+    padding: 10px;
+}
+
+.hecho-card a {
+    text-decoration: none;
+    color: var(--black);
+    margin: 2px;
 }
 
 /* ------------------- NUEVO: Título + Botón arriba ------------------- */
@@ -34,6 +51,8 @@
     word-break: break-word;     /* Título largo no rompe el diseño */
     flex: 1;                    /* Toma el espacio disponible */
 }
+
+
 
 /* Botón editar estilo mejorado */
 .btn-editar {

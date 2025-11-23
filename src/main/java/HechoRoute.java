@@ -18,7 +18,7 @@ public class HechoRoute implements Router {
       Map<String, Object> model = controller.crear(ctx);
       ctx.render("alert.hbs", model);
     });
-    app.get("/hechos/mapa", ctx -> ctx.render("mapa.hbs", controller.ubicarHechos(ctx)));
+    app.get("/", ctx -> ctx.render("home.hbs", controller.ubicarHechos(ctx)));
     app.get("/hechos/{id}/solicitar-eliminacion", ctx -> {
       Map<String, Object> model = new HashMap<>();
       model.put("hecho-id", ctx.pathParam("id"));
