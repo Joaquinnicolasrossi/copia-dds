@@ -144,7 +144,7 @@ public class ColeccionController  {
 
     // Lista de algoritmos de consenso disponibles
     model.put("algoritmosConsenso", List.of(
-        Map.of("id", "ninguno", "nombre", "fSin consenso (todos los hechos son válidos)"),
+        Map.of("id", "ninguno", "nombre", "Sin consenso (todos los hechos son válidos)"),
         Map.of("id", "multiplesm", "nombre", "Múltiples menciones (al menos 2 fuentes)"),
         Map.of("id", "mayoria", "nombre", "Mayoría simple (más de la mitad)"),
         Map.of("id", "absoluta", "nombre", "Absoluta (todas las fuentes coinciden)")

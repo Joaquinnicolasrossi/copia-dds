@@ -2,10 +2,10 @@
         <div class="form-container">
             <h1> Crear Coleccion </h1>
             <form class="hecho-form" id="coleccionForm" action="/colecciones" method="post">
-                <label>Título:</label>
+                <label>Título</label>
                 <input type="text" name="titulo" placeholder="Ingrese un titulo" required><br>
 
-                <label>Descripción:</label>
+                <label>Descripción</label>
                 <textarea name="descripcion" placeholder="Ingrese una descripción" required></textarea><br>
 
                 <label>Tipo de fuente</label>
@@ -35,10 +35,10 @@
                 <label>Categoria (opcional)</label>
                 <input type="text" name="categoria" placeholder="Ej: Incendio forestal..">
 
-                <label for="fechaInicio">Fecha desde:</label>
+                <label for="fechaInicio">Fecha desde</label>
                 <input type="date" id="fechaInicio" name="fechaDesde">
 
-                <label for="fechaFin">Fecha hasta:</label>
+                <label for="fechaFin">Fecha hasta</label>
                 <input type="date" id="fechaFin" name="fechaHasta">
                 <hr><br>
                 <div id="errorFecha" class="error_validacion_fechas"></div>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="form-acciones">
                     <button type="submit">Crear colección</button>
-                    <button type="button" class="eliminar-solicitud-btn" onclick="window.location.href='/colecciones'">❌ Cancelar</button>
+                    <button type="button" class="secondary-btn" onclick="window.location.href='/colecciones'">Cancelar</button>
                 </div>
             </form>
         </div>

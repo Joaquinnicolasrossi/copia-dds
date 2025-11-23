@@ -41,7 +41,7 @@
   font-size: 16px;
 }
 .navbar .search-bar {
-    background-color: var(--secondary);
+    background-color: var(--white);
     border-radius: 20px;
 }
 
@@ -117,8 +117,9 @@
   display: block;
 }
 
-body {
+html, body {
     margin: 0;
+    background-color: var(--secondary);
 }
 .render-container {
     background-color: var(--secondary);
@@ -126,7 +127,6 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
     padding-top: 40px;
     padding-left: 20px;
     padding-right: 20px;
@@ -165,6 +165,16 @@ body {
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+.form-container select {
+    display:block;
+    width: 100%;
+    padding: 10px,
+    border: 1px solid #ccc;
+    border-radius: 5px
+    font-size: 16px;
+    background-color: var(--white);
 }
 
 .form-container .file-input-wrapper {
@@ -206,6 +216,12 @@ body {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+.form-container .secondary-btn {
+    background-color: var(--secondary);
+    color: var(--primary);
+    border: 1px solid var(--primary);
 }
 
 .form-container button:hover {
@@ -465,6 +481,7 @@ body {
 
 /*Solcitudes*/
 .solicitudes-lista {
+background-color:red;
     display: flex;
     flex-direction: column;
     align-items: center;
