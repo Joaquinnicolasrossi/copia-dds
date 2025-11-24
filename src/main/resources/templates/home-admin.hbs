@@ -1,6 +1,6 @@
 {{#partial "contenido"}}
-    <h1> Bienvenido, {{nombre}}! </h1>
-    <p> Accediste como <strong>{{rol}}</strong>. </p>
+    <h1> Bienvenido, {{usuarioActual.nombre}}! </h1>
+      <p> Accediste como <strong>{{usuarioActual.tipoUsuario}}</strong>. </p>
 {{/partial}}
 
 {{>templates/layout-administrador}}

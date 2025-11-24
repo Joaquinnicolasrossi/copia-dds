@@ -23,10 +23,14 @@
             <button type="submit">🔍</button>
         </form>
         <ul class="navbar-menu">
+            {{#if usuarioActual}}
             <li><a href="/hechos/nuevo">Crear hecho</a></li>
-             {{#if usuarioActual}}
                  <li><a href="/usuario/{{usuarioActual.id}}/hechos">Ver mis Hechos</a></li>
+                  {{else}}
+                  <li><a href="/hechos/nuevo">Crear hecho</a></li>
              {{/if}}
+
+
             <li class="dropdown">
                 <a href="#">Perfil</a>
                 <ul class="dropdown-menu">

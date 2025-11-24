@@ -1,22 +1,38 @@
-body {
-  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: #f5f7fa;
-  margin: 0;
-  padding: 0;
-  color: #333;
+:root {
+  --primary: #6699ff;
+  --primary-hover: #4d88ff;
+  --secondary: #f4f4f4;
+  --secondary-hover: #e5e5e5;
+  --black: #333;
+  --red: #fc3728;
+  --white: #fff;
 }
 
+/* GLOBAL */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--secondary);
+  color: var(--black);
+}
+
+/* TÍTULO */
 h1.form-titulo {
   text-align: center;
   margin: 30px 0 20px;
-  color: #2c3e50;
+  color: var(--black);
 }
 
 /* ======== FORMULARIO ======== */
 .form-editar {
   max-width: 600px;
   margin: 0 auto;
-  background: #fff;
+  background: var(--white);
   padding: 25px 35px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
@@ -27,7 +43,7 @@ h1.form-titulo {
 
 .form-editar label {
   font-weight: 600;
-  color: #444;
+  color: var(--black);
   margin-bottom: 5px;
 }
 
@@ -45,14 +61,14 @@ h1.form-titulo {
 .form-editar input[type="text"]:focus,
 .form-editar textarea:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  border-color: var(--primary);
+  box-shadow: 0 0 5px rgba(102, 153, 255, 0.3); /* sombra usando primary */
 }
 
 /* ======== BOTÓN ======== */
 .form-editar button {
-  background-color: #007bff;
-  color: white;
+  background-color: var(--primary);
+  color: var(--white);
   font-weight: 600;
   border: none;
   padding: 12px;
@@ -62,7 +78,7 @@ h1.form-titulo {
 }
 
 .form-editar button:hover {
-  background-color: #0056b3;
+  background-color: var(--primary-hover);
 }
 
 .form-editar button:active {
@@ -83,13 +99,13 @@ h1.form-titulo {
 
 .alerta-error {
   background-color: #fdecea;
-  color: #c0392b;
+  color: var(--red);
   border: 1px solid #e6b0aa;
 }
 
 .alerta-exito {
   background-color: #eafaf1;
-  color: #27ae60;
+  color: #27ae60; /* podés agregar --green si querés */
   border: 1px solid #a9dfbf;
 }
 

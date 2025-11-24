@@ -53,8 +53,6 @@ public class UsuarioController {
     ctx.sessionAttribute("usuarioActual", usuario);
     if (usuario.getTipoUsuario() == TipoUsuario.ADMINISTRADOR) {
       Map<String, Object> model = new HashMap<>();
-      model.put("nombre", usuario.getNombre());
-      model.put("rol", "Administrador");
       model.put("usuarioActual", usuario);
       ctx.render("home-admin.hbs", model);
     } else {

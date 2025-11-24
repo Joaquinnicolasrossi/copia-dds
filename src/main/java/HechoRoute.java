@@ -13,9 +13,17 @@ public class HechoRoute implements Router {
       Map<String, Object> model = controller.listar(ctx);
       ctx.render("search-page.hbs", model);
     });
-    app.get("/hechos/nuevo", ctx -> ctx.render("hecho-form.hbs"));
+    app.get("/hechos/nuevo", ctx -> {
+      Usuario usuarioActual = ctx.sessionAttribute("usuarioActual");
+
+      Map<String, Object> model = new HashMap<>();
+      model.put("usuarioActual", usuarioActual);
+
+      ctx.render("hecho-form.hbs", model);
+    });
     app.post("/hechos", ctx -> {
       Map<String, Object> model = controller.crear(ctx);
+
       ctx.render("alert.hbs", model);
     });
     app.get("/", ctx -> ctx.render("home.hbs", controller.ubicarHechos(ctx)));
