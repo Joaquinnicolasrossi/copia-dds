@@ -1,6 +1,6 @@
 {{#partial "contenido"}}
         <div class="form-container">
-            <h1> Crear Coleccion </h1>
+            <h1>Crear coleccion</h1>
             <form class="hecho-form" id="coleccionForm" action="/colecciones" method="post">
                 <label>Título</label>
                 <input type="text" name="titulo" placeholder="Ingrese un titulo" required><br>
@@ -12,26 +12,25 @@
                     <div class="radio-group">
                         <label>
                             <input type="radio" name="tipoFuente" value="estatica-incendios" checked required onchange="toggleAlgoritmoConsenso()">
-                            <span class="dot"></span> Estática (Incendios)
+                            Estática (Incendios)
                         </label>
                         <label>
                             <input type="radio" name="tipoFuente" value="dinamica" onchange="toggleAlgoritmoConsenso()">
-                            <span class="dot"></span> Dinámica
+                            Dinámica
                         </label>
                         <label>
                             <input type="radio" name="tipoFuente" value="estatica-victimas" required onchange="toggleAlgoritmoConsenso()">
-                            <span class="dot"></span> Estática (victimas)
+                            Estática (Victimas)
                         </label>
                         <label>
                             <input type="radio" name="tipoFuente" value="metamapa" onchange="toggleAlgoritmoConsenso()">
-                            <span class="dot"></span> Metamapa
+                            Metamapa
                         </label>
                         <label>
                             <input type="radio" name="tipoFuente" value="agregada" onchange="toggleAlgoritmoConsenso()">
-                            <span class="dot"></span> Fuente Agregada
+                            Agregada
                         </label>
                     </div>
-                <hr><br>
                 <label>Categoria (opcional)</label>
                 <input type="text" name="categoria" placeholder="Ej: Incendio forestal..">
 
@@ -40,7 +39,7 @@
 
                 <label for="fechaFin">Fecha hasta</label>
                 <input type="date" id="fechaFin" name="fechaHasta">
-                <hr><br>
+
                 <div id="errorFecha" class="error_validacion_fechas"></div>
                 <div>
                 <label>Algoritmo de consenso</label>
@@ -53,7 +52,7 @@
                 </div>
                 <div class="form-acciones">
                     <button type="submit">Crear colección</button>
-                    <button type="button" class="secondary-btn" onclick="window.location.href='/colecciones'">Cancelar</button>
+                    <button type="button" class="solicitud-eliminacion-form" onclick="window.location.href='/colecciones'">Cancelar</button>
                 </div>
             </form>
         </div>

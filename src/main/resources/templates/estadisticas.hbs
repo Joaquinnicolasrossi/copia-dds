@@ -1,12 +1,12 @@
 {{#partial "contenido"}}
-    <div class="coleccion-lista">
-        <h1>Estadísticas Generales</h1>
-        <form action="/estadisticas/generar" method="post" style="margin-bottom: 20px;">
-            <button type="submit" class="btn-ver">
-                🔄 Regenerar Todas las Estadísticas
+ <!--  <form action="/estadisticas/generar" method="post">
+            <button type="submit" class="btn-regenerar">
+                🔄 Regenerar
             </button>
-        </form>
-
+    <</form>
+  -->
+    <div class="solicitudes-lista">
+        <h1>Estadísticas Generales</h1>
         {{#if colecciones}}
             <table class="tabla-colecciones">
                 <thead>
@@ -79,7 +79,7 @@
         {{else}}
             <p class="sin-colec">No hay colecciones disponibles</p>
         {{/if}}
-    </div>
+        </div>
 {{/partial}}
 
 {{>templates/layout-administrador}}

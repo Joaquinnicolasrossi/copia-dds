@@ -9,20 +9,73 @@
 }
 
 .login-page {
+    background-color: var(--white);
     display: flex;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: var(--secondary);
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 1200px;
+    gap: 10px;
+}
+
+.login-page form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-page label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.login-page input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: border 0.2s ease;
+}
+
+.login-page input:focus {
+    outline: none;
+    border: 1px solid var(--primary);
+    box-shadow: 0 0 3px rgba(76, 139, 245, 0.4);
+}
+
+.login-page button {
+    padding: 12px;
+    background: var(--primary);
+    border: none;
+    color: white;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+}
+
+.login-page button:hover {
+    background: var(--primary-hover);
 }
 
 .login-container {
     background-color: var(--white);
-    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 50px;
     border-radius: 10px;
     box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
-    height: 350px;
     width: 100%;
-    max-width: 400px;
+    max-width: 350px;
+    gap: 15px;
+    margin: 40px auto;
 }
 
 /* Solo afecta títulos dentro del login */

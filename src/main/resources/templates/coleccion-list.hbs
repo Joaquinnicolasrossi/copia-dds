@@ -1,13 +1,12 @@
 {{#partial "contenido"}}
-
-  <div class="coleccion-lista">
+    <div class="solicitudes-lista">
       <h1> Listado de colecciones</h1>
 
         {{#if colecciones}}
         <table class="tabla-colecciones">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Coleccion</th>
                     <th>Tìtulo</th>
                     <th>Descripciòn</th>
                     <th>Tipo de Fuente</th>
@@ -32,7 +31,7 @@
         {{else}}
             <p class="sin-colec">No hay colecciones creadas</p>
         {{/if}}
-  </div>
+    </div>
 {{/partial}}
 
 {{>templates/layout-administrador}}

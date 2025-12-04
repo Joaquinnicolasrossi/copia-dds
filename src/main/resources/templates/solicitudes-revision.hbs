@@ -1,11 +1,13 @@
 {{#partial "contenido"}}
-<h1>Solicitudes de Revisión</h1>
+    <div class="solicitudes-lista">
+        <h1>Solicitudes de revisión</h1>
 
 {{#if solicitudesRevision}}
-    <table class="tabla-solicitudes">
+
+        <table class="tabla-colecciones">
         <thead>
             <tr>
-                <th>ID Hecho</th>
+                <th>Hecho</th>
                 <th>Solicitante</th>
                 <th>Estado</th>
                 <th>Acciones</th>
@@ -43,9 +45,11 @@
         {{/each}}
         </tbody>
     </table>
+    </div>
 {{else}}
     <p>No hay solicitudes de revisión.</p>
 {{/if}}
+
 {{/partial}}
 
 {{> templates/layout-administrador}}

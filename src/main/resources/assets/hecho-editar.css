@@ -1,32 +1,50 @@
 /* Contenedor del formulario */
 .form-editar {
-    max-width: 500px;
-    margin: 30px auto;      /* Centrado */
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-/* Campos de texto */
-.form-editar input[type="text"],
-.form-editar textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-family: inherit;
-    resize: none; /* Evita que textarea se expanda */
+.form-editar label {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--black);
 }
 
-/* Área de texto ajustable automáticamente */
+.form-editar input,
 .form-editar textarea {
-    min-height: 120px;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: 0.2s ease;
+}
+
+.form-editar textarea {
+    min-height: 100px;
+}
+
+.form-editar input,
+.form-editar textarea,
+.form-editar button {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.editar-hecho-container {
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 1200px;
+    gap: 20px;
 }
 
 /* Botón de guardar */
@@ -39,7 +57,7 @@
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    align-self: flex-end;
+    align-self: center;
 }
 
 .form-editar button:hover {

@@ -1,8 +1,7 @@
 {{#partial "contenido"}}
   <div class="login-page">
-    <div class="login-container">
         <h1>Iniciar Sesión</h1>
-
+      <br>
         <form action="/usuario/login" method="post">
             <label for="email">Correo electrónico</label>
             <input type="text" name="email" id="email" required>
@@ -17,10 +16,10 @@
                       </div>
                       {{/if}}
         </form>
+      <br>
 
         <p>¿No tienes cuenta? <a href="/usuario/formRegistro">Regístrate</a></p>
     </div>
-  </div>
 {{/partial}}
 
 {{> templates/layout }}

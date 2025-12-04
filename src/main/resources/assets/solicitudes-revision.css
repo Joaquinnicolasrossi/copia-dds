@@ -1,3 +1,14 @@
+:root {
+    --primary: #6699ff;
+    --primary-hover: #4d88ff;
+    --secondary: #f4f4f4;
+    --secondary-hover: #e5e5e5;
+    --black: #333;
+    --red: #fc3728;
+    --red-hover: #fd4f43;
+    --white: #fff;
+}
+
 h1 {
     text-align: center;
     margin-bottom: 20px;
@@ -13,10 +24,10 @@ h1 {
 }
 
 .tabla-solicitudes th {
-    background-color: #4c8bf5;
+    background-color: var(--primary);
     color: white;
     padding: 12px;
-    text-align: left;
+    text-align: center;
 }
 
 .tabla-solicitudes td {
@@ -31,25 +42,34 @@ h1 {
 .acciones {
     display: flex;
     gap: 10px;
+    justify-content: center;
+    align-items:center;
 }
 
-button {
-    padding: 6px 10px;
+.acciones button {
+    display: inline-block;
+    padding: 8px 18px;
+    margin: 0;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 0.9rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s ease;
+    white-space: nowrap;
+    transition: 0.18s ease-in-out;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
 
 /* ✅ Botón Aceptar */
 .btn-aceptar {
-    background-color: #28a745;
-    color: white;
+    background-color: var(--primary);
+    color: var(--white);
 }
 
 .btn-aceptar:hover {
-    background-color: #1e7e34;
+    background-color: var(--primary-hover);
 }
 
 /* ✅ Botón Aceptar con Sugerencia */
@@ -64,10 +84,10 @@ button {
 
 /* ✅ Botón Rechazar */
 .btn-rechazar {
-    background-color: #dc3545;
+    background-color: var(--red);
     color: white;
 }
 
 .btn-rechazar:hover {
-    background-color: #a71d2a;
+    background-color: var(--red-hover);
 }

@@ -1,5 +1,6 @@
 {{#partial "contenido"}}
-<h1 class="form-titulo">Editar Hecho</h1>
+    <div class="editar-hecho-container">
+<h1>Editar Hecho</h1>
 {{#if error}}
   <div class="alerta-error">
     {{error}}
@@ -23,10 +24,10 @@
 
 
         <input type="text" id="longitud" name="longitud" value="{{longitud}}" placeholder="Longitud">
-
+    <br>
     <button type="submit">Guardar cambios</button>
 </form>
-
+    </div>
 
 {{/partial}}
 

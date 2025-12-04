@@ -1,7 +1,6 @@
 {{#partial "contenido"}}
-    <div class="form-container coleccion-form">
+    <div class="form-container">
             <h1>Editar colección</h1>
-
             {{#if coleccion}}
                 <form class="hecho-form" id="coleccionForm" action="/colecciones/{{coleccion.id}}/actualizar" method="post">
                         <label for="titulo">Título:</label>
@@ -17,7 +16,6 @@
                                 </label>
                             {{/each}}
                         </div>
-                    <hr><br>
                         <label for="categoria">Categoria (Opcional)</label>
                         <input type="text" id="categoria" name="categoria" placeholder="Ej: Incendio forestal..">
                         <label for="fechaDesde">Fecha desde:</label>
@@ -25,22 +23,22 @@
                         <label for="fechaHasta">Fecha hasta:</label>
                         <input type="date" id="fechaHasta" name="fechaHasta">
                         <div id="errorFecha" class="error_validacion_fechas"></div>
-                    <hr><br>
                         <label>Algoritmo de consenso:</label>
                         <select name="algoritmoConsenso">
                             {{#each algoritmosConsenso}}
                                 <option value="{{id}}" {{selected}}>{{nombre}}</option>
                             {{/each}}
                         </select>
+                    <small style="color: white;">Solo disponible para fuentes agregadas.</small>
                     <div class="form-acciones">
-                        <button type="submit">💾 Guardar</button>
-                        <button type="button" class="eliminar-solicitud-btn" onclick="window.location.href='/colecciones'">❌ Cancelar</button>
+                        <button type="submit">Guardar</button>
+                        <button type="button" onclick="window.location.href='/colecciones'" class="solicitud-eliminacion-form">Cancelar</button>
                     </div>
                 </form>
+            </div>
             {{else}}
                 <p class="sin-colec">No se encontró la colección.</p>
             {{/if}}
-        </div>
     <script>
         document.getElementById('coleccionForm').addEventListener('submit', function(e) {
             const fechaDesde = document.getElementById('fechaInicio').value;

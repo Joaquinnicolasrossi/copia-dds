@@ -5,6 +5,7 @@
   --secondary-hover: #e5e5e5;
   --black: #333;
   --red: #fc3728;
+  --red-hover: #fd4f43;
   --white: #fff;
 }
 
@@ -34,7 +35,6 @@
 }
 .navbar .search-form input[type="search"] {
   flex-grow: 1;
-  border: none;
   padding: 8px 10px;
   border: 1px solid #ccc;
   outline: none;
@@ -53,7 +53,7 @@
     border: none;
     color: var(--secondary);
     font-size: 14px;
-    font-weight: 700px;
+    font-weight: 700;
     border-radius: 50px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -134,16 +134,16 @@ html, body {
 
 /*Forms*/
 .form-container {
+    background-color: var(--white);
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    background-color: var(--white);
     padding: 30px 40px;
     border-radius: 10px;
-    box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     width: 100%;
-    max-width: 400px;
+    max-width: 1200px;
+    gap: 10px;
 }
 
 .form-container label {
@@ -170,9 +170,9 @@ html, body {
 .form-container select {
     display:block;
     width: 100%;
-    padding: 10px,
+    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px
+    border-radius: 5px;
     font-size: 16px;
     background-color: var(--white);
 }
@@ -228,12 +228,13 @@ html, body {
     background-color: var(--primary-hover);
 }
 
-.solicitud-eliminacion-form button {
-    background-color: var(--red);
+.solicitud-eliminacion-form {
+    background-color: var(--red) !important;
+    border: 1px solid var(--red);
+    color: var(--white);
 }
-
-.solicitud-eliminacion-form button:hover {
-    background-color: #fa7166
+.solicitud-eliminacion-form:hover {
+    background-color: var(--red-hover) !important;
 }
 
 /*Mapa*/
@@ -293,7 +294,7 @@ html, body {
 }
 
 .tabla-colecciones thead{
-    background: #4c8bf5;
+    background: var(--primary);
     color:white;
 }
 
@@ -327,7 +328,7 @@ html, body {
 
 .radio-group {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 15px;
     margin: 10px 0 20px 0;
@@ -348,7 +349,7 @@ html, body {
     -webkit-appearance: none;
     width: 18px;
     height: 18px;
-    border: 2px solid #4c8bf5;
+    border: 2px solid var(--primary);
     border-radius: 50%;
     position: relative;
     cursor: pointer;
@@ -356,12 +357,12 @@ html, body {
 }
 
 .radio-group input[type="radio"]:checked {
-    background-color: #4c8bf5;
+    background-color: var(--primary);
     box-shadow: inset 0 0 0 3px #fff;
 }
 
 .radio-group input[type="radio"]:hover {
-    border-color: #2f6de1;
+    border-color: var(--primary-hover);
 }
 
 .hr{
@@ -404,7 +405,7 @@ html, body {
 .form-group textarea:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #4c8bf5;
+    border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(76, 139, 245, 0.1);
 }
 
@@ -428,13 +429,14 @@ html, body {
 .btn-guardar {
     flex: 1;
     padding: 12px 24px;
-    background-color: #4c8bf5;
+    background-color: var(--primary);
     color: white;
     border: none;
     border-radius: 6px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
+    text-decoration: none;
     transition: background-color 0.2s ease;
 }
 
@@ -469,28 +471,33 @@ html, body {
     transition: background-color 0.2s ease;
 }
 
+.btn-regenerar {
+    display: flex;
+    justify-content: flex-start;
+    width: fit-content;
+    margin-left: 20px;
+}
+
 .btn-ver, .btn-editar {
-    background: #007bff;
+    background: var(--primary);
     color: white;
 }
 
-.btn-ver:hover, .btn-editar:hover {
-    background: #0056b3;
+.btn-ver:hover, .btn-editar:hover, btn-regenerar:hover {
+    background: var(--primary-hover);
 }
-
 
 /*Solcitudes*/
 .solicitudes-lista {
-background-color:red;
+    background-color: var(--white);
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #fff;
     padding: 30px 40px;
     border-radius: 10px;
     box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
     width: 100%;
-    max-width: 800px;
+    max-width: 1200px;
     gap: 10px;
 }
 .solicitud-container {
@@ -541,15 +548,19 @@ background-color:red;
     transition: background-color 0.3s ease;
 }
 
+.solicitud-container button:hover {
+    background-color: var(--primary-hover);
+}
+
 .solicitud-container .eliminar-solicitud-btn {
-    background-color: var(--secondary);
-    border: 1px solid var(--primary);
-    color: var(--primary);
+    background-color: var(--red);
+    border: 1px solid var(--red);
+    color: var(--white);
 
 }
 
 .solicitud-container .eliminar-solicitud-btn:hover {
-    background-color: #fa7166
+    background-color: var(--red-hover);
 }
 
 /*Hecho*/
@@ -596,7 +607,7 @@ background-color:red;
 }
 
 .hecho-container button:hover {
-    background-color: #c0392b;
+    background-color: var(--red-hover);
 }
 .hecho-galeria {
   display: grid;
@@ -619,12 +630,12 @@ background-color:red;
     margin-bottom: 5px;
     padding: 4px;
     background: #f0f8ff;
-    border-left: 3px solid #4c8bf5;
+    border-left: 3px solid var(--primary);
 }
 
 .error_validacion_fechas {
     display:none;
-    color: #a94442;
+    color: var(--red);
     background-color: #f2dede;
     border: 1px solid #ebccd1;
     padding: 8px;
@@ -670,7 +681,7 @@ background-color:red;
 
 .paginacion .btn-ver {
     padding: 10px 20px;
-    background: #2196f3;
+    background: var(--primary);
     color: var(--white);
     text-decoration: none;
     border-radius: 4px;
@@ -678,7 +689,7 @@ background-color:red;
 }
 
 .paginacion .btn-ver:hover {
-    background: #1976d2;
+    background: var(--primary-hover);
 }
 
 .paginacion button:disabled {
@@ -695,20 +706,72 @@ background-color:red;
     padding: 10px 20px;
     background: #e3f2fd;
     border-radius: 4px;
-    color: #1976d2;
+    color: var(--primary);
     font-weight: 500;
 }
 
 .error {
     background: #ffebee;
-    color: #c62828;
+    color: var(--red);
     padding: 15px;
     border-radius: 4px;
-    border-left: 4px solid #c62828;
+    border-left: 4px solid var(--red);
     margin-bottom: 20px;
 }
 
 .btn-volver {
     margin-top: 30px;
     display: inline-block;
+}
+
+/* Estadisticas */
+.estadisticas-lista {
+    width: 100%;
+    padding: 30px 50px;
+    box-sizing: border-box;
+}
+
+.estadisticas-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.tabla-colecciones thead {
+background: var(--primary);
+    color: white;
+}
+
+.tabla-colecciones thead th {
+    font-weight: 600;
+    padding: 14px 10px;
+    border: none;
+}
+
+.tabla-colecciones thead th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.tabla-colecciones thead th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.tabla-colecciones tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.tabla-colecciones td {
+    padding: 12px 10px;
+    vertical-align: top;
+}
+
+.tabla-colecciones td div,
+.tabla-colecciones td span,
+.tabla-colecciones td p {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
 }
