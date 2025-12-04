@@ -3,6 +3,7 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 public class Main {
   public static void main(String[] args) {
     configurePersistence();
+    System.out.println(">>> MAIN EJECUTADO");
     new Server().start(); // solo inicia Javalin
   }
 

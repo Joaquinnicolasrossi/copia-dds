@@ -54,12 +54,8 @@ public class Server {
     for (Router router : routers) {
       router.configure(app);
     }
-
     app.start(getRailwayAssignedPort());
-
   }
-
-
 
   private void initializeTemplating(JavalinConfig config) {
     config.fileRenderer(

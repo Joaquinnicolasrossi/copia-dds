@@ -8,6 +8,7 @@ public class CronTab {
 
   public static void main(String[] args) {
     try {
+      System.out.println(">>> CRONTAB EJECUTADO");
       configurePersistence();
       String tarea = args.length == 0 ? "all" : args[0];
 
