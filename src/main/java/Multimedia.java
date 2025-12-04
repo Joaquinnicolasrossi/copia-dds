@@ -61,4 +61,12 @@ public class Multimedia {
   public void setUrl(String url) {
     this.url = url;
   }
+
+  public boolean esImagen() {
+    return this.tipo != null && this.tipo.startsWith("image/");
+  }
+
+  public boolean esVideo() {
+    return this.tipo != null && this.tipo.startsWith("video/");
+  }
 }

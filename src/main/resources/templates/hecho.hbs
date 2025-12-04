@@ -12,11 +12,17 @@
                 {{#if multimedia}}
                     {{#each multimedia}}
                         <div class="hecho-imagen">
-                            <img class="hecho-img" src="/{{this.url}}" alt="Imagen del hecho" style="max-width: 100%; height: auto;">
+                            {{#if this.esVideo}}
+                                <video class="hecho-img" controls style="max-width: 100%; height: auto;">
+                                    <source src="/{{this.url}}" type="{{this.tipo}}">
+                                </video>
+                            {{else}}
+                                <img class="hecho-img" src="/{{this.url}}" alt="Imagen del hecho" style="max-width: 100%; height: auto;">
+                            {{/if}}
                         </div>
                     {{/each}}
                 {{else}}
-                    <p>Este hecho no tiene imágenes.</p>
+                    <p>Este hecho no tiene archivos multimedia.</p>
                 {{/if}}
             </div>
 

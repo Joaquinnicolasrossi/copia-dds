@@ -12,7 +12,14 @@
                             <h2 class="hecho-title">{{titulo}}</h2>
                         </a>
                         {{#if multimedia}}
-                            <img class="hecho-img" src="/{{this.multimedia.0.url}}" alt="Imagen del hecho">
+                            {{#if multimedia.0.esVideo}}
+                                <video class="hecho-img" controls>
+                                    <source src="/{{multimedia.0.url}}" type="{{multimedia.0.tipo}}">
+                                    Tu navegador no soporta videos.
+                                </video>
+                            {{else}}
+                                <img class="hecho-img" src="/{{multimedia.0.url}}" alt="Imagen del hecho">
+                            {{/if}}
                         {{else}}
                             <img class="hecho-img" src="/assets/images.jpg" alt="Sin imagen">
                         {{/if}}
