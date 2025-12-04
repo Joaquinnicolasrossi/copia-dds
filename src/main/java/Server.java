@@ -34,10 +34,10 @@ public class Server {
     ColeccionController coleccionController = new ColeccionController(repoSolicitudes, repoColecciones, fuenteDinamica, repoHechos);
     SolicitudController solicitudController = new SolicitudController(repoSolicitudes, repoHechos);
 
-    app.before(ctx -> {
-      Usuario usuario = ctx.sessionAttribute("usuarioActual");
-      ctx.attribute("usuarioActual", usuario);
-    });
+        app.before(ctx -> {
+            Usuario usuario = ctx.sessionAttribute("usuarioActual");
+            ctx.attribute("usuarioActual", usuario);
+        });
 
     List<Router> routers = List.of(
         new AdminRoute(),
@@ -63,15 +63,21 @@ public class Server {
     );
   }
 
-  private static void initializeStaticFiles(JavalinConfig config) {
-    config.staticFiles.add(staticFileConfig -> {
-      staticFileConfig.hostedPath = "/assets";
-      staticFileConfig.directory = "assets";
-    });
-    config.staticFiles.add(staticFileConfig -> {
-      staticFileConfig.hostedPath = "/uploads";
-      staticFileConfig.directory = "uploads";
-      staticFileConfig.location = Location.EXTERNAL;
-    });
-  }
+
+    private static void initializeStaticFiles(JavalinConfig config) {
+
+        java.io.File uploadDir = new java.io.File("uploads");
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+        config.staticFiles.add(staticFileConfig -> {
+            staticFileConfig.hostedPath = "/assets";
+            staticFileConfig.directory = "assets";
+        });
+        config.staticFiles.add(staticFileConfig -> {
+            staticFileConfig.hostedPath = "/uploads";
+            staticFileConfig.directory = "uploads";
+            staticFileConfig.location = Location.EXTERNAL;
+        });
+    }
 }

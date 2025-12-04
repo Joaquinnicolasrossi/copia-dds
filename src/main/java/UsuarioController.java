@@ -1,4 +1,6 @@
 import io.javalin.http.Context;
+
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,63 +37,101 @@ public class UsuarioController {
     String contrasena = ctx.formParam("contrasena");
 
 
-    var usuario = repoUsuario.findByUser(email);
+        var usuario = repoUsuario.findByUser(email);
 
-    if (usuario == null) {
-      ctx.sessionAttribute("error", "Usuario no encontrado");
-      ctx.redirect("/usuario/formIniciarSesion");
-      return;
+        if (usuario == null) {
+            ctx.sessionAttribute("error", "Usuario no encontrado");
+            ctx.redirect("/usuario/formIniciarSesion");
+            return;
+        }
+
+
+        if (!usuario.getContrasena().equals(contrasena)) {
+            ctx.sessionAttribute("error", "Contraseña incorrecta");
+            ctx.redirect("/usuario/formIniciarSesion");
+            return;
+        }
+
+        ctx.sessionAttribute("usuarioActual", usuario);
+        if (usuario.getTipoUsuario() == TipoUsuario.ADMINISTRADOR) {
+            Map<String, Object> model = new HashMap<>();
+            model.put("usuarioActual", usuario);
+            ctx.render("home-admin.hbs", model);
+        } else {
+            Map<String, Object> model = new HashMap<>();
+            model.put("userId", usuario.getId());
+            model.put("nombre", usuario.getNombre());
+            model.put("usuarioActual", usuario);
+            ctx.render("home.hbs", model);
+        }
+    }
+
+    public void logout(Context ctx) {
+        ctx.sessionAttribute("usuarioActual", null);
+        ctx.redirect("/");
     }
 
 
-    if (!usuario.getContrasena().equals(contrasena)) {
-      ctx.sessionAttribute("error", "Contraseña incorrecta");
-      ctx.redirect("/usuario/formIniciarSesion");
-      return;
+    public void mostrarFormularioRegistro(Context ctx) {
+        ctx.render("registro-form.hbs", new HashMap<>());
     }
 
-    ctx.sessionAttribute("usuarioActual", usuario);
-    if (usuario.getTipoUsuario() == TipoUsuario.ADMINISTRADOR) {
-      Map<String, Object> model = new HashMap<>();
-      model.put("usuarioActual", usuario);
-      ctx.render("home-admin.hbs", model);
-    } else {
-      Map<String, Object> model = new HashMap<>();
-      model.put("userId", usuario.getId());
-      model.put("nombre", usuario.getNombre());
-      model.put("usuarioActual", usuario);
-      ctx.render("home.hbs", model);
+    public void mostrarFormularioIniciarSesion(Context ctx) {
+        String error = ctx.sessionAttribute("error");
+        ctx.sessionAttribute("error", null);
+        Map<String, Object> model = new HashMap<>();
+        model.put("error", error);
+        ctx.render("iniciar-sesion-form.hbs", model);
     }
-  }
 
-  public void logout(Context ctx) {
-    ctx.sessionAttribute("usuarioActual", null);
-    ctx.redirect("/");
-  }
+    public List<Hecho> obtenerHechosDeUsuarioPaginados(Long usuarioId, int pagina, int tamanoPagina) {
 
+        List<Hecho> todos = repoHechos.obtenerHechosPorUsuario(usuarioId);
 
-  public void mostrarFormularioRegistro(Context ctx) {
-    ctx.render("registro-form.hbs", new HashMap<>());
-  }
+        int inicio = pagina * tamanoPagina;
+        int fin = Math.min(inicio + tamanoPagina, todos.size());
 
-  public void mostrarFormularioIniciarSesion(Context ctx) {
-    String error = ctx.sessionAttribute("error");
-    ctx.sessionAttribute("error", null);
-    Map<String, Object> model = new HashMap<>();
-    model.put("error", error);
-    ctx.render("iniciar-sesion-form.hbs", model);
-  }
+        if (inicio >= todos.size()) {
+            return Collections.emptyList();
+        }
 
-  public void listarHechosDeUsuario(Context context) {
-    Long id = Long.parseLong(context.pathParam("id"));
+        return todos.subList(inicio, fin);
+    }
 
-    List<Hecho> hechos = repoHechos.obtenerHechosPorUsuario(id);
+    public int getTotalHechosDeUsuario(Long usuarioId) {
+        return repoHechos.obtenerHechosPorUsuario(usuarioId).size();
+    }
 
-    Map<String, Object> model = new HashMap<>();
-    model.put("hechos", hechos);
-    model.put("usuarioActual", context.sessionAttribute("usuarioActual"));
-    context.render("hecho-detalle.hbs", model);
+    public int getTotalPaginasHechosUsuario(Long usuarioId, int tamanoPagina) {
+        int total = getTotalHechosDeUsuario(usuarioId);
+        return (int) Math.ceil((double) total / tamanoPagina);
+    }
 
+    public void listarHechosDeUsuario(Context context) {
+        Long usuarioId = Long.parseLong(context.pathParam("id"));
 
-  }
+        int pagina = context.queryParamAsClass("pagina", Integer.class).getOrDefault(0);
+        int tamanoPagina = 4;
+
+        List<Hecho> hechosPaginados = obtenerHechosDeUsuarioPaginados(usuarioId, pagina, tamanoPagina);
+        int totalPaginas = getTotalPaginasHechosUsuario(usuarioId, tamanoPagina);
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("hechos", hechosPaginados);
+
+        model.put("tienePaginaAnterior", pagina > 0);
+        model.put("tienePaginaSiguiente", pagina < totalPaginas - 1);
+
+        model.put("paginaAnterior", pagina - 1);
+        model.put("paginaSiguiente", pagina + 1);
+
+        model.put("numeroPaginaActual", pagina + 1); // 1-based
+        model.put("totalPaginas", totalPaginas);
+
+        model.put("usuarioActual", context.sessionAttribute("usuarioActual"));
+        model.put("usuarioId", usuarioId);
+
+        context.render("hecho-detalle.hbs", model);
+    }
+
 }

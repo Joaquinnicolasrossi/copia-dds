@@ -1,3 +1,17 @@
+:root {
+    --primary: #6699ff;
+    --primary-hover: #4d88ff;
+    --secondary: #f4f4f4;
+    --secondary-hover: #e5e5e5;
+    --black: #333;
+    --red: #fc3728;
+    --white: #fff;
+
+    /* Opcional: nuevas variables si querés más control */
+    --input-border: #ddd;
+    --shadow-strong: rgba(0,0,0,0.2);
+}
+
 /* Contenedor del formulario */
 .form-editar {
     width: 100%;
@@ -12,11 +26,12 @@
     color: var(--black);
 }
 
+/* Inputs + textarea */
 .form-editar input,
 .form-editar textarea {
     width: 100%;
     padding: 10px 12px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--input-border);
     border-radius: 6px;
     font-size: 15px;
     transition: 0.2s ease;
@@ -26,6 +41,7 @@
     min-height: 100px;
 }
 
+/* Evita que se desborden */
 .form-editar input,
 .form-editar textarea,
 .form-editar button {
@@ -41,27 +57,28 @@
     align-items: center;
     padding: 30px 40px;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 15px var(--shadow-strong);
     width: 100%;
     max-width: 1200px;
     gap: 20px;
 }
 
-/* Botón de guardar */
+/* ---------------- BOTÓN GUARDAR ---------------- */
 .form-editar button {
-    background-color: #3498db;
-    color: white;
+    background-color: var(--primary);
+    color: var(--white);
     border: none;
-    padding: 10px 15px;
-    font-size: 1rem;
-    border-radius: 5px;
+    padding: 8px 18px;
+    font-size: 0.9rem;
+    border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
-    align-self: center;
+
+    width: auto;
 }
 
 .form-editar button:hover {
-    background-color: #217dbb;
+    background-color: var(--primary-hover);
 }
 
 /* Título del formulario */

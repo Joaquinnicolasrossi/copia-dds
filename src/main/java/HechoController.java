@@ -162,26 +162,115 @@ public class HechoController {
   }
 
 
-  public void filtrarHechos(Context context) {
-    String filtroParametro = context.queryParam("categoria");
 
-    if (filtroParametro == null || filtroParametro.trim().isEmpty()) {
-      context.sessionAttribute("error", "Debes ingresar una categoría.");
-      context.redirect("/hechos");
-      return;
+
+    public List<Hecho> paginar(List<Hecho> lista, int pagina, int tamanoPagina) {
+
+        int inicio = pagina * tamanoPagina;
+        int fin = Math.min(inicio + tamanoPagina, lista.size());
+
+        if (inicio >= lista.size()) {
+            return Collections.emptyList();
+        }
+
+        return lista.subList(inicio, fin);
     }
 
-    filtroParametro = filtroParametro.trim(); // No lo paso a lower acá todavía
+    public int getTotalHechosDeFiltro(Long usuarioId) {
+        return repoHechos.obtenerHechosPorUsuario(usuarioId).size();
+    }
 
-    List<Hecho> hechosFiltrados = repoHechos.obtenerPorCategoria(filtroParametro);
+    public int getTotalPaginasHechosFiltrados(Long usuarioId, int tamanoPagina) {
+        int total = getTotalHechosDeFiltro(usuarioId);
+        return (int) Math.ceil((double) total / tamanoPagina);
+    }
 
-    Map<String, Object> model = new HashMap<>();
-    model.put("categoria", filtroParametro);
-    model.put("hechos", hechosFiltrados);
-    model.put("sinResultados", hechosFiltrados.isEmpty()); // ✔ para la vista
+    public void filtrarHechos(Context context) {
 
-    context.render("hechos-filtrados.hbs", model);
-  }
+        Usuario usuarioActual = context.attribute("usuarioActual");
+        Long usuarioId = usuarioActual.getId();
+
+        String filtroParametro = context.queryParam("categoria");
+
+        if (filtroParametro == null || filtroParametro.trim().isEmpty()) {
+            context.sessionAttribute("error", "Debes ingresar una categoría.");
+            context.redirect("/hechos");
+            return;
+        }
+
+        filtroParametro = filtroParametro.trim();
+
+
+        List<Hecho> hechosFiltrados = repoHechos.obtenerPorCategoria(filtroParametro);
+
+        int pagina = context.queryParamAsClass("pagina", Integer.class).getOrDefault(0);
+        int tamanoPagina = 4;
+
+
+        List<Hecho> hechosPaginados = paginar(hechosFiltrados, pagina, tamanoPagina);
+
+        int totalPaginas = (int) Math.ceil((double) hechosFiltrados.size() / tamanoPagina);
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("hechos", hechosPaginados);
+        model.put("categoria", filtroParametro);
+        model.put("sinResultados", hechosFiltrados.isEmpty());
+
+        model.put("tienePaginaAnteriorFiltro", pagina > 0);
+        model.put("tienePaginaSiguienteFiltro", pagina < totalPaginas - 1);
+
+        model.put("paginaAnteriorFiltro", pagina - 1);
+        model.put("paginaSiguienteFiltro", pagina + 1);
+
+        model.put("numeroPaginaActual", pagina + 1);
+        model.put("totalPaginas", totalPaginas);
+
+        model.put("usuarioActual", usuarioActual);
+        model.put("usuarioId", usuarioId);
+
+        context.render("hechos-filtrados.hbs", model);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   public void mostrarFormularioEditar(Context context) {
 

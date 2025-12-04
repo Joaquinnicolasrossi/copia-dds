@@ -1,5 +1,5 @@
 {{#partial "contenido"}}
-<h1 class="form-titulo">Aplicar sugerencias</h1>
+
 {{#if error}}
   <div class="alerta-error">
     {{error}}
@@ -11,7 +11,10 @@
     {{mensaje}}
   </div>
 {{/if}}
+
 <form action="/solicitud/{{id}}/revision/aceptar-sugerencia" method="post" class="form-editar">
+    <h1 class="form-titulo">Aplicar sugerencias</h1>
+
     <label for="titulo">Título</label>
     <input type="text" id="titulo" name="titulo" value="{{titulo}}" placeholder="Título del hecho" >
 

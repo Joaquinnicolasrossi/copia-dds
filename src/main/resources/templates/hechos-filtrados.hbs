@@ -1,49 +1,83 @@
 {{#partial "contenido"}}
-<h1>Mis Hechos</h1>
+    <h1>Mis Hechos</h1>
 
-<form action="/hechos/filtro" method="get" class="filtro-form">
-    <label for="categoria">Filtrar por categoría:</label>
-    <input type="text" id="categoria" name="categoria" placeholder="Ej: Robo, Accidente, etc.">
-    <button type="submit">Filtrar</button>
-</form>
-<br>
+    <form action="/hechos/filtro" method="get" class="filtro-form">
+        <label for="categoria">Filtrar por categoría:</label>
+        <input type="text" id="categoria" name="categoria" placeholder="Ej: Robo, Accidente, etc.">
+        <button type="submit">Filtrar</button>
+    </form>
+    <br>
 
-{{#if hechos}}
-    <ul class="hecho-list">
-        {{#each hechos}}
-            <li class="hecho-card">
-                <h2 class="hecho-title">{{titulo}}</h2>
+    {{#if hechos}}
+        <ul class="hecho-list">
+            {{#each hechos}}
+                <li class="hecho-card">
+                    <div class="hecho-header">
+                        <h2 class="hecho-title">{{titulo}}</h2>
+                        <form action="/hechos/{{id}}/editar" method="get">
+                            <button type="submit" class="btn-editar">Editar</button>
+                        </form>
+                    </div>
 
-                {{#if multimedia}}
-                    {{#if multimedia.0.esVideo}}
-                        <video class="hecho-img" controls>
-                            <source src="/{{multimedia.0.url}}" type="{{multimedia.0.tipo}}">
-                            Tu navegador no soporta videos.
-                        </video>
+                    {{#if multimedia}}
+                        {{#if multimedia.0.esVideo}}
+                            <video class="hecho-img" controls>
+                                <source src="/{{multimedia.0.url}}" type="{{multimedia.0.tipo}}">
+                                Tu navegador no soporta videos.
+                            </video>
+                        {{else}}
+                            <img class="hecho-img" src="/{{multimedia.0.url}}" alt="Imagen del hecho">
+                        {{/if}}
                     {{else}}
-                        <img class="hecho-img" src="/{{multimedia.0.url}}" alt="Imagen del hecho">
+                        <img class="hecho-img" src="/assets/images.jpg" alt="Sin imagen">
                     {{/if}}
-                {{else}}
-                    <img class="hecho-img" src="/assets/images.jpg" alt="Sin imagen">
-                {{/if}}
 
-                <div class="hecho-body">
-                    <p>Descripcion: {{descripcion}}</p>
-                    <p>Categoria: {{categoria}}
-                </div>
-                <div class="hecho-actions">
-                    <form action="/solicitud/{{id}}/form" method="get">
-                        <button type="submit"> Solicitar eliminación</button>
-                    </form>
-                </div>
-            </li>
-        {{/each}}
-    </ul>
-{{else}}
-    <p>No tenés hechos cargados.</p>
-{{/if}}
+                    <div class="hecho-body">
+                        <p><strong>Descripción:</strong> {{descripcion}}</p>
+                        <p><strong>Categoría:</strong> {{categoria}}</p>
+                        <p><strong>Fecha Carga:</strong> {{fechaCarga}}</p>
+                    </div>
 
-<a href="/">← Volver</a>
+                    <div class="hecho-actions">
+                        <form action="/solicitud/{{id}}/form" method="get">
+                            <button type="submit">Solicitar eliminación</button>
+                        </form>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+
+        <!-- ⚠ Paginación adaptada al FILTRO -->
+        <div class="paginacion">
+
+            {{#if tienePaginaAnteriorFiltro}}
+                <a href="/hechos/filtro?categoria={{categoria}}&pagina={{paginaAnteriorFiltro}}" class="btn-ver">
+                ← Anterior
+                </a>
+            {{else}}
+                <button disabled>← Anterior</button>
+            {{/if}}
+
+            <span class="pagina-actual">
+            Página <strong>{{numeroPaginaActual}}</strong>
+            de <strong>{{totalPaginas}}</strong>
+        </span>
+
+            {{#if tienePaginaSiguienteFiltro}}
+                <a href="/hechos/filtro?categoria={{categoria}}&pagina={{paginaSiguienteFiltro}}" class="btn-ver">
+                Siguiente →
+                </a>
+            {{else}}
+                <button disabled>Siguiente →</button>
+            {{/if}}
+
+        </div>
+
+    {{else}}
+        <p>No tenés hechos cargados.</p>
+    {{/if}}
+
+    <a href="/usuario/{{usuarioActual.id}}/hechos">← Volver</a>
 {{/partial}}
 
 {{> templates/layout }}
