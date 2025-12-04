@@ -46,29 +46,28 @@ public class HechoController {
 
       if (!(this.validarCantidadArchivos(archivos) || this.validarTamanioArchivos(archivos))) {
         model.put("type", "error");
-        model.put("message", "Error: los archivos exceden los limites");
+        model.put("message", "Error: los archivos exceden los límites (Max 5 archivos, Max 10MB total)");
         return model;
       }
 
       List<Multimedia> archivosMultimedia = new ArrayList<>();
-      archivos.forEach(a -> {
-        try {
-          String assetsDir = System.getProperty("user.dir") + "/src/main/resources/assets/";
-          Files.createDirectories(Paths.get(assetsDir));
+      String uploadDir = "uploads";
+      Files.createDirectories(Paths.get(uploadDir));
+      for (UploadedFile a : archivos) {
+        String nuevoNombreArchivo = java.util.UUID.randomUUID() + "-" + a.filename();
+        Path destino = Paths.get(uploadDir, nuevoNombreArchivo);
 
-          Path destino = Paths.get(assetsDir + a.filename());
-          Files.copy(a.content(), destino, StandardCopyOption.REPLACE_EXISTING);
-
-          Multimedia multimedia = new Multimedia();
-          multimedia.setTipo(a.contentType());
-          multimedia.setTamanio(a.size());
-          multimedia.setUrl("assets/" + a.filename());
-          archivosMultimedia.add(multimedia);
-
-        } catch (Exception e) {
-          e.printStackTrace();
+        try (java.io.InputStream is = a.content()) {
+          Files.copy(is, destino, StandardCopyOption.REPLACE_EXISTING);
         }
-      });
+
+        Multimedia multimedia = new Multimedia();
+        multimedia.setTipo(a.contentType());
+        multimedia.setTamanio(a.size());
+        multimedia.setUrl("uploads/" + nuevoNombreArchivo);
+
+        archivosMultimedia.add(multimedia);
+      }
 
       Hecho hecho = new Hecho.HechoBuilder()
           .setTitulo(titulo)

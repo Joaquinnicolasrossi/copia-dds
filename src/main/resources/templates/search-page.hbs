@@ -12,9 +12,9 @@
                             <h2 class="hecho-title">{{titulo}}</h2>
                         </a>
                         {{#if multimedia}}
-                            <img class="hecho-img" src="/{{multimedia.0.url}}" alt="Imagen del hecho">
+                            <img class="hecho-img" src="/{{this.multimedia.0.url}}" alt="Imagen del hecho">
                         {{else}}
-                            <img class="hecho-img" src="/img/default.jpg" alt="Sin imagen">
+                            <img class="hecho-img" src="/assets/images.jpg" alt="Sin imagen">
                         {{/if}}
                         <div class="hecho-body">
                             <p>{{descripcion}}</p>

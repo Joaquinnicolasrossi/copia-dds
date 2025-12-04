@@ -9,6 +9,8 @@ RUN mvn clean package -DskipTests dependency:copy-dependencies
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
 
+RUN mkdir -p /app/uploads
+
 # Copiar los artefactos desde la etapa anterior
 COPY --from=builder /build/target/metamapa.jar app.jar
 COPY --from=builder /build/target/dependency ./dependency

@@ -1,7 +1,6 @@
 {{#partial "contenido"}}
 <h1>Mis Hechos</h1>
 
-
 <form action="/hechos/filtro" method="get" class="filtro-form">
     <label for="categoria">Filtrar por categoría:</label>
     <input type="text" id="categoria" name="categoria" placeholder="Ej: Robo, Accidente, etc.">
@@ -13,7 +12,6 @@
     <ul class="hecho-list">
         {{#each hechos}}
             <li class="hecho-card">
-
                  <div class="hecho-header">
                        <h2 class="hecho-title">{{titulo}}</h2>
                        <form action="/hechos/{{id}}/editar" method="get">
@@ -21,27 +19,23 @@
                        </form>
                    </div>
 
-
                 {{#if multimedia}}
-                    <img class="hecho-img" src="/{{multimedia.0.url}}" alt="Imagen del hecho">
+                    <img class="hecho-img" src="/{{this.multimedia.0.url}}" alt="Imagen del hecho">
                 {{else}}
-                    <img class="hecho-img" src="/img/default.jpg" alt="Sin imagen">
+                    <img class="hecho-img" src="/assets/images.jpg" alt="Sin imagen">
                 {{/if}}
 
-
                 <div class="hecho-body">
-                    <p>Descripcion: {{descripcion}}</p>
-                    <p>Categoria: {{categoria}}</p>
-                    <p>FechaCarga: {{fechaCarga}}</p>
+                    <p><strong>Descripción:</strong> {{descripcion}}</p>
+                    <p><strong>Categoría:</strong> {{categoria}}</p>
+                    <p><strong>Fecha Carga:</strong> {{fechaCarga}}</p>
                 </div>
 
                 <div class="hecho-actions">
                     <form action="/solicitud/{{id}}/form" method="get">
                         <button type="submit"> Solicitar eliminación</button>
                     </form>
-
                 </div>
-
             </li>
         {{/each}}
     </ul>

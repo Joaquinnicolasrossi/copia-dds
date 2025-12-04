@@ -1,5 +1,6 @@
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
+import io.javalin.http.staticfiles.Location;
 import java.util.List;
 
 public class Server {
@@ -70,6 +71,11 @@ public class Server {
     config.staticFiles.add(staticFileConfig -> {
       staticFileConfig.hostedPath = "/assets";
       staticFileConfig.directory = "assets";
+    });
+    config.staticFiles.add(staticFileConfig -> {
+      staticFileConfig.hostedPath = "/uploads";
+      staticFileConfig.directory = "uploads";
+      staticFileConfig.location = Location.EXTERNAL;
     });
   }
 }

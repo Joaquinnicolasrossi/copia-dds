@@ -7,13 +7,19 @@
                 <p class="hecho-fecha">{{fecha}}</p>
                 <p class="hecho-descripcion">{{descripcion}}</p>
             </div>
+
             <div class="hecho-galeria">
-                {{#each multimedia}}
-                    <li class="hecho-imagen">
-                        <img class="hecho-img" src="/{{url}}" alt="Imagen del hecho">
-                    </li>
-                {{/each}}
+                {{#if multimedia}}
+                    {{#each multimedia}}
+                        <div class="hecho-imagen">
+                            <img class="hecho-img" src="/{{this.url}}" alt="Imagen del hecho" style="max-width: 100%; height: auto;">
+                        </div>
+                    {{/each}}
+                {{else}}
+                    <p>Este hecho no tiene imágenes.</p>
+                {{/if}}
             </div>
+
             <div>
                 <form action="/solicitud/{{id}}/form" method="get">
                     <button type="submit">Solicitar eliminación</button>
