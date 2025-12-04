@@ -133,7 +133,7 @@ public class HechoController {
   }
 
   private boolean validarTamanioArchivos(List<UploadedFile> archivos) {
-    long tamanioMaximo = 1024 * 1024;
+    long tamanioMaximo = 10 * 1024 * 1024;
     long totalBytes = archivos.stream()
         .mapToLong(UploadedFile::size)
         .sum();
