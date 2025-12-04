@@ -12,11 +12,12 @@ public class Main {
       String dbUrl = System.getenv("DATABASE_URL");
       if (dbUrl != null) {
         System.out.println("Usando configuración de deploy Railway");
+        System.out.println("DATABASE_URL=" + dbUrl);
         java.net.URI uri = new java.net.URI(dbUrl);
         String[] userInfo = uri.getUserInfo().split(":");
         String username = userInfo[0];
         String password = userInfo[1];
-        String jdbcUrl = "jdbc:mysql://" + uri.getHost() + ":" + uri.getPort() + uri.getPath() + "?useSSL=false";
+        String jdbcUrl = "jdbc:mysql://" + uri.getHost() + ":" + uri.getPort() + uri.getPath() + "?useSSL=false&allowPublicKeyRetrieval=true";;
 
         java.util.Properties props = new java.util.Properties();
         props.setProperty("hibernate.connection.url", jdbcUrl);
