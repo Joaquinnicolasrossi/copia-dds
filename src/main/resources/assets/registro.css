@@ -35,7 +35,7 @@ body {
     border-radius: 10px;
     box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
     width: 100%;
-    max-width: 1200px;
+    max-width: 800px;
     gap: 10px;
 }
 
@@ -50,7 +50,7 @@ body {
 .registro-form {
     width: 100%;
     display: flex;
-    max-width: 1200px;
+    max-width: 800px;
     flex-direction: column;
     gap: 15px;
 }
@@ -100,8 +100,8 @@ input[type="password"] {
 }
 
 /* Botón */
-button {
-    width: 100%;
+.button-form {
+    width: 50%;
     padding: 10px;
     background-color: var(--primary);
     color: white;
@@ -110,6 +110,8 @@ button {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
+    display: block;
+    margin: 0 auto;
 }
 
 button:hover {
