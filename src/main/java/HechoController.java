@@ -44,34 +44,36 @@ public class HechoController {
       String provinciaNombre = GeocodingService.obtenerProvinciaDesdeCoordenadas(latitud, longitud);
       List<UploadedFile> archivos = ctx.uploadedFiles("multimedia");
 
-      List<UploadedFile> archivosValidos = archivos.stream()
-          .filter(a -> a.size() > 0  && !a.filename().isEmpty())
-          .toList();
-
-      if (!this.validarCantidadArchivos(archivosValidos) || !this.validarTamanioArchivos(archivosValidos)) {
+      if (!validarCantidadArchivos(archivos) || !validarTamanioArchivos(archivos)) {
         model.put("type", "error");
         model.put("message", "Error: los archivos exceden los límites (Max 5 archivos, Max 10MB total)");
         return model;
       }
 
+      boolean sinArchivos = archivos.isEmpty()
+          || archivos.get(0).filename().isBlank()
+          || archivos.get(0).size() == 0;
+
       List<Multimedia> archivosMultimedia = new ArrayList<>();
-      String uploadDir = "uploads";
-      Files.createDirectories(Paths.get(uploadDir));
 
-      for (UploadedFile a : archivosValidos) {
-        String nuevoNombreArchivo = java.util.UUID.randomUUID() + "-" + a.filename();
-        Path destino = Paths.get(uploadDir, nuevoNombreArchivo);
+      if(!sinArchivos) {
+        String uploadDir = "uploads";
+        Files.createDirectories(Paths.get(uploadDir));
+        for (UploadedFile a : archivos) {
+          String nuevoNombreArchivo = java.util.UUID.randomUUID() + "-" + a.filename();
+          Path destino = Paths.get(uploadDir, nuevoNombreArchivo);
 
-        try (java.io.InputStream is = a.content()) {
-          Files.copy(is, destino, StandardCopyOption.REPLACE_EXISTING);
+          try (java.io.InputStream is = a.content()) {
+            Files.copy(is, destino, StandardCopyOption.REPLACE_EXISTING);
+          }
+
+          Multimedia multimedia = new Multimedia();
+          multimedia.setTipo(a.contentType());
+          multimedia.setTamanio(a.size());
+          multimedia.setUrl("uploads/" + nuevoNombreArchivo);
+
+          archivosMultimedia.add(multimedia);
         }
-
-        Multimedia multimedia = new Multimedia();
-        multimedia.setTipo(a.contentType());
-        multimedia.setTamanio(a.size());
-        multimedia.setUrl("uploads/" + nuevoNombreArchivo);
-
-        archivosMultimedia.add(multimedia);
       }
 
       Hecho hecho = new Hecho.HechoBuilder()
@@ -134,7 +136,7 @@ public class HechoController {
 
   private boolean validarCantidadArchivos(List<UploadedFile> archivos) {
     int cantidadMaxima = 5;
-    return archivos.size() > cantidadMaxima;
+    return archivos.size() <= cantidadMaxima;
   }
 
   private boolean validarTamanioArchivos(List<UploadedFile> archivos) {
