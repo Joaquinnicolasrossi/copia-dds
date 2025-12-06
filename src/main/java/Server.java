@@ -4,6 +4,18 @@ import io.javalin.http.staticfiles.Location;
 import java.util.List;
 
 public class Server {
+  private static void initializeStaticFiles(JavalinConfig config) {
+    config.staticFiles.add(staticFileConfig -> {
+      staticFileConfig.hostedPath = "/assets";
+      staticFileConfig.directory = "assets";
+    });
+    config.staticFiles.add(staticFileConfig -> {
+      staticFileConfig.hostedPath = "/uploads";
+      staticFileConfig.directory = "uploads";
+      staticFileConfig.location = Location.EXTERNAL;
+    });
+  }
+
   private int getRailwayAssignedPort() {
     String railway = System.getenv("PORT");
     if (railway != null) {
@@ -28,16 +40,16 @@ public class Server {
     FuenteDinamica fuenteDinamica = repoHechos.obtenerFuenteDinamica();
     HechoController hechoController = new HechoController(repoHechos, repoMultimedia, repoProvincias, repoSolicitudes, fuenteDinamica);
     RepoUsuario repoUsuario = new RepoUsuario();
-    UsuarioController usuarioController = new UsuarioController(repoHechos,repoUsuario);
+    UsuarioController usuarioController = new UsuarioController(repoHechos, repoUsuario);
     EstadisticaController estadisticaController = new EstadisticaController(repoEstadistica, generadorEstadistica, repoColecciones);
 
     ColeccionController coleccionController = new ColeccionController(repoSolicitudes, repoColecciones, fuenteDinamica, repoHechos);
     SolicitudController solicitudController = new SolicitudController(repoSolicitudes, repoHechos);
 
-        app.before(ctx -> {
-            Usuario usuario = ctx.sessionAttribute("usuarioActual");
-            ctx.attribute("usuarioActual", usuario);
-        });
+    app.before(ctx -> {
+      Usuario usuario = ctx.sessionAttribute("usuarioActual");
+      ctx.attribute("usuarioActual", usuario);
+    });
 
     List<Router> routers = List.of(
         new AdminRoute(),
@@ -62,22 +74,4 @@ public class Server {
         new JavalinRenderer().register("hbs", new JavalinHandlebars())
     );
   }
-
-
-    private static void initializeStaticFiles(JavalinConfig config) {
-
-        java.io.File uploadDir = new java.io.File("uploads");
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
-        config.staticFiles.add(staticFileConfig -> {
-            staticFileConfig.hostedPath = "/assets";
-            staticFileConfig.directory = "assets";
-        });
-        config.staticFiles.add(staticFileConfig -> {
-            staticFileConfig.hostedPath = "/uploads";
-            staticFileConfig.directory = "uploads";
-            staticFileConfig.location = Location.EXTERNAL;
-        });
-    }
 }
