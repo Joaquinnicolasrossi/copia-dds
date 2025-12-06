@@ -44,7 +44,11 @@ public class HechoController {
       String provinciaNombre = GeocodingService.obtenerProvinciaDesdeCoordenadas(latitud, longitud);
       List<UploadedFile> archivos = ctx.uploadedFiles("multimedia");
 
-      if (!(this.validarCantidadArchivos(archivos) || this.validarTamanioArchivos(archivos))) {
+      List<UploadedFile> archivosValidos = archivos.stream()
+          .filter(a -> a.size() > 0  && !a.filename().isEmpty())
+          .toList();
+
+      if (!this.validarCantidadArchivos(archivosValidos) || !this.validarTamanioArchivos(archivosValidos)) {
         model.put("type", "error");
         model.put("message", "Error: los archivos exceden los límites (Max 5 archivos, Max 10MB total)");
         return model;
@@ -53,7 +57,8 @@ public class HechoController {
       List<Multimedia> archivosMultimedia = new ArrayList<>();
       String uploadDir = "uploads";
       Files.createDirectories(Paths.get(uploadDir));
-      for (UploadedFile a : archivos) {
+
+      for (UploadedFile a : archivosValidos) {
         String nuevoNombreArchivo = java.util.UUID.randomUUID() + "-" + a.filename();
         Path destino = Paths.get(uploadDir, nuevoNombreArchivo);
 
